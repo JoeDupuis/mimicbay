@@ -9,3 +9,13 @@
 <br>
 
 <%= link_to "Forgot password?", new_password_path %>
+
+<% if Rails.env.development? %>
+  <hr>
+  <h3>Development Quick Sign In</h3>
+  <%= form_with url: session_path do |form| %>
+    <%= form.hidden_field :email_address, value: "dev@example.com" %>
+    <%= form.hidden_field :password, value: "password" %>
+    <%= form.submit "Sign in as Dev User" %>
+  <% end %>
+<% end %>
