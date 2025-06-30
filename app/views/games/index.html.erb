@@ -1,0 +1,17 @@
+<h1>My Games</h1>
+
+<%= link_to "Start New Game", new_game_path %>
+
+<% if @games.any? %>
+  <ul>
+    <% @games.each do |game| %>
+      <li>
+        <%= link_to game.name, game %>
+        <%= link_to "Edit", edit_game_path(game) %>
+        <%= button_to "Delete", game, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You haven't started any games yet.</p>
+<% end %>
