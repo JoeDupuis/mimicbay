@@ -57,3 +57,5 @@
 .devenv*
 devenv.local.nix
 vendor/bundle
+
+.claude/hook_log.txt
