@@ -1,4 +1,6 @@
 class GamesController < ApplicationController
+  include NoticeI18n
+
   before_action :set_game, only: %i[show edit update destroy]
 
   def index
@@ -16,8 +18,9 @@ class GamesController < ApplicationController
     @game = Current.user.games.build(game_params)
 
     if @game.save
-      redirect_to @game, notice: "Game was successfully created."
+      redirect_to @game, notice: success_message(@game)
     else
+      flash.now[:alert] = failure_message(@game)
       render :new, status: :unprocessable_entity
     end
   end
@@ -27,15 +30,16 @@ class GamesController < ApplicationController
 
   def update
     if @game.update(game_params)
-      redirect_to @game, notice: "Game was successfully updated."
+      redirect_to @game, notice: success_message(@game)
     else
+      flash.now[:alert] = failure_message(@game)
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @game.destroy!
-    redirect_to games_url, notice: "Game was successfully destroyed."
+    redirect_to games_url, notice: success_message(@game)
   end
 
   private
