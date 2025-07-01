@@ -29,3 +29,28 @@
 
 en:
   hello: "Hello world"
+
+  games:
+    create:
+      success: "%{name} was successfully created."
+      failure: "There was an error creating the %{name}."
+    update:
+      success: "%{name} was successfully updated."
+      failure: "There was an error updating the %{name}."
+    destroy:
+      success: "%{name} was successfully destroyed."
+
+  application:
+    create:
+      success: "%{name} was successfully created."
+      failure: "There was an error creating the %{name}."
+    update:
+      success: "%{name} was successfully updated."
+      failure: "There was an error updating the %{name}."
+    destroy:
+      success: "%{name} was successfully destroyed."
+
+  form_errors:
+    title:
+      one: "%{count} error prohibited this %{name} from being saved:"
+      other: "%{count} errors prohibited this %{name} from being saved:"
