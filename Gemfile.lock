@@ -1,6 +1,6 @@
 GIT
   remote: https://github.com/rails/rails.git
-  revision: 36601bbb02bc3570f5609db2127c77afca575d6c
+  revision: 367532d6899f37de3db50b577700bcdc73e68d5d
   branch: main
   specs:
     actioncable (8.1.0.alpha)
@@ -315,13 +315,13 @@ GEM
       fugit (~> 1.11.0)
       railties (>= 7.1)
       thor (~> 1.3.1)
-    sqlite3 (2.7.0-aarch64-linux-gnu)
-    sqlite3 (2.7.0-aarch64-linux-musl)
-    sqlite3 (2.7.0-arm-linux-gnu)
-    sqlite3 (2.7.0-arm-linux-musl)
-    sqlite3 (2.7.0-arm64-darwin)
-    sqlite3 (2.7.0-x86_64-linux-gnu)
-    sqlite3 (2.7.0-x86_64-linux-musl)
+    sqlite3 (2.7.1-aarch64-linux-gnu)
+    sqlite3 (2.7.1-aarch64-linux-musl)
+    sqlite3 (2.7.1-arm-linux-gnu)
+    sqlite3 (2.7.1-arm-linux-musl)
+    sqlite3 (2.7.1-arm64-darwin)
+    sqlite3 (2.7.1-x86_64-linux-gnu)
+    sqlite3 (2.7.1-x86_64-linux-musl)
     sshkit (1.24.0)
       base64
       logger
