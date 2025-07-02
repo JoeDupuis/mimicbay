@@ -7,7 +7,6 @@
     <% @games.each do |game| %>
       <li>
         <%= link_to game.name, game %>
-        <%= link_to "Edit", edit_game_path(game) %>
         <%= button_to "Delete", game, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
       </li>
     <% end %>
