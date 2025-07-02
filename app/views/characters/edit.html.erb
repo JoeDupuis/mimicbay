@@ -1,0 +1,36 @@
+<div class="container">
+  <h1>Edit Character for <%= @game.name %></h1>
+
+  <%= form_with(model: [@game, @character]) do |form| %>
+    <% if @character.errors.any? %>
+      <div class="error-messages">
+        <h2><%= pluralize(@character.errors.count, "error") %> prohibited this character from being saved:</h2>
+        <ul>
+          <% @character.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="field">
+      <%= form.label :name %>
+      <%= form.text_field :name, required: true %>
+    </div>
+
+    <div class="field">
+      <%= form.label :description %>
+      <%= form.text_area :description, rows: 4 %>
+    </div>
+
+    <div class="field">
+      <%= form.label :properties, "Properties (JSON)" %>
+      <%= form.text_area :properties, rows: 6, value: @character.properties.to_json %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Update Character", class: "btn btn-primary" %>
+      <%= link_to "Cancel", game_character_path(@game, @character), class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>

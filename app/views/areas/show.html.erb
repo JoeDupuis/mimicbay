@@ -1,0 +1,24 @@
+<div class="container">
+  <h1><%= @area.name %></h1>
+
+  <div class="description">
+    <h2>Description</h2>
+    <p><%= @area.description %></p>
+  </div>
+
+  <% if @area.properties.present? %>
+    <div class="properties">
+      <h2>Properties</h2>
+      <pre><%= JSON.pretty_generate(@area.properties) %></pre>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= link_to "Edit", edit_game_area_path(@game, @area), class: "btn btn-primary" %>
+    <%= button_to "Delete", game_area_path(@game, @area), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
+  </div>
+
+  <div class="navigation">
+    <%= link_to "Back to Areas", game_areas_path(@game), class: "btn btn-secondary" %>
+  </div>
+</div>

@@ -10,13 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_06_29_232442) do
+ActiveRecord::Schema[8.1].define(version: 2025_07_02_000808) do
+  create_table "areas", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.integer "game_id", null: false
+    t.string "name"
+    t.json "properties"
+    t.datetime "updated_at", null: false
+    t.index [ "game_id" ], name: "index_areas_on_game_id"
+  end
+
+  create_table "characters", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.text "description"
+    t.integer "game_id", null: false
+    t.string "name"
+    t.json "properties"
+    t.datetime "updated_at", null: false
+    t.index [ "game_id" ], name: "index_characters_on_game_id"
+  end
+
   create_table "games", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "name"
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
-    t.index ["user_id"], name: "index_games_on_user_id"
+    t.index [ "user_id" ], name: "index_games_on_user_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -25,7 +45,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_06_29_232442) do
     t.datetime "updated_at", null: false
     t.string "user_agent"
     t.integer "user_id", null: false
-    t.index ["user_id"], name: "index_sessions_on_user_id"
+    t.index [ "user_id" ], name: "index_sessions_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -33,9 +53,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_06_29_232442) do
     t.string "email_address", null: false
     t.string "password_digest", null: false
     t.datetime "updated_at", null: false
-    t.index ["email_address"], name: "index_users_on_email_address", unique: true
+    t.index [ "email_address" ], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "areas", "games"
+  add_foreign_key "characters", "games"
   add_foreign_key "games", "users"
   add_foreign_key "sessions", "users"
 end

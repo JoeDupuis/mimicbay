@@ -1,5 +1,13 @@
 <h1><%= @game.name %></h1>
 
+<div class="game-resources">
+  <h2>Game Resources</h2>
+  <div class="resource-links">
+    <%= link_to "Areas", game_areas_path(@game), class: "btn btn-primary" %>
+    <%= link_to "Characters", game_characters_path(@game), class: "btn btn-primary" %>
+  </div>
+</div>
+
 <p>
   <%= link_to "Edit", edit_game_path(@game) %>
   <%= link_to "Back to Games", games_path %>
