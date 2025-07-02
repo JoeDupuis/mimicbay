@@ -32,6 +32,7 @@ This is a rails project using the default stack:
 
 # Views
 - Use the `form_errors` helper instead of rendering the validation errors manually.
+- To set a button with a custom method you need to use turbo_confirm not confirm.
 
 # Ruby
 - Prefer zeitwerk over using require and prefer putting require at the top of the file instead of in a method.
