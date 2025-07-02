@@ -2,16 +2,7 @@
   <h1>New Area for <%= @game.name %></h1>
 
   <%= form_with(model: [@game, @area]) do |form| %>
-    <% if @area.errors.any? %>
-      <div class="error-messages">
-        <h2><%= pluralize(@area.errors.count, "error") %> prohibited this area from being saved:</h2>
-        <ul>
-          <% @area.errors.full_messages.each do |message| %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
+    <%= form_errors(@area) %>
 
     <div class="field">
       <%= form.label :name %>
