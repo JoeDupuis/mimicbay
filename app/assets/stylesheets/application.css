@@ -8,3 +8,16 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+.badge {
+  display: inline-block;
+  padding: 0.25em 0.6em;
+  font-size: 0.75em;
+  font-weight: 600;
+  line-height: 1;
+  color: #fff;
+  background-color: #007bff;
+  border-radius: 0.25rem;
+  vertical-align: middle;
+  margin-left: 0.5rem;
+}

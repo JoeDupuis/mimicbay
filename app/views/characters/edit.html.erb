@@ -19,6 +19,11 @@
       <%= form.text_area :properties, rows: 6, value: @character.properties.to_json %>
     </div>
 
+    <div class="field">
+      <%= form.check_box :is_player %>
+      <%= form.label :is_player, "Player Character" %>
+    </div>
+
     <div class="actions">
       <%= form.submit "Update Character", class: "btn btn-primary" %>
       <%= link_to "Cancel", game_character_path(@game, @character), class: "btn btn-secondary" %>
