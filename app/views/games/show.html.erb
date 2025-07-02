@@ -8,6 +8,15 @@
   </div>
 </div>
 
+<% if @game.creating? %>
+  <div class="game-start">
+    <p>When you're ready to start playing:</p>
+    <%= button_to "Start Game", game_path(@game), method: :patch,
+        params: { game: { state: "playing" } },
+        class: "btn btn-success" %>
+  </div>
+<% end %>
+
 <p>
   <%= link_to "Edit", edit_game_path(@game) %>
   <%= link_to "Back to Games", games_path %>

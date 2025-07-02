@@ -6,6 +6,7 @@ class GamesController < ApplicationController
   end
 
   def show
+    redirect_to game_play_path(@game) if @game.playing?
   end
 
   def new
@@ -45,6 +46,6 @@ class GamesController < ApplicationController
   end
 
   def game_params
-    params.require(:game).permit(:name)
+    params.require(:game).permit(:name, :state)
   end
 end

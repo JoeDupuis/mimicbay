@@ -4,4 +4,6 @@ class Game < ApplicationRecord
   has_many :characters, dependent: :destroy
 
   validates :name, presence: true
+
+  enum :state, { creating: 0, playing: 1 }, default: :creating
 end

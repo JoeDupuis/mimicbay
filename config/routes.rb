@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :games do
     resources :areas
     resources :characters
+    resource :play, only: [ :show ], controller: "games/play"
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
