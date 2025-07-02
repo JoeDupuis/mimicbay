@@ -19,7 +19,6 @@ class AreasController < ApplicationController
     if @area.save
       redirect_to game_areas_path(@game), notice: success_message(@area)
     else
-      flash.now[:alert] = failure_message(@area)
       render :new, status: :unprocessable_entity
     end
   end
@@ -31,7 +30,6 @@ class AreasController < ApplicationController
     if @area.update(area_params)
       redirect_to game_area_path(@game, @area), notice: success_message(@area)
     else
-      flash.now[:alert] = failure_message(@area)
       render :edit, status: :unprocessable_entity
     end
   end

@@ -18,7 +18,6 @@ class GamesController < ApplicationController
     if @game.save
       redirect_to @game, notice: success_message(@game)
     else
-      flash.now[:alert] = failure_message(@game)
       render :new, status: :unprocessable_entity
     end
   end
@@ -30,7 +29,6 @@ class GamesController < ApplicationController
     if @game.update(game_params)
       redirect_to @game, notice: success_message(@game)
     else
-      flash.now[:alert] = failure_message(@game)
       render :edit, status: :unprocessable_entity
     end
   end

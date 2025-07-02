@@ -19,7 +19,6 @@ class CharactersController < ApplicationController
     if @character.save
       redirect_to game_characters_path(@game), notice: success_message(@character)
     else
-      flash.now[:alert] = failure_message(@character)
       render :new, status: :unprocessable_entity
     end
   end
@@ -31,7 +30,6 @@ class CharactersController < ApplicationController
     if @character.update(character_params)
       redirect_to game_character_path(@game, @character), notice: success_message(@character)
     else
-      flash.now[:alert] = failure_message(@character)
       render :edit, status: :unprocessable_entity
     end
   end
