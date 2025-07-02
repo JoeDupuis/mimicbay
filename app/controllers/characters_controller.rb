@@ -1,6 +1,4 @@
 class CharactersController < ApplicationController
-  include NoticeI18n
-
   before_action :set_game
   before_action :set_character, only: %i[show edit update destroy]
 

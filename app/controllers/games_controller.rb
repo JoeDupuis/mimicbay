@@ -1,6 +1,4 @@
 class GamesController < ApplicationController
-  include NoticeI18n
-
   before_action :set_game, only: %i[show edit update destroy]
 
   def index
