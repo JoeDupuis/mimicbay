@@ -1,4 +1,6 @@
 class CharactersController < ApplicationController
+  include NoticeI18n
+
   before_action :set_game
   before_action :set_character, only: %i[show edit update destroy]
 
@@ -17,8 +19,9 @@ class CharactersController < ApplicationController
     @character = @game.characters.build(character_params)
 
     if @character.save
-      redirect_to game_characters_path(@game), notice: "Character was successfully created."
+      redirect_to game_characters_path(@game), notice: success_message(@character)
     else
+      flash.now[:alert] = failure_message(@character)
       render :new, status: :unprocessable_entity
     end
   end
@@ -28,15 +31,16 @@ class CharactersController < ApplicationController
 
   def update
     if @character.update(character_params)
-      redirect_to game_character_path(@game, @character), notice: "Character was successfully updated."
+      redirect_to game_character_path(@game, @character), notice: success_message(@character)
     else
+      flash.now[:alert] = failure_message(@character)
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     @character.destroy!
-    redirect_to game_characters_path(@game), notice: "Character was successfully destroyed."
+    redirect_to game_characters_path(@game), notice: success_message(@character)
   end
 
   private
