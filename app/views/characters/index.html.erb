@@ -8,7 +8,12 @@
     <div class="characters-list">
       <% @characters.each do |character| %>
         <div class="character-item">
-          <h3><%= link_to character.name, game_character_path(@game, character) %></h3>
+          <h3>
+            <%= link_to character.name, game_character_path(@game, character) %>
+            <% if character.is_player? %>
+              <span class="badge">Player</span>
+            <% end %>
+          </h3>
           <p><%= character.description %></p>
           <div class="actions">
             <%= link_to "Edit", edit_game_character_path(@game, character), class: "btn btn-secondary" %>

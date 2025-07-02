@@ -1,5 +1,10 @@
 <div class="container">
-  <h1><%= @character.name %></h1>
+  <h1>
+    <%= @character.name %>
+    <% if @character.is_player? %>
+      <span class="badge">Player Character</span>
+    <% end %>
+  </h1>
 
   <div class="description">
     <h2>Description</h2>
