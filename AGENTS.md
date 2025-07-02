@@ -28,6 +28,11 @@ This is a rails project using the default stack:
 # Controllers and routes
 - Avoid adding custom routes or actions. Prefer creating new controllers when you need additional behaviour.
 - Stick to the default RESTful actions: `new`, `create`, `index`, `show`, `edit`, `update`, `destroy`.
+- Avoid notice and alert copy in controller. use failure_message and success_message in NoticeI18n. Do not use the failure_message when rendering a failure to save a model since the form will show the validation error anyway.
+
+# Views
+- Use the `form_errors` helper instead of rendering the validation errors manually.
+- To set a button with a custom method you need to use turbo_confirm not confirm.
 
 # Ruby
 - Prefer zeitwerk over using require and prefer putting require at the top of the file instead of in a method.
