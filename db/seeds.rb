@@ -9,7 +9,60 @@
 #   end
 
 if Rails.env.development?
-  User.find_or_create_by!(email_address: "dev@example.com") do |user|
-    user.password = "password"
+  user = User.find_or_create_by!(email_address: "dev@example.com") do |u|
+    u.password = "password"
+  end
+
+  # Create sample games
+  game1 = Game.find_or_create_by!(name: "The Lost Kingdom", user: user)
+  game2 = Game.find_or_create_by!(name: "Space Adventures", user: user)
+
+  # Create areas for game1
+  Area.find_or_create_by!(name: "Castle Entrance", game: game1) do |area|
+    area.description = "A massive stone archway marks the entrance to the ancient castle"
+    area.properties = { "difficulty": "easy", "treasure": [ "rusty key", "old map" ] }
+  end
+
+  Area.find_or_create_by!(name: "Dark Forest", game: game1) do |area|
+    area.description = "Twisted trees block out most of the sunlight in this eerie forest"
+    area.properties = { "difficulty": "medium", "enemies": [ "wolves", "bandits" ] }
+  end
+
+  Area.find_or_create_by!(name: "Dragon's Lair", game: game1) do |area|
+    area.description = "The air is thick with smoke and the smell of sulfur"
+    area.properties = { "difficulty": "hard", "boss": "Ancient Red Dragon" }
+  end
+
+  # Create characters for game1
+  Character.find_or_create_by!(name: "Sir Galahad", game: game1) do |char|
+    char.description = "A noble knight in shining armor"
+    char.properties = { "class": "Knight", "level": 10, "stats": { "strength": 18, "wisdom": 12 } }
+  end
+
+  Character.find_or_create_by!(name: "Elara the Wise", game: game1) do |char|
+    char.description = "An ancient elf wizard with centuries of knowledge"
+    char.properties = { "class": "Wizard", "level": 15, "spells": [ "fireball", "teleport" ] }
+  end
+
+  # Create areas for game2
+  Area.find_or_create_by!(name: "Space Station Alpha", game: game2) do |area|
+    area.description = "The central hub of human activity in this sector"
+    area.properties = { "services": [ "repair", "refuel", "trade" ], "faction": "Federation" }
+  end
+
+  Area.find_or_create_by!(name: "Asteroid Field", game: game2) do |area|
+    area.description = "A dangerous field of floating rock and debris"
+    area.properties = { "hazards": [ "asteroids", "pirates" ], "resources": [ "ore", "crystals" ] }
+  end
+
+  # Create characters for game2
+  Character.find_or_create_by!(name: "Captain Rex", game: game2) do |char|
+    char.description = "A grizzled space captain with years of experience"
+    char.properties = { "ship": "Stellar Phoenix", "reputation": 85, "skills": [ "piloting", "negotiation" ] }
+  end
+
+  Character.find_or_create_by!(name: "ARIA-7", game: game2) do |char|
+    char.description = "An advanced AI companion"
+    char.properties = { "type": "AI", "version": "7.3.2", "capabilities": [ "hacking", "analysis", "translation" ] }
   end
 end

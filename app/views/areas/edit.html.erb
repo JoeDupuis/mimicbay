@@ -1,0 +1,27 @@
+<div class="container">
+  <h1>Edit Area for <%= @game.name %></h1>
+
+  <%= form_with(model: [@game, @area]) do |form| %>
+    <%= form_errors(@area) %>
+
+    <div class="field">
+      <%= form.label :name %>
+      <%= form.text_field :name, required: true %>
+    </div>
+
+    <div class="field">
+      <%= form.label :description %>
+      <%= form.text_area :description, rows: 4 %>
+    </div>
+
+    <div class="field">
+      <%= form.label :properties, "Properties (JSON)" %>
+      <%= form.text_area :properties, rows: 6, value: @area.properties.to_json %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Update Area", class: "btn btn-primary" %>
+      <%= link_to "Cancel", game_area_path(@game, @area), class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>

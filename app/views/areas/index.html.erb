@@ -1,0 +1,27 @@
+<div class="container">
+  <div class="header">
+    <h1>Areas for <%= @game.name %></h1>
+    <%= link_to "New Area", new_game_area_path(@game), class: "btn btn-primary" %>
+  </div>
+
+  <% if @areas.any? %>
+    <div class="areas-list">
+      <% @areas.each do |area| %>
+        <div class="area-item">
+          <h3><%= link_to area.name, game_area_path(@game, area) %></h3>
+          <p><%= area.description %></p>
+          <div class="actions">
+            <%= link_to "Edit", edit_game_area_path(@game, area), class: "btn btn-secondary" %>
+            <%= button_to "Delete", game_area_path(@game, area), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <p>No areas yet. <%= link_to "Create the first area", new_game_area_path(@game) %></p>
+  <% end %>
+
+  <div class="navigation">
+    <%= link_to "Back to Game", game_path(@game), class: "btn btn-secondary" %>
+  </div>
+</div>

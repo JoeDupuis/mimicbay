@@ -1,0 +1,27 @@
+<div class="container">
+  <h1>New Area for <%= @game.name %></h1>
+
+  <%= form_with(model: [@game, @area]) do |form| %>
+    <%= form_errors(@area) %>
+
+    <div class="field">
+      <%= form.label :name %>
+      <%= form.text_field :name, required: true %>
+    </div>
+
+    <div class="field">
+      <%= form.label :description %>
+      <%= form.text_area :description, rows: 4 %>
+    </div>
+
+    <div class="field">
+      <%= form.label :properties, "Properties (JSON)" %>
+      <%= form.text_area :properties, rows: 6, placeholder: '{"key": "value"}' %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Create Area", class: "btn btn-primary" %>
+      <%= link_to "Cancel", game_areas_path(@game), class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+</div>
