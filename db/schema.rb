@@ -25,9 +25,11 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_02_045741) do
     t.datetime "created_at", null: false
     t.text "description"
     t.integer "game_id", null: false
+    t.boolean "is_player", default: false, null: false
     t.string "name"
     t.json "properties"
     t.datetime "updated_at", null: false
+    t.index [ "game_id", "is_player" ], name: "index_characters_on_game_id_and_is_player", unique: true, where: "is_player = true"
     t.index [ "game_id" ], name: "index_characters_on_game_id"
   end
 
