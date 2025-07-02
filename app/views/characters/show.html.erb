@@ -11,6 +11,15 @@
     <p><%= @character.description %></p>
   </div>
 
+  <div class="area">
+    <h2>Current Area</h2>
+    <% if @character.area.present? %>
+      <p><%= link_to @character.area.name, game_area_path(@game, @character.area) %></p>
+    <% else %>
+      <p>Not currently in any area</p>
+    <% end %>
+  </div>
+
   <% if @character.properties.present? %>
     <div class="properties">
       <h2>Properties</h2>

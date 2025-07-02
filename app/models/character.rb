@@ -1,5 +1,6 @@
 class Character < ApplicationRecord
   belongs_to :game
+  belongs_to :area, optional: true
 
   validates :name, presence: true
 

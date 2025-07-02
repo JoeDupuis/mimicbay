@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_07_02_044859) do
+ActiveRecord::Schema[8.1].define(version: 2025_07_02_064215) do
   create_table "areas", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -22,6 +22,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_02_044859) do
   end
 
   create_table "characters", force: :cascade do |t|
+    t.integer "area_id"
     t.datetime "created_at", null: false
     t.text "description"
     t.integer "game_id", null: false
@@ -29,6 +30,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_02_044859) do
     t.string "name"
     t.json "properties"
     t.datetime "updated_at", null: false
+    t.index [ "area_id" ], name: "index_characters_on_area_id"
     t.index [ "game_id", "is_player" ], name: "index_characters_on_game_id_and_is_player", unique: true, where: "is_player = true"
     t.index [ "game_id" ], name: "index_characters_on_game_id"
   end
@@ -59,6 +61,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_02_044859) do
   end
 
   add_foreign_key "areas", "games"
+  add_foreign_key "characters", "areas"
   add_foreign_key "characters", "games"
   add_foreign_key "games", "users"
   add_foreign_key "sessions", "users"

@@ -20,6 +20,11 @@
     </div>
 
     <div class="field">
+      <%= form.label :area_id, "Area" %>
+      <%= form.select :area_id, options_from_collection_for_select(@game.areas, :id, :name, @character.area_id), { include_blank: "No area" }, class: "form-select" %>
+    </div>
+
+    <div class="field">
       <%= form.check_box :is_player %>
       <%= form.label :is_player, "Player Character" %>
     </div>

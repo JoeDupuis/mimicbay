@@ -13,6 +13,24 @@
     </div>
   <% end %>
 
+  <div class="characters">
+    <h2>Characters in this area</h2>
+    <% if @area.characters.any? %>
+      <ul>
+        <% @area.characters.each do |character| %>
+          <li>
+            <%= link_to character.name, game_character_path(@game, character) %>
+            <% if character.is_player? %>
+              <span class="badge">Player</span>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    <% else %>
+      <p>No characters are currently in this area.</p>
+    <% end %>
+  </div>
+
   <div class="actions">
     <%= link_to "Edit", edit_game_area_path(@game, @area), class: "btn btn-primary" %>
     <%= button_to "Delete", game_area_path(@game, @area), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>

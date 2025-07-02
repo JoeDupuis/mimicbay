@@ -10,6 +10,9 @@
         <div class="area-item">
           <h3><%= link_to area.name, game_area_path(@game, area) %></h3>
           <p><%= area.description %></p>
+          <% if area.characters.any? %>
+            <p class="character-count"><%= pluralize(area.characters.count, "character") %></p>
+          <% end %>
           <div class="actions">
             <%= link_to "Edit", edit_game_area_path(@game, area), class: "btn btn-secondary" %>
             <%= button_to "Delete", game_area_path(@game, area), method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger" %>
