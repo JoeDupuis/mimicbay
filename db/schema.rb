@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_07_02_064215) do
+ActiveRecord::Schema[8.1].define(version: 2025_07_02_072736) do
   create_table "areas", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -44,6 +44,29 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_02_064215) do
     t.index [ "user_id" ], name: "index_games_on_user_id"
   end
 
+  create_table "message_witnesses", force: :cascade do |t|
+    t.integer "character_id", null: false
+    t.datetime "created_at", null: false
+    t.integer "message_id", null: false
+    t.datetime "updated_at", null: false
+    t.index [ "character_id" ], name: "index_message_witnesses_on_character_id"
+    t.index [ "message_id", "character_id" ], name: "index_message_witnesses_on_message_id_and_character_id", unique: true
+    t.index [ "message_id" ], name: "index_message_witnesses_on_message_id"
+  end
+
+  create_table "messages", force: :cascade do |t|
+    t.integer "area_id", null: false
+    t.integer "character_id"
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.integer "game_id", null: false
+    t.string "message_type"
+    t.datetime "updated_at", null: false
+    t.index [ "area_id" ], name: "index_messages_on_area_id"
+    t.index [ "character_id" ], name: "index_messages_on_character_id"
+    t.index [ "game_id" ], name: "index_messages_on_game_id"
+  end
+
   create_table "sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.string "ip_address"
@@ -65,5 +88,10 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_02_064215) do
   add_foreign_key "characters", "areas"
   add_foreign_key "characters", "games"
   add_foreign_key "games", "users"
+  add_foreign_key "message_witnesses", "characters"
+  add_foreign_key "message_witnesses", "messages"
+  add_foreign_key "messages", "areas"
+  add_foreign_key "messages", "characters"
+  add_foreign_key "messages", "games"
   add_foreign_key "sessions", "users"
 end

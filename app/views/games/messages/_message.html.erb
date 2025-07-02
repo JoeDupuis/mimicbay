@@ -1,0 +1,14 @@
+<div class="message <%= message.character == @player_character ? 'own-message' : 'other-message' %>" id="<%= dom_id(message) %>">
+  <div class="message-header">
+    <strong class="character-name"><%= message.character&.name || "System" %></strong>
+    <span class="message-time"><%= message.created_at.strftime("%H:%M") %></span>
+  </div>
+  <div class="message-content">
+    <%= message.content %>
+  </div>
+  <% if message.area %>
+    <div class="message-location">
+      <small><%= message.area.name %></small>
+    </div>
+  <% end %>
+</div>
