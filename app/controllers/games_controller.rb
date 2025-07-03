@@ -6,7 +6,14 @@ class GamesController < ApplicationController
   end
 
   def show
-    redirect_to game_play_path(@game) if @game.playing?
+    if @game.playing? && @game.characters.player.exists?
+      redirect_to game_play_path(@game)
+    elsif @game.playing?
+      # Game is in playing state but no player character exists
+      # Force it back to creating state
+      @game.update!(state: :creating)
+      redirect_to @game, alert: "Game was reset to creating state. Please create a player character before starting."
+    end
   end
 
   def new

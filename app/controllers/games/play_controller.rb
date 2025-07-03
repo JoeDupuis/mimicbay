@@ -16,6 +16,8 @@ class Games::PlayController < ApplicationController
   def set_player_character
     @player_character = @game.characters.player.first
     unless @player_character
+      # Reset game state to prevent redirect loop
+      @game.update!(state: :creating) if @game.playing?
       redirect_to @game, alert: "You need a player character to play this game"
     end
   end
