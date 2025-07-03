@@ -12,7 +12,7 @@ class Message < ApplicationRecord
   attr_accessor :target_character_id
 
   after_create :create_witnesses
-  after_create_commit :broadcast_to_channels
+  after_create_commit :broadcast_to_dm_channel
 
   private
 
@@ -40,18 +40,8 @@ class Message < ApplicationRecord
     end
   end
 
-  def broadcast_to_channels
-    # Broadcast to all witnesses
-    witnesses.each do |character|
-      Turbo::StreamsChannel.broadcast_append_to(
-        "game_#{game.id}_character_#{character.id}_messages",
-        target: "messages",
-        partial: "games/messages/message",
-        locals: { message: self, player_character: character }
-      )
-    end
-
-    # Also broadcast to DM channel so DM sees all messages
+  def broadcast_to_dm_channel
+    # Broadcast to DM channel so DM sees all messages
     Turbo::StreamsChannel.broadcast_append_to(
       "game_#{game.id}_dm_messages",
       target: "messages",
