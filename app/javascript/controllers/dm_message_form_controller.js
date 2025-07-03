@@ -10,9 +10,9 @@ export default class extends Controller {
   toggleTargetSelect() {
     const targetType = this.targetSelectTarget.value
 
-    // Hide all select fields first
-    this.areaSelectTarget.classList.add('hidden')
-    this.characterSelectTarget.classList.add('hidden')
+    // Hide all select fields first and clear their values
+    this.hideAndClearSelect(this.areaSelectTarget)
+    this.hideAndClearSelect(this.characterSelectTarget)
 
     // Show the appropriate select field
     if (targetType === 'area') {
@@ -21,5 +21,14 @@ export default class extends Controller {
       this.characterSelectTarget.classList.remove('hidden')
     }
     // If 'all', both remain hidden
+  }
+
+  hideAndClearSelect(selectElement) {
+    selectElement.classList.add('hidden')
+    // Find the select input within the container and clear its value
+    const select = selectElement.querySelector('select')
+    if (select) {
+      select.value = ''
+    }
   }
 }
