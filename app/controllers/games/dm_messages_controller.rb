@@ -35,7 +35,7 @@ class Games::DmMessagesController < ApplicationController
   end
 
   def dm_message_params
-    params.require(:message).permit(:content, :area_id, :target_character_id)
+    params.require(:message).permit(:content, :area_id)
   end
 
   def create_witnesses_for_dm_message(message)
