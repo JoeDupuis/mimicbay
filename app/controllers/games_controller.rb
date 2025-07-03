@@ -27,7 +27,9 @@ class GamesController < ApplicationController
   end
 
   def update
-    if @game.update(game_params)
+    if changing_to_playing_state? && !@game.characters.player.exists?
+      redirect_to @game, alert: "You must create a player character before starting the game."
+    elsif @game.update(game_params)
       redirect_to @game, notice: success_message(@game)
     else
       render :edit, status: :unprocessable_entity
@@ -47,5 +49,9 @@ class GamesController < ApplicationController
 
   def game_params
     params.require(:game).permit(:name, :state)
+  end
+
+  def changing_to_playing_state?
+    game_params[:state] == "playing" && @game.creating?
   end
 end

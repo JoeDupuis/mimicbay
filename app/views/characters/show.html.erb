@@ -4,6 +4,9 @@
     <% if @character.is_player? %>
       <span class="badge">Player Character</span>
     <% end %>
+    <% if @character.is_dm? %>
+      <span class="badge">Dungeon Master</span>
+    <% end %>
   </h1>
 
   <div class="description">

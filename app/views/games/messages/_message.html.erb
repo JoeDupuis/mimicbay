@@ -6,9 +6,13 @@
   <div class="message-content">
     <%= message.content %>
   </div>
-  <% if message.area %>
-    <div class="message-location">
-      <small><%= message.area.name %></small>
-    </div>
-  <% end %>
+  <div class="message-location">
+    <small>
+      <% if message.area %>
+        <%= message.area.name %>
+      <% else %>
+        Private (DM Channel)
+      <% end %>
+    </small>
+  </div>
 </div>

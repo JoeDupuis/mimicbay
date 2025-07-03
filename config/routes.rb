@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     resources :characters
     resource :play, only: [ :show ], controller: "games/play"
     resources :messages, only: [ :create ], controller: "games/messages"
+    resources :dm_messages, only: [ :create ], controller: "games/dm_messages"
+    resource :dm, only: [ :show ], controller: "games/dm"
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

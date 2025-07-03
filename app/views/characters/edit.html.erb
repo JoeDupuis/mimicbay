@@ -29,6 +29,11 @@
       <%= form.label :is_player, "Player Character" %>
     </div>
 
+    <div class="field">
+      <%= form.check_box :is_dm %>
+      <%= form.label :is_dm, "Dungeon Master (DM)" %>
+    </div>
+
     <div class="actions">
       <%= form.submit "Update Character", class: "btn btn-primary" %>
       <%= link_to "Cancel", game_character_path(@game, @character), class: "btn btn-secondary" %>

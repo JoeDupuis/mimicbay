@@ -39,9 +39,17 @@ class Games::MessagesController < ApplicationController
   end
 
   def create_witnesses_for_message(message)
-    characters_in_area = @game.characters.where(area: message.area)
-    characters_in_area.each do |character|
-      message.message_witnesses.create(character: character)
+    if message.area.present?
+      # Area-based message: all characters in area can see it
+      characters_in_area = @game.characters.where(area: message.area)
+      characters_in_area.each do |character|
+        message.message_witnesses.create(character: character)
+      end
+    else
+      # Private message: only sender and DM can see it
+      message.message_witnesses.create(character: message.character) if message.character
+      dm_character = @game.characters.dm.first
+      message.message_witnesses.create(character: dm_character) if dm_character && dm_character != message.character
     end
   end
 
