@@ -17,11 +17,9 @@
   </div>
 <% end %>
 
-<% if @game.characters.dm.exists? %>
-  <div class="dm-link mt-3">
-    <%= link_to "DM Interface", game_dm_path(@game), class: "btn btn-secondary" %>
-  </div>
-<% end %>
+<div class="dm-link mt-3">
+  <%= link_to "Game Control (Debug)", game_dm_path(@game), class: "btn btn-secondary" %>
+</div>
 
 <p>
   <%= link_to "Edit", edit_game_path(@game) %>

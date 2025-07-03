@@ -1,11 +1,11 @@
 class Games::DmController < ApplicationController
   before_action :set_game
-  before_action :set_dm_character
+  before_action :ensure_game_owner
 
   def show
-    @characters = @game.characters.non_player
+    @characters = @game.characters
     @areas = @game.areas
-    @messages = @dm_character.witnessed_messages_in_order
+    @messages = @game.messages.includes(:character, :area, :witnesses).order(created_at: :asc)
     @message = @game.messages.build
   end
 
@@ -15,10 +15,9 @@ class Games::DmController < ApplicationController
     @game = Current.user.games.find(params[:game_id])
   end
 
-  def set_dm_character
-    @dm_character = @game.characters.dm.first
-    unless @dm_character
-      redirect_to @game, alert: "You need a DM character to access the DM interface"
-    end
+  def ensure_game_owner
+    # Since we're finding the game through Current.user.games, 
+    # we already know the user owns this game
+    # This is here for clarity and potential future expansion
   end
 end

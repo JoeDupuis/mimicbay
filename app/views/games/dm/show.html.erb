@@ -1,8 +1,8 @@
 <div class="game-play-container">
   <div class="game-info">
-    <h1><%= @game.name %> - DM Interface</h1>
-    <p class="character-info">
-      Dungeon Master: <strong><%= @dm_character.name %></strong>
+    <h1><%= @game.name %> - Game Control (Debug)</h1>
+    <p class="text-muted">
+      This is a debug interface for controlling the game. In the future, an AI agent will handle these DM functions.
     </p>
   </div>
 
@@ -56,8 +56,6 @@
       <% end %>
     </div>
   </div>
-
-  <%= turbo_stream_from "game_#{@game.id}_character_#{@dm_character.id}_messages" %>
 </div>
 
 <script>

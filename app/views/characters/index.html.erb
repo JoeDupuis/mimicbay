@@ -13,9 +13,6 @@
             <% if character.is_player? %>
               <span class="badge">Player</span>
             <% end %>
-            <% if character.is_dm? %>
-              <span class="badge">DM</span>
-            <% end %>
           </h3>
           <p><%= character.description %></p>
           <div class="actions">

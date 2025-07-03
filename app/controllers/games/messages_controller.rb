@@ -46,10 +46,9 @@ class Games::MessagesController < ApplicationController
         message.message_witnesses.create(character: character)
       end
     else
-      # Private message: only sender and DM can see it
+      # Private message: only sender can see it
+      # The game owner (acting as DM) can see all messages through the DM interface
       message.message_witnesses.create(character: message.character) if message.character
-      dm_character = @game.characters.dm.first
-      message.message_witnesses.create(character: dm_character) if dm_character && dm_character != message.character
     end
   end
 

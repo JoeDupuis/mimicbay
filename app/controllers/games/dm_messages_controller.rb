@@ -1,10 +1,11 @@
 class Games::DmMessagesController < ApplicationController
   before_action :set_game
-  before_action :set_dm_character
+  before_action :ensure_game_owner
 
   def create
     @message = @game.messages.build(dm_message_params)
-    @message.character = @dm_character
+    # DM messages have no character (they're from the system/DM)
+    @message.character = nil
     @message.message_type = params[:message][:message_type] || "system"
 
     if @message.save
@@ -28,9 +29,9 @@ class Games::DmMessagesController < ApplicationController
     @game = Current.user.games.find(params[:game_id])
   end
 
-  def set_dm_character
-    @dm_character = @game.characters.dm.first
-    redirect_to @game, alert: "No DM character found" unless @dm_character
+  def ensure_game_owner
+    # Since we're finding the game through Current.user.games, 
+    # we already know the user owns this game
   end
 
   def dm_message_params
@@ -49,7 +50,6 @@ class Games::DmMessagesController < ApplicationController
       target_character = @game.characters.find_by(id: params[:message][:target_character_id])
       if target_character
         message.message_witnesses.create(character: target_character)
-        message.message_witnesses.create(character: @dm_character) if @dm_character != target_character
       end
     else
       # Broadcast to all
