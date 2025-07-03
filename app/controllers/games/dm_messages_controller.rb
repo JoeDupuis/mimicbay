@@ -60,6 +60,7 @@ class Games::DmMessagesController < ApplicationController
   end
 
   def broadcast_message(message)
+    # Broadcast to all witnesses
     message.witnesses.each do |character|
       Turbo::StreamsChannel.broadcast_append_to(
         "game_#{@game.id}_character_#{character.id}_messages",
@@ -68,5 +69,13 @@ class Games::DmMessagesController < ApplicationController
         locals: { message: message }
       )
     end
+    
+    # Also broadcast to DM channel
+    Turbo::StreamsChannel.broadcast_append_to(
+      "game_#{@game.id}_dm_messages",
+      target: "messages",
+      partial: "games/messages/message",
+      locals: { message: message }
+    )
   end
 end

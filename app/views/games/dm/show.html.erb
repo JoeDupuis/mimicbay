@@ -4,7 +4,20 @@
     <p class="text-muted">
       This is a debug interface for controlling the game. In the future, an AI agent will handle these DM functions.
     </p>
+    
+    <div class="message-filter mb-3">
+      <label>Filter Messages:</label>
+      <select id="message-filter" class="form-select" onchange="filterMessages()">
+        <option value="all">All Messages</option>
+        <option value="private">Private Messages (No Area)</option>
+        <% @areas.each do |area| %>
+          <option value="area-<%= area.id %>"><%= area.name %></option>
+        <% end %>
+      </select>
+    </div>
   </div>
+
+  <%= turbo_stream_from "game_#{@game.id}_dm_messages" %>
 
   <div class="chat-container">
     <div id="messages" class="messages" data-controller="auto-scroll">
@@ -78,4 +91,32 @@ document.addEventListener("turbo:load", () => {
     });
   }
 });
+</script>
+
+<script>
+function filterMessages() {
+  const filterValue = document.getElementById('message-filter').value;
+  const messages = document.querySelectorAll('#messages .message');
+  
+  messages.forEach(message => {
+    if (filterValue === 'all') {
+      message.style.display = 'block';
+    } else if (filterValue === 'private') {
+      // Show only messages without area
+      if (!message.dataset.areaId || message.dataset.areaId === '') {
+        message.style.display = 'block';
+      } else {
+        message.style.display = 'none';
+      }
+    } else if (filterValue.startsWith('area-')) {
+      // Show only messages from specific area
+      const areaId = filterValue.replace('area-', '');
+      if (message.dataset.areaId === areaId) {
+        message.style.display = 'block';
+      } else {
+        message.style.display = 'none';
+      }
+    }
+  });
+}
 </script>

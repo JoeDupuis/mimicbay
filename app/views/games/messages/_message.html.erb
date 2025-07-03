@@ -1,4 +1,6 @@
-<div class="message <%= message.character == @player_character ? 'own-message' : 'other-message' %>" id="<%= dom_id(message) %>">
+<div class="message <%= message.character == @player_character ? 'own-message' : 'other-message' %>" 
+     id="<%= dom_id(message) %>"
+     data-area-id="<%= message.area_id || '' %>">
   <div class="message-header">
     <strong class="character-name"><%= message.character&.name || "Game Master" %></strong>
     <span class="message-time"><%= message.created_at.strftime("%H:%M") %></span>
