@@ -6,13 +6,8 @@ class GamesController < ApplicationController
   end
 
   def show
-    if @game.playing? && @game.characters.player.exists?
+    if @game.playing?
       redirect_to game_play_path(@game)
-    elsif @game.playing?
-      # Game is in playing state but no player character exists
-      # Force it back to creating state
-      @game.update!(state: :creating)
-      redirect_to @game, alert: "Game was reset to creating state. Please create a player character before starting."
     end
   end
 
@@ -34,9 +29,7 @@ class GamesController < ApplicationController
   end
 
   def update
-    if changing_to_playing_state? && !@game.characters.player.exists?
-      redirect_to @game, alert: "You must create a player character before starting the game."
-    elsif @game.update(game_params)
+    if @game.update(game_params)
       redirect_to @game, notice: success_message(@game)
     else
       render :edit, status: :unprocessable_entity
@@ -56,9 +49,5 @@ class GamesController < ApplicationController
 
   def game_params
     params.require(:game).permit(:name, :state)
-  end
-
-  def changing_to_playing_state?
-    game_params[:state] == "playing" && @game.creating?
   end
 end

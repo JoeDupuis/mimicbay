@@ -1,6 +1,5 @@
 class Games::DmMessagesController < ApplicationController
   before_action :set_game
-  before_action :ensure_game_owner
 
   def create
     @message = @game.messages.build(dm_message_params)
@@ -27,11 +26,6 @@ class Games::DmMessagesController < ApplicationController
 
   def set_game
     @game = Current.user.games.find(params[:game_id])
-  end
-
-  def ensure_game_owner
-    # Since we're finding the game through Current.user.games,
-    # we already know the user owns this game
   end
 
   def dm_message_params

@@ -38,10 +38,9 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to game_play_url(@game)
   end
 
-  test "should reset to creating state when playing without player character" do
-    @game.update!(state: :playing)
-    get game_url(@game)
-    assert_redirected_to game_url(@game)
+  test "should not allow updating to playing state without player character" do
+    patch game_url(@game), params: { game: { state: "playing" } }
+    assert_response :unprocessable_entity
     @game.reload
     assert @game.creating?
   end

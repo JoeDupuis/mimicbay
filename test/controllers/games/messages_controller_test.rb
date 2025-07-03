@@ -3,10 +3,11 @@ require "test_helper"
 class Games::MessagesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = User.create!(email_address: "test@example.com", password: "password")
-    @game = @user.games.create!(name: "Test Game", state: "playing")
+    @game = @user.games.create!(name: "Test Game")
     @area = @game.areas.create!(name: "Starting Room")
     @player_character = @game.characters.create!(name: "Player", is_player: true, area: @area)
     @npc = @game.characters.create!(name: "NPC", is_player: false, area: @area)
+    @game.update!(state: "playing")
 
     sign_in_as(@user)
   end
