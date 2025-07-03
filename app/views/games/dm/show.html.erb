@@ -1,4 +1,4 @@
-<div class="game-play-container">
+<div class="game-play-container" data-controller="message-filter">
   <div class="game-info">
     <h1><%= @game.name %> - Game Control (Debug)</h1>
     <p class="text-muted">
@@ -7,7 +7,7 @@
 
     <div class="message-filter mb-3">
       <label>Filter Messages:</label>
-      <select id="message-filter" class="form-select" onchange="filterMessages()">
+      <select class="form-select" data-action="change->message-filter#filter">
         <option value="all">All Messages</option>
         <option value="private">Private Messages (No Area)</option>
         <% @areas.each do |area| %>
@@ -26,23 +26,23 @@
 
     <div class="message-form">
       <%= form_with model: [@game, @message], url: game_dm_messages_path(@game), local: false,
-                    data: { controller: "message-form" } do |f| %>
+                    data: { controller: "dm-message-form message-form" } do |f| %>
         <div class="form-group mb-2">
           <label>Send to:</label>
-          <select name="message[target_type]" class="form-select" data-action="change->message-form#toggleTargetSelect">
+          <select name="message[target_type]" class="form-select" data-dm-message-form-target="targetSelect" data-action="change->dm-message-form#toggleTargetSelect">
             <option value="area">Area</option>
             <option value="character">Specific Character</option>
             <option value="all">All Characters</option>
           </select>
         </div>
 
-        <div class="form-group mb-2" data-message-form-target="areaSelect">
+        <div class="form-group mb-2" data-dm-message-form-target="areaSelect">
           <%= f.select :area_id, options_from_collection_for_select(@areas, :id, :name),
                        { include_blank: "Select an area" },
                        class: "form-select" %>
         </div>
 
-        <div class="form-group mb-2 d-none" data-message-form-target="characterSelect">
+        <div class="form-group mb-2 hidden" data-dm-message-form-target="characterSelect">
           <select name="message[target_character_id]" class="form-select">
             <option value="">Select a character</option>
             <% @characters.each do |character| %>
@@ -70,53 +70,3 @@
     </div>
   </div>
 </div>
-
-<script>
-document.addEventListener("turbo:load", () => {
-  const controller = document.querySelector('[data-controller="message-form"]');
-  if (controller) {
-    const targetSelect = controller.querySelector('select[name="message[target_type]"]');
-    const areaSelect = controller.querySelector('[data-message-form-target="areaSelect"]');
-    const characterSelect = controller.querySelector('[data-message-form-target="characterSelect"]');
-
-    targetSelect.addEventListener('change', (e) => {
-      areaSelect.classList.add('d-none');
-      characterSelect.classList.add('d-none');
-
-      if (e.target.value === 'area') {
-        areaSelect.classList.remove('d-none');
-      } else if (e.target.value === 'character') {
-        characterSelect.classList.remove('d-none');
-      }
-    });
-  }
-});
-</script>
-
-<script>
-function filterMessages() {
-  const filterValue = document.getElementById('message-filter').value;
-  const messages = document.querySelectorAll('#messages .message');
-
-  messages.forEach(message => {
-    if (filterValue === 'all') {
-      message.style.display = 'block';
-    } else if (filterValue === 'private') {
-      // Show only messages without area
-      if (!message.dataset.areaId || message.dataset.areaId === '') {
-        message.style.display = 'block';
-      } else {
-        message.style.display = 'none';
-      }
-    } else if (filterValue.startsWith('area-')) {
-      // Show only messages from specific area
-      const areaId = filterValue.replace('area-', '');
-      if (message.dataset.areaId === areaId) {
-        message.style.display = 'block';
-      } else {
-        message.style.display = 'none';
-      }
-    }
-  });
-}
-</script>
