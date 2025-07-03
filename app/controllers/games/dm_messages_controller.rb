@@ -12,7 +12,7 @@ class Games::DmMessagesController < ApplicationController
       create_witnesses_for_dm_message(@message)
       broadcast_message(@message)
       respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.append("messages", partial: "games/messages/message", locals: { message: @message }) }
+        format.turbo_stream { render turbo_stream: turbo_stream.append("messages", partial: "games/messages/message", locals: { message: @message, player_character: nil, is_dm_view: true }) }
         format.html { redirect_to game_dm_path(@game) }
       end
     else
@@ -66,7 +66,7 @@ class Games::DmMessagesController < ApplicationController
         "game_#{@game.id}_character_#{character.id}_messages",
         target: "messages",
         partial: "games/messages/message",
-        locals: { message: message }
+        locals: { message: message, player_character: character }
       )
     end
 
@@ -75,7 +75,7 @@ class Games::DmMessagesController < ApplicationController
       "game_#{@game.id}_dm_messages",
       target: "messages",
       partial: "games/messages/message",
-      locals: { message: message }
+      locals: { message: message, player_character: nil, is_dm_view: true }
     )
   end
 end

@@ -1,4 +1,13 @@
-<div class="message <%= message.character == @player_character ? 'own-message' : 'other-message' %>" 
+<%
+  css_class = if local_assigns[:is_dm_view]
+    # In DM view: DM messages (no character) appear on right, all others on left
+    message.character.nil? ? 'own-message' : 'other-message'
+  else
+    # In player view: player's own messages on right, all others on left
+    message.character.present? && message.character == @player_character ? 'own-message' : 'other-message'
+  end
+%>
+<div class="message <%= css_class %>"
      id="<%= dom_id(message) %>"
      data-area-id="<%= message.area_id || '' %>">
   <div class="message-header">

@@ -59,7 +59,7 @@ class Games::MessagesController < ApplicationController
         "game_#{@game.id}_character_#{character.id}_messages",
         target: "messages",
         partial: "games/messages/message",
-        locals: { message: message }
+        locals: { message: message, player_character: character }
       )
     end
 
@@ -68,7 +68,7 @@ class Games::MessagesController < ApplicationController
       "game_#{@game.id}_dm_messages",
       target: "messages",
       partial: "games/messages/message",
-      locals: { message: message }
+      locals: { message: message, player_character: nil, is_dm_view: true }
     )
   end
 end
