@@ -63,7 +63,7 @@
           <%= f.text_field :content,
                            class: "form-control",
                            placeholder: "Type your message...",
-                           data: { action: "keydown.enter->message-form#submit" } %>
+                           data: { controller: "message-form", action: "keydown.enter->message-form#submitOnEnter" } %>
           <%= f.submit "Send", class: "btn btn-primary" %>
         </div>
       <% end %>

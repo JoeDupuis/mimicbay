@@ -4,7 +4,10 @@ export default class extends Controller {
   submitOnEnter(event) {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault()
-      this.element.requestSubmit()
+      const form = this.element.closest('form')
+      if (form) {
+        form.requestSubmit()
+      }
     }
   }
 }
