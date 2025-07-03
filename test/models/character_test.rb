@@ -58,7 +58,6 @@ class CharacterTest < ActiveSupport::TestCase
       area: area,
       created_at: 2.minutes.ago
     )
-    message1.message_witnesses.create!(character: character)
 
     message2 = @game.messages.create!(
       content: "Second message",
@@ -67,8 +66,8 @@ class CharacterTest < ActiveSupport::TestCase
       area: area,
       created_at: 1.minute.ago
     )
-    message2.message_witnesses.create!(character: character)
 
+    # Both messages are automatically witnessed by both characters in the area
     witnessed = character.witnessed_messages_in_order
     assert_equal 2, witnessed.count
     assert_equal "First message", witnessed.first.content
@@ -87,7 +86,6 @@ class CharacterTest < ActiveSupport::TestCase
       character: character,
       area: area1
     )
-    message_in_area1.message_witnesses.create!(character: character)
 
     message_in_area2 = @game.messages.create!(
       content: "Message in area 2",
@@ -96,6 +94,7 @@ class CharacterTest < ActiveSupport::TestCase
       area: area2
     )
 
+    # Messages are automatically witnessed based on area
     witnessed = character.witnessed_messages
     assert_includes witnessed, message_in_area1
     assert_not_includes witnessed, message_in_area2
@@ -112,7 +111,6 @@ class CharacterTest < ActiveSupport::TestCase
       character: character,
       area: area1
     )
-    message1.message_witnesses.create!(character: character)
 
     character.update!(area: area2)
 
@@ -122,8 +120,8 @@ class CharacterTest < ActiveSupport::TestCase
       character: character,
       area: area2
     )
-    message2.message_witnesses.create!(character: character)
 
+    # Messages are automatically witnessed
     witnessed = character.witnessed_messages_in_order
     assert_equal 2, witnessed.count
     assert_equal area1, witnessed.first.area

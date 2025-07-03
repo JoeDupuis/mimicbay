@@ -49,6 +49,9 @@ class MessageTest < ActiveSupport::TestCase
   end
 
   test "should have witnesses through message_witnesses" do
+    witness1 = @game.characters.create!(name: "Witness 1", area: @area)
+    witness2 = @game.characters.create!(name: "Witness 2", area: @area)
+
     message = @game.messages.create!(
       content: "Hello",
       message_type: "chat",
@@ -56,13 +59,9 @@ class MessageTest < ActiveSupport::TestCase
       area: @area
     )
 
-    witness1 = @game.characters.create!(name: "Witness 1", area: @area)
-    witness2 = @game.characters.create!(name: "Witness 2", area: @area)
-
-    message.message_witnesses.create!(character: witness1)
-    message.message_witnesses.create!(character: witness2)
-
-    assert_equal 2, message.witnesses.count
+    # Witnesses are created automatically via callback
+    assert_equal 3, message.witnesses.count
+    assert_includes message.witnesses, @character
     assert_includes message.witnesses, witness1
     assert_includes message.witnesses, witness2
   end

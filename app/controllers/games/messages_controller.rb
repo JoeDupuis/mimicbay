@@ -9,8 +9,6 @@ class Games::MessagesController < ApplicationController
     @message.message_type = "chat"
 
     if @message.save
-      create_witnesses_for_message(@message)
-      broadcast_message(@message)
       respond_to do |format|
         format.turbo_stream { render turbo_stream: turbo_stream.append("messages", partial: "games/messages/message", locals: { message: @message }) }
         format.html { redirect_to game_play_path(@game) }
@@ -36,39 +34,5 @@ class Games::MessagesController < ApplicationController
 
   def message_params
     params.require(:message).permit(:content)
-  end
-
-  def create_witnesses_for_message(message)
-    if message.area.present?
-      # Area-based message: all characters in area can see it
-      characters_in_area = @game.characters.where(area: message.area)
-      characters_in_area.each do |character|
-        message.message_witnesses.create(character: character)
-      end
-    else
-      # Private message: only sender can see it
-      # The game owner (acting as DM) can see all messages through the DM interface
-      message.message_witnesses.create(character: message.character) if message.character
-    end
-  end
-
-  def broadcast_message(message)
-    # Broadcast to all witnesses
-    message.witnesses.each do |character|
-      Turbo::StreamsChannel.broadcast_append_to(
-        "game_#{@game.id}_character_#{character.id}_messages",
-        target: "messages",
-        partial: "games/messages/message",
-        locals: { message: message, player_character: character }
-      )
-    end
-
-    # Also broadcast to DM channel so DM sees all messages
-    Turbo::StreamsChannel.broadcast_append_to(
-      "game_#{@game.id}_dm_messages",
-      target: "messages",
-      partial: "games/messages/message",
-      locals: { message: message, player_character: nil, is_dm_view: true }
-    )
   end
 end
