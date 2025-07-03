@@ -62,7 +62,7 @@ class Games::MessagesController < ApplicationController
         locals: { message: message }
       )
     end
-    
+
     # Also broadcast to DM channel so DM sees all messages
     Turbo::StreamsChannel.broadcast_append_to(
       "game_#{@game.id}_dm_messages",

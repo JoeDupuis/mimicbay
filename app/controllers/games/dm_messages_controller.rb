@@ -30,7 +30,7 @@ class Games::DmMessagesController < ApplicationController
   end
 
   def ensure_game_owner
-    # Since we're finding the game through Current.user.games, 
+    # Since we're finding the game through Current.user.games,
     # we already know the user owns this game
   end
 
@@ -69,7 +69,7 @@ class Games::DmMessagesController < ApplicationController
         locals: { message: message }
       )
     end
-    
+
     # Also broadcast to DM channel
     Turbo::StreamsChannel.broadcast_append_to(
       "game_#{@game.id}_dm_messages",

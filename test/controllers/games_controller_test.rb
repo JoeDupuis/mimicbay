@@ -31,10 +31,19 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
     assert_response :success
   end
 
-  test "should redirect show to play controller when playing" do
+  test "should redirect show to play controller when playing with player character" do
+    @game.characters.create!(name: "Player", is_player: true)
     @game.update!(state: :playing)
     get game_url(@game)
     assert_redirected_to game_play_url(@game)
+  end
+
+  test "should reset to creating state when playing without player character" do
+    @game.update!(state: :playing)
+    get game_url(@game)
+    assert_redirected_to game_url(@game)
+    @game.reload
+    assert @game.creating?
   end
 
   test "should get edit" do

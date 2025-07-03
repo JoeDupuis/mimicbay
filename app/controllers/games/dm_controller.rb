@@ -16,7 +16,7 @@ class Games::DmController < ApplicationController
   end
 
   def ensure_game_owner
-    # Since we're finding the game through Current.user.games, 
+    # Since we're finding the game through Current.user.games,
     # we already know the user owns this game
     # This is here for clarity and potential future expansion
   end

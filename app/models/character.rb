@@ -24,5 +24,4 @@ class Character < ApplicationRecord
       game.characters.player.where.not(id: id).update_all(is_player: false)
     end
   end
-
 end
