@@ -2,8 +2,8 @@
 
 one:
   message: one
-  character: one
+  character: player_character
 
 two:
   message: two
-  character: two
+  character: npc_innkeeper

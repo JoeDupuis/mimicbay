@@ -2,9 +2,9 @@ require "test_helper"
 
 class CharactersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = users(:one)
-    @other_user = users(:two)
-    @game = games(:one)
+    @user = users(:game_master)
+    @other_user = users(:other_player)
+    @game = games(:game_without_characters)
     sign_in_as @user
   end
 
@@ -15,7 +15,7 @@ class CharactersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not allow access to other user's game characters" do
-    other_game = games(:two)
+    other_game = games(:other_users_game)
     get game_characters_url(other_game)
     assert_response :not_found
   end

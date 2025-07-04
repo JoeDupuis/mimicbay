@@ -2,8 +2,8 @@ require "test_helper"
 
 class CharacterTest < ActiveSupport::TestCase
   setup do
-    @user = users(:one)
-    @game = games(:one)
+    @user = users(:game_master)
+    @game = games(:game_without_characters)
   end
 
   test "should allow setting a character as player" do

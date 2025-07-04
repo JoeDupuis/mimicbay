@@ -3,13 +3,13 @@
 one:
   content: MyText
   message_type: MyString
-  game: one
-  character: one
+  game: game_with_characters
+  character: player_character
   area: one
 
 two:
   content: MyText
   message_type: MyString
-  game: two
-  character: two
+  game: other_users_game
+  character: npc_innkeeper
   area: two

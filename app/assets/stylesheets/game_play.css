@@ -161,3 +161,30 @@
 .hidden {
   display: none !important;
 }
+
+/* DM Impersonation styling */
+.badge-warning {
+  background-color: #ffc107;
+  color: #212529;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  margin-left: 0.5rem;
+}
+
+.character-impersonation {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.character-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.character-link-item {
+  margin-bottom: 0 !important;
+}
