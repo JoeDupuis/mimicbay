@@ -56,7 +56,7 @@ class Games::PlayControllerImpersonationTest < ActionDispatch::IntegrationTest
     assert_response :success
 
     @game.characters.each do |character|
-      assert_select "a[href='#{game_play_path(@game, character_id: character.id)}']", text: /Open as #{character.name}/
+      assert_select "a[href='#{game_play_path(@game, character_id: character.id)}']", text: /#{character.name}/
     end
   end
 end
