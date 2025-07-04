@@ -8,6 +8,9 @@ Rails.application.routes.draw do
     resources :messages, only: [ :create ], controller: "games/messages"
     resources :dm_messages, only: [ :create ], controller: "games/dm_messages"
     resource :dm, only: [ :show ], controller: "games/dm"
+    resource :configuration, only: [ :show ], controller: "games/configurations" do
+      post :create_message
+    end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

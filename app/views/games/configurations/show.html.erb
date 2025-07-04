@@ -1,0 +1,77 @@
+<div class="configuration-container">
+  <h1>Configure <%= @game.name %></h1>
+
+  <div class="configuration-info">
+    <% if @game.llm_adapter.present? %>
+      <p>Using <%= @game.llm_adapter.split("::").last %> (<%= @game.llm_model %>)</p>
+    <% else %>
+      <p class="warning">No LLM adapter configured. <%= link_to "Edit game settings", edit_game_path(@game) %></p>
+    <% end %>
+  </div>
+
+  <div id="configuration-messages" class="messages-container">
+    <%= render partial: "message", collection: @messages %>
+  </div>
+
+  <% if @game.llm_adapter.present? %>
+    <%= form_with url: create_message_game_configuration_path(@game),
+                  id: "configuration-message-form",
+                  class: "message-form" do |form| %>
+      <div class="form-group">
+        <%= form.text_area :content,
+            placeholder: "Describe your game world, areas, and characters...",
+            class: "form-control",
+            rows: 3,
+            required: true %>
+      </div>
+      <div class="form-actions">
+        <%= form.submit "Send", class: "btn btn-primary" %>
+        <%= link_to "Done Configuring", game_path(@game), class: "btn btn-secondary" %>
+      </div>
+    <% end %>
+  <% end %>
+</div>
+
+<style>
+  .configuration-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .configuration-info {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+  }
+
+  .configuration-info .warning {
+    color: #d9534f;
+  }
+
+  .messages-container {
+    height: 400px;
+    overflow-y: auto;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fafafa;
+  }
+
+  .message-form .form-group {
+    margin-bottom: 10px;
+  }
+
+  .message-form textarea {
+    width: 100%;
+    resize: vertical;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: space-between;
+  }
+</style>

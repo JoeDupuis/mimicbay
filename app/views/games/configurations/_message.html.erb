@@ -1,0 +1,94 @@
+<div class="configuration-message <%= message.role %>-message" id="<%= dom_id(message) %>">
+  <div class="message-header">
+    <strong><%= message.role.capitalize %></strong>
+    <span class="timestamp"><%= message.created_at.strftime("%I:%M %p") %></span>
+  </div>
+
+  <div class="message-content">
+    <% if message.content.present? %>
+      <%= simple_format(message.content) %>
+    <% end %>
+
+    <% if message.tool_call? %>
+      <div class="tool-calls">
+        <em>Using tools:</em>
+        <ul>
+          <% message.tool_calls.each do |tool_call| %>
+            <li><%= tool_call["name"] %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <% if message.tool_result? %>
+      <div class="tool-result">
+        <% result = JSON.parse(message.content) %>
+        <% if result["success"] %>
+          <span class="success">✓ <%= result["message"] %></span>
+        <% else %>
+          <span class="error">✗ <%= result["error"] %></span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<style>
+  .configuration-message {
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+  .user-message {
+    background-color: #e3f2fd;
+    margin-left: 20%;
+  }
+
+  .assistant-message {
+    background-color: #f5f5f5;
+    margin-right: 20%;
+  }
+
+  .tool-message {
+    background-color: #fff9c4;
+    margin: 5px 10%;
+    font-size: 0.9em;
+  }
+
+  .message-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+    color: #666;
+  }
+
+  .message-content {
+    color: #333;
+  }
+
+  .tool-calls {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: rgba(0,0,0,0.05);
+    border-radius: 3px;
+  }
+
+  .tool-calls ul {
+    margin: 5px 0 0 20px;
+    padding: 0;
+  }
+
+  .tool-result .success {
+    color: #4caf50;
+  }
+
+  .tool-result .error {
+    color: #f44336;
+  }
+
+  .timestamp {
+    font-size: 0.8em;
+  }
+</style>

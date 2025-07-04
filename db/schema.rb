@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_07_04_072214) do
+ActiveRecord::Schema[8.1].define(version: 2025_07_04_200820) do
   create_table "areas", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -35,8 +35,29 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_04_072214) do
     t.index [ "game_id" ], name: "index_characters_on_game_id"
   end
 
+  create_table "game_configuration_messages", force: :cascade do |t|
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.integer "game_configuration_session_id", null: false
+    t.string "role"
+    t.json "tool_calls"
+    t.json "tool_results"
+    t.datetime "updated_at", null: false
+    t.index [ "game_configuration_session_id" ], name: "idx_on_game_configuration_session_id_1f395c0ebb"
+  end
+
+  create_table "game_configuration_sessions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "game_id", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "updated_at", null: false
+    t.index [ "game_id" ], name: "index_game_configuration_sessions_on_game_id"
+  end
+
   create_table "games", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.string "llm_adapter"
+    t.string "llm_model"
     t.string "name"
     t.integer "state", default: 0, null: false
     t.datetime "updated_at", null: false
@@ -88,6 +109,8 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_04_072214) do
   add_foreign_key "areas", "games"
   add_foreign_key "characters", "areas"
   add_foreign_key "characters", "games"
+  add_foreign_key "game_configuration_messages", "game_configuration_sessions"
+  add_foreign_key "game_configuration_sessions", "games"
   add_foreign_key "games", "users"
   add_foreign_key "message_witnesses", "characters"
   add_foreign_key "message_witnesses", "messages"

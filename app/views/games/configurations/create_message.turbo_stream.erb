@@ -1,0 +1,29 @@
+<%= turbo_stream.append "configuration-messages" do %>
+  <% @session.messages.where("created_at > ?", 1.minute.ago).each do |message| %>
+    <%= render partial: "message", locals: { message: message } %>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.replace "configuration-message-form" do %>
+  <%= form_with url: create_message_game_configuration_path(@game),
+                id: "configuration-message-form",
+                class: "message-form" do |form| %>
+    <div class="form-group">
+      <%= form.text_area :content,
+          placeholder: "Describe your game world, areas, and characters...",
+          class: "form-control",
+          rows: 3,
+          required: true %>
+    </div>
+    <div class="form-actions">
+      <%= form.submit "Send", class: "btn btn-primary" %>
+      <%= link_to "Done Configuring", game_path(@game), class: "btn btn-secondary" %>
+    </div>
+  <% end %>
+<% end %>
+
+<%= turbo_stream.append "configuration-messages" do %>
+  <script>
+    document.getElementById('configuration-messages').scrollTop = document.getElementById('configuration-messages').scrollHeight;
+  </script>
+<% end %>
