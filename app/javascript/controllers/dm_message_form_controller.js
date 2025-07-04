@@ -1,7 +1,7 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["targetSelect", "areaSelect", "characterSelect", "form"]
+  static targets = ["targetSelect", "areaSelect", "characterSelect", "form", "impersonationSection", "toggleText"]
 
   connect() {
     this.toggleTargetSelect()
@@ -51,6 +51,17 @@ export default class extends Controller {
           if (characterId) formData.append('message[target_character_id]', characterId)
         }
       })
+    }
+  }
+
+  toggleImpersonation() {
+    if (this.hasImpersonationSectionTarget) {
+      this.impersonationSectionTarget.classList.toggle('hidden')
+      
+      if (this.hasToggleTextTarget) {
+        const isHidden = this.impersonationSectionTarget.classList.contains('hidden')
+        this.toggleTextTarget.textContent = isHidden ? 'Show Character Views' : 'Hide Character Views'
+      }
     }
   }
 }

@@ -3,28 +3,9 @@
     <h1><%= @game.name %> - Game Control</h1>
     <div class="game-info">
       <span class="text-muted">DM interface for controlling the game</span>
-    </div>
-
-    <div class="character-impersonation mb-3">
-      <h3>Character Views</h3>
-      <p class="text-muted">Open character views in new windows to act as them:</p>
-      <div class="character-links">
-        <% @characters.each do |character| %>
-          <div class="character-link-item mb-2">
-            <%= link_to game_play_path(@game, character_id: character.id), 
-                        target: "_blank", 
-                        class: "btn btn-sm #{character.is_player? ? 'btn-primary' : 'btn-secondary'}" do %>
-              Open as <%= character.name %>
-              <% if character.is_player? %>
-                <span class="badge badge-light">Player</span>
-              <% end %>
-              <% if character.area %>
-                <small class="text-muted">(<%= character.area.name %>)</small>
-              <% end %>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
+      <button class="btn btn-sm btn-outline-secondary ms-3" data-action="click->dm-message-form#toggleImpersonation">
+        <span data-dm-message-form-target="toggleText">Show Character Views</span>
+      </button>
     </div>
     
     <div class="dm-controls">
@@ -71,6 +52,28 @@
       </div>
     </div>
   </header>
+
+  <div class="character-impersonation-wrapper hidden" data-dm-message-form-target="impersonationSection">
+    <div class="character-impersonation">
+      <h5>Character Views</h5>
+      <p class="text-muted small">Open character views in new windows to act as them:</p>
+      <div class="character-links">
+        <% @characters.each do |character| %>
+          <%= link_to game_play_path(@game, character_id: character.id), 
+                      target: "_blank", 
+                      class: "btn btn-sm #{character.is_player? ? 'btn-primary' : 'btn-secondary'} me-2 mb-2" do %>
+            <%= character.name %>
+            <% if character.is_player? %>
+              <span class="badge badge-light">Player</span>
+            <% end %>
+            <% if character.area %>
+              <small>(<%= character.area.name %>)</small>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
 
   <%= turbo_stream_from "game_#{@game.id}_dm_messages" %>
 
