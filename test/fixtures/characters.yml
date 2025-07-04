@@ -1,13 +1,22 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  game: one
-  name: MyString
-  description: MyText
+player_character:
+  game: game_with_characters
+  name: Sir Galahad
+  description: A brave knight seeking adventure
+  is_player: true
   properties:
 
-two:
-  game: two
-  name: MyString
-  description: MyText
+npc_innkeeper:
+  game: game_with_characters
+  name: Old Tom
+  description: The friendly innkeeper with many tales
+  is_player: false
+  properties:
+
+other_games_player:
+  game: other_users_game
+  name: Dark Wizard
+  description: A mysterious mage
+  is_player: true
   properties:
