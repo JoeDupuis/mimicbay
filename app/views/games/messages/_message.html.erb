@@ -22,8 +22,12 @@
   </div>
   <div class="message-location">
     <small>
-      <% if message.area %>
+      <% if message.is_dm_whisper %>
+        <span class="dm-whisper-indicator">🔒 Whispered to DM</span>
+      <% elsif message.area %>
         <%= message.area.name %>
+      <% elsif message.character.nil? && message.target_character_id.present? %>
+        <span class="dm-whisper-indicator">🔒 DM whispered to you</span>
       <% else %>
         Private (DM Channel)
       <% end %>

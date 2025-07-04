@@ -5,8 +5,14 @@ class Games::MessagesController < ApplicationController
   def create
     @message = @game.messages.build(message_params)
     @message.character = @active_character
-    @message.area = @active_character.area
     @message.message_type = "chat"
+
+    if params[:message][:whisper_to_dm] == "true"
+      @message.area = nil
+      @message.is_dm_whisper = true
+    else
+      @message.area = @active_character.area
+    end
 
     if @message.save
       respond_to do |format|
