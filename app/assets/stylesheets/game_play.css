@@ -88,10 +88,40 @@
   font-size: 0.75rem;
 }
 
+.dm-whisper-indicator {
+  color: #6366f1;
+  font-weight: 500;
+}
+
 .message-form-container {
   border-top: 1px solid #ddd;
   padding: 1rem;
   background: #fafafa;
+}
+
+.message-controls {
+  margin-bottom: 0.75rem;
+}
+
+.message-controls .form-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.message-controls label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #555;
+  margin: 0;
+}
+
+.message-controls .form-select {
+  width: auto;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
 }
 
 .message-input-container {

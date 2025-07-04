@@ -17,7 +17,10 @@ class Message < ApplicationRecord
   private
 
   def create_witnesses
-    if area_id.present?
+    if is_dm_whisper
+      # Player whisper to DM: only the sender can see it
+      message_witnesses.create(character: character) if character
+    elsif area_id.present?
       # Area-based message: all characters in area can see it
       game.characters.where(area_id: area_id).find_each do |character|
         message_witnesses.create(character: character)
