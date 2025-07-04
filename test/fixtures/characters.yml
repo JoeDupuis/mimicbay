@@ -1,14 +1,14 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  game: one
+  game: three
   name: Player Character
   description: The main player
   is_player: true
   properties:
 
 two:
-  game: one
+  game: three
   name: NPC Character
   description: A non-player character
   is_player: false

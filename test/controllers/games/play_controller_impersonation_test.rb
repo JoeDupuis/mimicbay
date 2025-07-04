@@ -4,9 +4,10 @@ class Games::PlayControllerImpersonationTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:one)
     @other_user = users(:two)
-    @game = games(:one)
+    @game = games(:three)
     @player_character = characters(:one)
     @npc_character = characters(:two)
+    @game.update!(state: "playing")
     sign_in_as @user
   end
 

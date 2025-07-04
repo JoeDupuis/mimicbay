@@ -9,12 +9,13 @@ class Games::PlayControllerTest < ActionDispatch::IntegrationTest
 
   test "should get show" do
     @game.characters.create!(name: "Player", is_player: true)
+    @game.update!(state: "playing")
     get game_play_url(@game)
     assert_response :success
   end
 
   test "should redirect if no player character" do
-    game_without_player = games(:three)
+    game_without_player = games(:one)  # Game one has no characters
     get game_play_url(game_without_player)
     assert_redirected_to game_without_player
   end

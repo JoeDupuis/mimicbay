@@ -3,12 +3,12 @@
 one:
   name: Test Game One
   user: one
-  state: playing
+  state: creating
 
 two:
   name: Test Game Two
   user: two
-  state: playing
+  state: creating
 
 three:
   name: Test Game Three
