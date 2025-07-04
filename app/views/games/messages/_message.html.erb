@@ -4,7 +4,9 @@
     message.character.nil? ? 'own-message' : 'other-message'
   else
     # In player view: player's own messages on right, all others on left
-    message.character.present? && message.character == @player_character ? 'own-message' : 'other-message'
+    # Use the passed player_character local variable if available, otherwise fall back to instance variable
+    current_character = local_assigns[:player_character] || @player_character
+    message.character.present? && message.character == current_character ? 'own-message' : 'other-message'
   end
 %>
 <div class="message <%= css_class %>"

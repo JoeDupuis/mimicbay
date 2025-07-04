@@ -2,12 +2,12 @@ require "test_helper"
 
 class GameTest < ActiveSupport::TestCase
   test "should have creating state by default" do
-    game = Game.new(name: "Test Game", user: users(:one))
+    game = Game.new(name: "Test Game", user: users(:game_master))
     assert_equal "creating", game.state
   end
 
   test "should be able to set playing state" do
-    game = Game.new(name: "Test Game", user: users(:one))
+    game = Game.new(name: "Test Game", user: users(:game_master))
     game.save!
     game.characters.create!(name: "Test Player", is_player: true)
     game.state = :playing
@@ -16,7 +16,7 @@ class GameTest < ActiveSupport::TestCase
   end
 
   test "should respond to state query methods" do
-    game = games(:one)
+    game = games(:game_without_characters)
     assert game.creating?
     assert_not game.playing?
 
@@ -29,14 +29,14 @@ class GameTest < ActiveSupport::TestCase
   end
 
   test "should not allow playing state without player character" do
-    game = games(:one)
+    game = games(:game_without_characters)
     game.state = :playing
     assert_not game.valid?
     assert_includes game.errors[:base], "You must create a player character before starting the game"
   end
 
   test "should allow playing state with player character" do
-    game = games(:one)
+    game = games(:game_without_characters)
     game.characters.create!(name: "Test Player", is_player: true)
     game.state = :playing
     assert game.valid?

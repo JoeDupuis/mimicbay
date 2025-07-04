@@ -1,9 +1,16 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
-one:
-  name: MyString
-  user: one
+game_without_characters:
+  name: Empty Dungeon
+  user: game_master
+  state: creating
 
-two:
-  name: MyString
-  user: two
+other_users_game:
+  name: Forbidden Realm
+  user: other_player
+  state: creating
+
+game_with_characters:
+  name: Dragon's Lair
+  user: game_master
+  state: creating

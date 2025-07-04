@@ -1,13 +1,13 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  game: one
+  game: game_with_characters
   name: MyString
   description: MyText
   properties:
 
 two:
-  game: two
+  game: other_users_game
   name: MyString
   description: MyText
   properties:
