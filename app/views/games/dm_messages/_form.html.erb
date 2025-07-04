@@ -1,13 +1,49 @@
 <%= form_with model: [@game, message], url: game_dm_messages_path(@game),
               local: false, id: "new_dm_message_form",
-              data: { controller: "message-form" } do |f| %>
+              data: { controller: "message-form dm-message-form" } do |f| %>
   <%= form_errors(message) %>
+  
+  <div class="dm-form-controls">
+    <div class="form-group">
+      <label>Message Type:</label>
+      <%= f.select :message_type, options_for_select([["Chat", "chat"], ["System", "system"], ["Action", "action"]], "system"),
+                   {}, class: "form-select" %>
+    </div>
 
-  <div class="input-group">
-    <%= f.text_field :content,
-                     class: "form-control",
-                     placeholder: "Type your message...",
-                     data: { action: "keydown.enter->message-form#submitOnEnter" } %>
+    <div class="form-group">
+      <label>Send to:</label>
+      <select name="message[target_type]" class="form-select" data-dm-message-form-target="targetSelect" data-action="change->dm-message-form#toggleTargetSelect">
+        <option value="area">Area</option>
+        <option value="character">Specific Character</option>
+        <option value="all">All Characters</option>
+      </select>
+    </div>
+
+    <div class="form-group" data-dm-message-form-target="areaSelect">
+      <%= f.select :area_id, options_from_collection_for_select(@areas, :id, :name),
+                   { include_blank: "Select an area" },
+                   class: "form-select" %>
+    </div>
+
+    <div class="form-group hidden" data-dm-message-form-target="characterSelect">
+      <select name="message[target_character_id]" class="form-select">
+        <option value="">Select a character</option>
+        <% @characters.each do |character| %>
+          <option value="<%= character.id %>">
+            <%= character.name %><%= character.area ? " (#{character.area.name})" : " (No area)" %>
+          </option>
+        <% end %>
+      </select>
+    </div>
+  </div>
+  
+  <div class="message-input-container">
+    <%= f.text_area :content,
+        placeholder: "What do you want to say or do?",
+        rows: 2,
+        class: "message-input",
+        autocomplete: "off",
+        data: { controller: "message-form", action: "keydown.enter->message-form#submitOnEnter" } %>
     <%= f.submit "Send", class: "btn btn-primary" %>
   </div>
 <% end %>
