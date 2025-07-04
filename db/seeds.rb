@@ -18,7 +18,7 @@ if Rails.env.development?
   game2 = Game.find_or_create_by!(name: "Space Adventures", user: user)
 
   # Create areas for game1
-  Area.find_or_create_by!(name: "Castle Entrance", game: game1) do |area|
+  castle_entrance = Area.find_or_create_by!(name: "Castle Entrance", game: game1) do |area|
     area.description = "A massive stone archway marks the entrance to the ancient castle"
     area.properties = { "difficulty": "easy", "treasure": [ "rusty key", "old map" ] }
   end
@@ -38,13 +38,17 @@ if Rails.env.development?
     char.description = "A noble knight in shining armor"
     char.properties = { "class": "Knight", "level": 10, "stats": { "strength": 18, "wisdom": 12 } }
     char.is_player = true
+    char.area = castle_entrance
   end
-  sir_galahad.update!(is_player: true) if sir_galahad.persisted?
+  sir_galahad.update!(is_player: true, area: castle_entrance)
 
-  Character.find_or_create_by!(name: "Elara the Wise", game: game1) do |char|
+  elara = Character.find_or_create_by!(name: "Elara the Wise", game: game1) do |char|
     char.description = "An ancient elf wizard with centuries of knowledge"
     char.properties = { "class": "Wizard", "level": 15, "spells": [ "fireball", "teleport" ] }
+    char.is_player = false
+    char.area = castle_entrance
   end
+  elara.update!(is_player: false, area: castle_entrance)
 
   # Create areas for game2
   Area.find_or_create_by!(name: "Space Station Alpha", game: game2) do |area|

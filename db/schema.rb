@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_07_03_025523) do
+ActiveRecord::Schema[8.1].define(version: 2025_07_04_081057) do
   create_table "areas", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -31,7 +31,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_03_025523) do
     t.json "properties"
     t.datetime "updated_at", null: false
     t.index ["area_id"], name: "index_characters_on_area_id"
-    t.index ["game_id", "is_player"], name: "index_characters_on_game_id_and_is_player", unique: true, where: "is_player = true"
     t.index ["game_id"], name: "index_characters_on_game_id"
   end
 
