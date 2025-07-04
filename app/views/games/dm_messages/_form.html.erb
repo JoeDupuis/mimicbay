@@ -1,6 +1,6 @@
 <%= form_with model: [@game, message], url: game_dm_messages_path(@game),
               local: false, id: "new_dm_message_form",
-              data: { controller: "message-form", action: "submit->message-form#scrollMessagesToBottom" } do |f| %>
+              data: { controller: "message-form" } do |f| %>
   <%= form_errors(message) %>
 
   <div class="input-group">

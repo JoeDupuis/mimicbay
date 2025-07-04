@@ -15,7 +15,7 @@ export default class extends Controller {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault()
       this.element.requestSubmit()
-      this.scrollMessagesToBottom()
+      this.dispatch("messageSent")
     }
   }
 
@@ -26,10 +26,10 @@ export default class extends Controller {
     }
   }
 
-  scrollMessagesToBottom() {
-    const messagesContainer = document.querySelector('[data-controller="auto-scroll"]')
-    if (messagesContainer) {
-      messagesContainer.scrollTop = messagesContainer.scrollHeight
-    }
+  dispatch(eventName, detail = {}) {
+    this.element.dispatchEvent(new CustomEvent(eventName, { 
+      detail, 
+      bubbles: true 
+    }))
   }
 }

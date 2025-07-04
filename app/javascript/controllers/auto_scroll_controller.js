@@ -5,6 +5,7 @@ export default class extends Controller {
     this.scrollToBottom()
     this.setupScrollTracking()
     this.setupMutationObserver()
+    this.setupEventListeners()
   }
 
   disconnect() {
@@ -14,6 +15,7 @@ export default class extends Controller {
     if (this.scrollHandler) {
       this.element.removeEventListener('scroll', this.scrollHandler)
     }
+    this.removeEventListeners()
   }
 
   setupScrollTracking() {
@@ -49,6 +51,21 @@ export default class extends Controller {
 
   scrollToBottom() {
     this.element.scrollTop = this.element.scrollHeight
+  }
+
+  setupEventListeners() {
+    this.messageSentHandler = () => {
+      this.scrollToBottom()
+      this.wasAtBottom = true
+    }
+    
+    document.addEventListener('messageSent', this.messageSentHandler)
+  }
+
+  removeEventListeners() {
+    if (this.messageSentHandler) {
+      document.removeEventListener('messageSent', this.messageSentHandler)
+    }
   }
 
   childrenChanged() {
