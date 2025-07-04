@@ -18,7 +18,7 @@ class Games::PlayControllerImpersonationTest < ActionDispatch::IntegrationTest
     assert_select ".badge-warning", text: "(DM Impersonating)"
   end
 
-  test "non-owner cannot impersonate characters" do
+  test "non-owner cannot access other user's game" do
     # Trying to access a game you don't own results in 404
     # because the set_game before_action only finds games owned by current user
     other_game = @other_user.games.create!(name: "Other Game", state: "creating")
