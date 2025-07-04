@@ -3,6 +3,7 @@ import { Controller } from "@hotwired/stimulus"
 export default class extends Controller {
   connect() {
     this.scrollToBottom()
+    this.setupScrollTracking()
     this.setupMutationObserver()
   }
 
@@ -10,12 +11,28 @@ export default class extends Controller {
     if (this.observer) {
       this.observer.disconnect()
     }
+    if (this.scrollHandler) {
+      this.element.removeEventListener('scroll', this.scrollHandler)
+    }
+  }
+
+  setupScrollTracking() {
+    this.wasAtBottom = true
+    
+    this.scrollHandler = () => {
+      this.wasAtBottom = this.isAtBottom()
+    }
+    
+    this.element.addEventListener('scroll', this.scrollHandler)
   }
 
   setupMutationObserver() {
-    this.observer = new MutationObserver(() => {
-      if (this.isAtBottom()) {
-        this.scrollToBottom()
+    this.observer = new MutationObserver((mutations) => {
+      if (this.wasAtBottom) {
+        requestAnimationFrame(() => {
+          this.scrollToBottom()
+          this.wasAtBottom = true
+        })
       }
     })
 
@@ -35,7 +52,7 @@ export default class extends Controller {
   }
 
   childrenChanged() {
-    if (this.isAtBottom()) {
+    if (this.wasAtBottom) {
       this.scrollToBottom()
     }
   }
