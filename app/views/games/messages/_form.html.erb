@@ -1,7 +1,7 @@
 <%= form_with(model: [game, message], id: "new_message_form",
               data: {
                 turbo_frame: "_top",
-                controller: "message-form player-message-form"
+                controller: "message-form"
               }) do |form| %>
   <%= form_errors(message) %>
   <% if defined?(character_id) && character_id.present? %>
@@ -11,7 +11,7 @@
   <div class="message-controls">
     <div class="form-group">
       <label for="message_target">Send to:</label>
-      <select name="message[whisper_to_dm]" id="message_target" class="form-select" data-player-message-form-target="targetSelect">
+      <select name="message[whisper_to_dm]" id="message_target" class="form-select">
         <option value="false">Room</option>
         <option value="true">Whisper to DM</option>
       </select>
