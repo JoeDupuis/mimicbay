@@ -19,7 +19,7 @@
   <div class="chat-container">
     <div class="messages-container" id="messages" data-controller="auto-scroll">
       <% @messages.each do |message| %>
-        <%= render "games/messages/message", message: message %>
+        <%= render "games/messages/message", message: message, player_character: @active_character %>
       <% end %>
     </div>
 

@@ -11,7 +11,7 @@ class Games::MessagesController < ApplicationController
 
     if @message.save
       respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.append("messages", partial: "games/messages/message", locals: { message: @message }) }
+        format.turbo_stream { head :ok }
         format.html { redirect_to game_play_path(@game, character_id: params[:character_id]) }
       end
     else
