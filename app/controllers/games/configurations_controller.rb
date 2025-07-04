@@ -1,10 +1,5 @@
 class Games::ConfigurationsController < ApplicationController
-  # Ensure LLM classes are loaded
-  require_relative "../../models/llm"
-  require_relative "../../models/llm/open_ai"
-
   before_action :set_game
-  before_action :authorize_game_owner
   before_action :ensure_game_creating
   before_action :set_or_create_session
 
@@ -14,13 +9,14 @@ class Games::ConfigurationsController < ApplicationController
 
   def create_message
     user_content = params[:content]
+    model = params[:model]
 
     @session.game_configuration_messages.create!(
       role: "user",
       content: user_content
     )
 
-    process_llm_response(user_content)
+    process_llm_response(user_content, model: model)
 
     respond_to do |format|
       format.turbo_stream
@@ -31,11 +27,7 @@ class Games::ConfigurationsController < ApplicationController
   private
 
   def set_game
-    @game = Game.find(params[:game_id])
-  end
-
-  def authorize_game_owner
-    redirect_to games_path, alert: "Not authorized" unless @game.user == Current.user
+    @game = Current.user.games.find(params[:game_id])
   end
 
   def ensure_game_creating
@@ -46,10 +38,10 @@ class Games::ConfigurationsController < ApplicationController
     @session = @game.game_configuration_session || @game.create_game_configuration_session!
   end
 
-  def process_llm_response(user_content)
+  def process_llm_response(user_content, model: nil)
     return unless @game.llm_adapter.present?
 
-    adapter = @game.llm_adapter_instance
+    adapter = @game.llm_adapter_instance(model: model)
     messages = format_messages_for_llm
     tools = GameConfiguration::Tools::Base.all_definitions
 
@@ -58,11 +50,12 @@ class Games::ConfigurationsController < ApplicationController
     assistant_message = @session.game_configuration_messages.create!(
       role: "assistant",
       content: response[:content],
-      tool_calls: response[:tool_calls]
+      tool_calls: response[:tool_calls],
+      model: model
     )
 
     if response[:tool_calls].present?
-      process_tool_calls(response[:tool_calls], assistant_message)
+      process_tool_calls(response[:tool_calls], assistant_message, model: model)
     end
   rescue => e
     @session.game_configuration_messages.create!(
@@ -99,7 +92,7 @@ class Games::ConfigurationsController < ApplicationController
     messages
   end
 
-  def process_tool_calls(tool_calls, assistant_message)
+  def process_tool_calls(tool_calls, assistant_message, model: nil)
     tool_calls.each do |tool_call|
       tool_class = GameConfiguration::Tools::Base.find_by_name(tool_call["name"])
 
@@ -127,11 +120,11 @@ class Games::ConfigurationsController < ApplicationController
       end
     end
 
-    continue_conversation_after_tools
+    continue_conversation_after_tools(model: model)
   end
 
-  def continue_conversation_after_tools
-    adapter = @game.llm_adapter_instance
+  def continue_conversation_after_tools(model: nil)
+    adapter = @game.llm_adapter_instance(model: model)
     messages = format_messages_for_llm
     tools = GameConfiguration::Tools::Base.all_definitions
 
@@ -140,11 +133,12 @@ class Games::ConfigurationsController < ApplicationController
     @session.game_configuration_messages.create!(
       role: "assistant",
       content: response[:content],
-      tool_calls: response[:tool_calls]
+      tool_calls: response[:tool_calls],
+      model: model
     )
 
     if response[:tool_calls].present?
-      process_tool_calls(response[:tool_calls], nil)
+      process_tool_calls(response[:tool_calls], nil, model: model)
     end
   end
 end

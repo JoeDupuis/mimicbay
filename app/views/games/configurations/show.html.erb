@@ -3,7 +3,7 @@
 
   <div class="configuration-info">
     <% if @game.llm_adapter.present? %>
-      <p>Using <%= @game.llm_adapter.split("::").last %> (<%= @game.llm_model %>)</p>
+      <p>Using <%= @game.llm_adapter.split("::").last %></p>
     <% else %>
       <p class="warning">No LLM adapter configured. <%= link_to "Edit game settings", edit_game_path(@game) %></p>
     <% end %>
@@ -23,6 +23,21 @@
             class: "form-control",
             rows: 3,
             required: true %>
+      </div>
+      <div class="form-group model-selector">
+        <%= form.label :model, "Model:", class: "model-label" %>
+        <% model_options = [
+          ['GPT-4.1', 'gpt-4.1'],
+          ['GPT-4o', 'gpt-4o'],
+          ['GPT-4o Mini', 'gpt-4o-mini'],
+          ['GPT-4 Turbo', 'gpt-4-turbo'],
+          ['GPT-4', 'gpt-4'],
+          ['GPT-3.5 Turbo', 'gpt-3.5-turbo']
+        ] %>
+        <%= form.select :model,
+            options_for_select(model_options, 'gpt-4.1'),
+            {},
+            { class: "model-select" } %>
       </div>
       <div class="form-actions">
         <%= form.submit "Send", class: "btn btn-primary" %>
@@ -73,5 +88,22 @@
     display: flex;
     gap: 10px;
     justify-content: space-between;
+  }
+
+  .model-selector {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .model-label {
+    margin: 0;
+    font-weight: bold;
+  }
+
+  .model-select {
+    flex: 1;
+    max-width: 200px;
   }
 </style>

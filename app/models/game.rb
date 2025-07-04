@@ -11,7 +11,7 @@ class Game < ApplicationRecord
 
   enum :state, { creating: 0, playing: 1 }, default: :creating
 
-  def llm_adapter_instance
+  def llm_adapter_instance(model: nil)
     return nil unless llm_adapter.present?
 
     # Reference the module to trigger autoloading
@@ -21,7 +21,7 @@ class Game < ApplicationRecord
     # Use open_ai as the credential key
     key_name = :open_ai
     api_key = Rails.application.credentials.dig(:llm, key_name)
-    adapter_class.new(api_key: api_key, model: llm_model)
+    adapter_class.new(api_key: api_key, model: model)
   end
 
   private

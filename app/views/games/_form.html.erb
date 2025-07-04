@@ -16,24 +16,6 @@
         { class: "llm-adapter-select", data: { game_id: game.persisted? ? game.id : "new" } } %>
   </div>
 
-  <div class="field" id="llm-model-field" style="<%= game.llm_adapter.present? ? '' : 'display: none;' %>">
-    <%= form.label :llm_model, "AI Model" %>
-    <% model_options = [] %>
-    <% if game.llm_adapter == "LLM::OpenAi" %>
-      <% model_options = [
-        ['GPT-4.1', 'gpt-4.1'],
-        ['GPT-4o', 'gpt-4o'],
-        ['GPT-4o Mini', 'gpt-4o-mini'],
-        ['GPT-4 Turbo', 'gpt-4-turbo'],
-        ['GPT-4', 'gpt-4'],
-        ['GPT-3.5 Turbo', 'gpt-3.5-turbo']
-      ] %>
-    <% end %>
-    <%= form.select :llm_model,
-        options_for_select(model_options, game.llm_model || "gpt-4.1"),
-        {},
-        { class: "llm-model-select" } %>
-  </div>
 
   <div class="actions">
     <%= form.submit %>
@@ -43,47 +25,6 @@
   </div>
 <% end %>
 
-<script>
-document.addEventListener('turbo:load', () => {
-  const adapterSelect = document.querySelector('.llm-adapter-select');
-  const modelField = document.getElementById('llm-model-field');
-  const modelSelect = document.querySelector('.llm-model-select');
-
-  if (adapterSelect) {
-    adapterSelect.addEventListener('change', async (e) => {
-      const adapterClass = e.target.value;
-
-      if (adapterClass) {
-        modelField.style.display = '';
-
-        // Dynamically populate models based on adapter
-        // For now, we'll use a simple mapping
-        const models = {
-          'LLM::OpenAi': [
-            ['GPT-4.1', 'gpt-4.1'],
-            ['GPT-4o', 'gpt-4o'],
-            ['GPT-4o Mini', 'gpt-4o-mini'],
-            ['GPT-4 Turbo', 'gpt-4-turbo'],
-            ['GPT-4', 'gpt-4'],
-            ['GPT-3.5 Turbo', 'gpt-3.5-turbo']
-          ]
-        };
-
-        modelSelect.innerHTML = '';
-        const adapterModels = models[adapterClass] || [];
-        adapterModels.forEach(([name, value], index) => {
-          const option = new Option(name, value);
-          if (index === 0) option.selected = true; // Select first option (gpt-4o)
-          modelSelect.add(option);
-        });
-      } else {
-        modelField.style.display = 'none';
-        modelSelect.innerHTML = '';
-      }
-    });
-  }
-});
-</script>
 
 <style>
   .field {

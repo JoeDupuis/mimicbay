@@ -1,6 +1,9 @@
 <div class="configuration-message <%= message.role %>-message" id="<%= dom_id(message) %>">
   <div class="message-header">
     <strong><%= message.role.capitalize %></strong>
+    <% if message.role == "assistant" && message.model.present? %>
+      <span class="model-info"><%= message.model %></span>
+    <% end %>
     <span class="timestamp"><%= message.created_at.strftime("%I:%M %p") %></span>
   </div>
 
