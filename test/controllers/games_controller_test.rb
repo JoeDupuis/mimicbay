@@ -2,8 +2,8 @@ require "test_helper"
 
 class GamesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = users(:one)
-    @game = games(:one)
+    @user = users(:game_master)
+    @game = games(:game_without_characters)
     sign_in_as(@user)
   end
 
@@ -70,7 +70,7 @@ class GamesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should not show other user's game" do
-    other_game = games(:two)
+    other_game = games(:other_users_game)
     get game_url(other_game)
     assert_response :not_found
   end
