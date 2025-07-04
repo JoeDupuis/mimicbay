@@ -8,48 +8,15 @@
       </button>
     </div>
     
-    <div class="dm-controls">
-      <div class="dm-targeting">
-        <div class="form-group mb-2">
-          <label>Send to:</label>
-          <select name="message[target_type]" class="form-select" data-dm-message-form-target="targetSelect" data-action="change->dm-message-form#toggleTargetSelect">
-            <option value="area">Area</option>
-            <option value="character">Specific Character</option>
-            <option value="all">All Characters</option>
-          </select>
-        </div>
-
-        <div class="form-group mb-2" data-dm-message-form-target="areaSelect">
-          <select name="message[area_id]" class="form-select">
-            <option value="">Select an area</option>
-            <% @areas.each do |area| %>
-              <option value="<%= area.id %>"><%= area.name %></option>
-            <% end %>
-          </select>
-        </div>
-
-        <div class="form-group mb-2 hidden" data-dm-message-form-target="characterSelect">
-          <select name="message[target_character_id]" class="form-select">
-            <option value="">Select a character</option>
-            <% @characters.each do |character| %>
-              <option value="<%= character.id %>">
-                <%= character.name %><%= character.area ? " (#{character.area.name})" : " (No area)" %>
-              </option>
-            <% end %>
-          </select>
-        </div>
-      </div>
-
-      <div class="message-filter">
-        <label>Filter Messages:</label>
-        <select class="form-select" data-action="change->message-filter#filter">
-          <option value="all">All Messages</option>
-          <option value="private">Private Messages (No Area)</option>
-          <% @areas.each do |area| %>
-            <option value="area-<%= area.id %>"><%= area.name %></option>
-          <% end %>
-        </select>
-      </div>
+    <div class="message-filter">
+      <label>Filter Messages:</label>
+      <select class="form-select" data-action="change->message-filter#filter">
+        <option value="all">All Messages</option>
+        <option value="private">Private Messages (No Area)</option>
+        <% @areas.each do |area| %>
+          <option value="area-<%= area.id %>"><%= area.name %></option>
+        <% end %>
+      </select>
     </div>
   </header>
 

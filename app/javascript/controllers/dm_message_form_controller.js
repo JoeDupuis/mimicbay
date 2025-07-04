@@ -1,11 +1,10 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["targetSelect", "areaSelect", "characterSelect", "form", "impersonationSection", "toggleText"]
+  static targets = ["targetSelect", "areaSelect", "characterSelect", "impersonationSection", "toggleText"]
 
   connect() {
     this.toggleTargetSelect()
-    this.setupFormInterception()
   }
 
   toggleTargetSelect() {
@@ -30,27 +29,6 @@ export default class extends Controller {
     const select = selectElement.querySelector('select')
     if (select) {
       select.value = ''
-    }
-  }
-
-  setupFormInterception() {
-    if (this.hasFormTarget) {
-      const form = this.formTarget
-      form.addEventListener('submit', (e) => {
-        // Add the target selection values to the form
-        const targetType = this.targetSelectTarget.value
-        const formData = new FormData(form)
-        
-        formData.append('message[target_type]', targetType)
-        
-        if (targetType === 'area') {
-          const areaId = this.areaSelectTarget.querySelector('select').value
-          if (areaId) formData.append('message[area_id]', areaId)
-        } else if (targetType === 'character') {
-          const characterId = this.characterSelectTarget.querySelector('select').value
-          if (characterId) formData.append('message[target_character_id]', characterId)
-        }
-      })
     }
   }
 
