@@ -6,7 +6,20 @@ class Games::DmMessagesController < ApplicationController
     # DM messages have no character (they're from the system/DM)
     @message.character = nil
     @message.message_type = params[:message][:message_type] || "system"
-    @message.target_character_id = params[:message][:target_character_id]
+
+    # Handle different target types
+    target_type = params[:message][:target_type]
+    case target_type
+    when "character"
+      @message.target_character_id = params[:message][:target_character_id]
+      @message.area_id = nil
+    when "all"
+      @message.target_character_id = nil
+      @message.area_id = nil
+    when "area"
+      # area_id is already set from dm_message_params
+      @message.target_character_id = nil
+    end
 
     if @message.save
       respond_to do |format|
