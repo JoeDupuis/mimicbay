@@ -1,13 +1,13 @@
-<%= form_with model: [@game, message], url: game_dm_messages_path(@game), 
+<%= form_with model: [@game, message], url: game_dm_messages_path(@game),
               local: false, id: "new_dm_message_form",
-              data: { controller: "message-form" } do |f| %>
+              data: { controller: "message-form", action: "submit->message-form#scrollMessagesToBottom" } do |f| %>
   <%= form_errors(message) %>
-  
+
   <div class="input-group">
-    <%= f.text_field :content, 
-                     class: "form-control", 
+    <%= f.text_field :content,
+                     class: "form-control",
                      placeholder: "Type your message...",
-                     data: { action: "keydown.enter->message-form#submit" } %>
+                     data: { action: "keydown.enter->message-form#submitOnEnter" } %>
     <%= f.submit "Send", class: "btn btn-primary" %>
   </div>
 <% end %>

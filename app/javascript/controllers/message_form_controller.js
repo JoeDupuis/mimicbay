@@ -7,7 +7,15 @@ export default class extends Controller {
       const form = this.element.closest('form')
       if (form) {
         form.requestSubmit()
+        this.scrollMessagesToBottom()
       }
+    }
+  }
+
+  scrollMessagesToBottom() {
+    const messagesContainer = document.querySelector('[data-controller="auto-scroll"]')
+    if (messagesContainer) {
+      messagesContainer.scrollTop = messagesContainer.scrollHeight
     }
   }
 }
