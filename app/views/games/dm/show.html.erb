@@ -11,8 +11,8 @@
       <div class="character-links">
         <% @characters.each do |character| %>
           <div class="character-link-item mb-2">
-            <%= link_to game_play_path(@game, character_id: character.id), 
-                        target: "_blank", 
+            <%= link_to game_play_path(@game, character_id: character.id),
+                        target: "_blank",
                         class: "btn btn-sm #{character.is_player? ? 'btn-primary' : 'btn-secondary'}" do %>
               Open as <%= character.name %>
               <% if character.is_player? %>

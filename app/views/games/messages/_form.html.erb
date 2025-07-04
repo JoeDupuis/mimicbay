@@ -1,6 +1,6 @@
-<%= form_with(model: [game, message], id: "new_message_form", 
-              data: { 
-                turbo_frame: "_top", 
+<%= form_with(model: [game, message], id: "new_message_form",
+              data: {
+                turbo_frame: "_top",
                 controller: "message-form"
               }) do |form| %>
   <%= form_errors(message) %>
@@ -14,9 +14,9 @@
         rows: 2,
         class: "message-input",
         autocomplete: "off",
-        data: { 
+        data: {
           message_form_target: "input",
-          action: "keydown.enter->message-form#submitOnEnter" 
+          action: "keydown.enter->message-form#submitOnEnter"
         } %>
     <%= form.submit "Send", class: "btn btn-primary" %>
   </div>

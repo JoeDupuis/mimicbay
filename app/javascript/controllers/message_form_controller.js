@@ -15,6 +15,7 @@ export default class extends Controller {
     if (event.key === "Enter" && !event.shiftKey) {
       event.preventDefault()
       this.element.requestSubmit()
+      this.dispatch("messageSent")
     }
   }
 
@@ -23,5 +24,12 @@ export default class extends Controller {
       this.inputTarget.value = ""
       this.inputTarget.focus()
     }
+  }
+
+  dispatch(eventName, detail = {}) {
+    this.element.dispatchEvent(new CustomEvent(eventName, { 
+      detail, 
+      bubbles: true 
+    }))
   }
 }
