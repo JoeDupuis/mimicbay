@@ -25,7 +25,7 @@ class Games::PlayControllerImpersonationTest < ActionDispatch::IntegrationTest
     other_player = other_game.characters.create!(name: "Other Player", is_player: true)
     other_npc = other_game.characters.create!(name: "Other NPC", is_player: false)
     other_game.update!(state: "playing")
-    
+
     # Sign in as first user and try to access other user's game
     get game_play_path(other_game, character_id: other_npc.id)
     assert_response :not_found
@@ -45,7 +45,7 @@ class Games::PlayControllerImpersonationTest < ActionDispatch::IntegrationTest
         character_id: @npc_character.id
       }
     end
-    
+
     message = Message.last
     assert_equal @npc_character, message.character
     assert_equal "Hello from NPC", message.content
@@ -54,7 +54,7 @@ class Games::PlayControllerImpersonationTest < ActionDispatch::IntegrationTest
   test "DM view shows links to impersonate all characters" do
     get game_dm_path(@game)
     assert_response :success
-    
+
     @game.characters.each do |character|
       assert_select "a[href='#{game_play_path(@game, character_id: character.id)}']", text: /Open as #{character.name}/
     end
