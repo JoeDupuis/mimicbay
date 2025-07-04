@@ -1,4 +1,4 @@
-<%= form_with model: [@game, message], url: game_dm_messages_path(@game), 
+<%= form_with model: [@game, message], url: game_dm_messages_path(@game),
               local: false, id: "new_dm_message_form",
               data: { controller: "message-form", dm_message_form_target: "form" } do |f| %>
   <%= form_errors(message) %>
