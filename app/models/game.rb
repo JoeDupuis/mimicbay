@@ -21,7 +21,7 @@ class Game < ApplicationRecord
     # Use open_ai as the credential key
     key_name = :open_ai
     api_key = Rails.application.credentials.dig(:llm, key_name)
-    adapter_class.new(api_key: api_key, model: model)
+    adapter_class.new(api_key: api_key, model: model, user_id: user_id)
   end
 
   private

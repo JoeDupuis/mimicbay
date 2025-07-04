@@ -26,8 +26,12 @@ module LLM
 
       parameters = {
         model: model,
-        input: formatted_messages
+        input: formatted_messages,
+        store: false
       }
+
+      # Add user ID if available
+      parameters[:user] = user_id.to_s if user_id
 
       # Skip tools for now to get basic functionality working
 
