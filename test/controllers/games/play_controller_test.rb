@@ -8,8 +8,14 @@ class Games::PlayControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get show" do
+    @game.characters.create!(name: "Player", is_player: true)
     get game_play_url(@game)
     assert_response :success
+  end
+
+  test "should redirect if no player character" do
+    get game_play_url(@game)
+    assert_redirected_to @game
   end
 
   test "should require authentication" do

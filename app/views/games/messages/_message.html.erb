@@ -1,0 +1,30 @@
+<%
+  css_class = if local_assigns[:is_dm_view]
+    # In DM view: DM messages (no character) appear on right, all others on left
+    message.character.nil? ? 'own-message' : 'other-message'
+  else
+    # In player view: player's own messages on right, all others on left
+    message.character.present? && message.character == @player_character ? 'own-message' : 'other-message'
+  end
+%>
+<div class="message <%= css_class %>"
+     id="<%= dom_id(message) %>"
+     data-area-id="<%= message.area_id || '' %>"
+     data-message-filter-target="message">
+  <div class="message-header">
+    <strong class="character-name"><%= message.character&.name || "Game Master" %></strong>
+    <span class="message-time"><%= message.created_at.strftime("%H:%M") %></span>
+  </div>
+  <div class="message-content">
+    <%= message.content %>
+  </div>
+  <div class="message-location">
+    <small>
+      <% if message.area %>
+        <%= message.area.name %>
+      <% else %>
+        Private (DM Channel)
+      <% end %>
+    </small>
+  </div>
+</div>

@@ -1,11 +1,30 @@
 <div class="game-play">
-  <h1><%= @game.name %></h1>
+  <header class="game-header">
+    <h1><%= @game.name %></h1>
+    <div class="game-info">
+      <span class="player-info">Playing as: <strong><%= @player_character.name %></strong></span>
+      <% if @player_character.area %>
+        <span class="location-info">Location: <strong><%= @player_character.area.name %></strong></span>
+      <% end %>
+    </div>
+  </header>
 
-  <div class="game-area">
-    <p>Game is in progress...</p>
+  <%= turbo_stream_from "game_#{@game.id}_character_#{@player_character.id}_messages" %>
+
+  <div class="chat-container">
+    <div class="messages-container" id="messages" data-controller="auto-scroll">
+      <% @messages.each do |message| %>
+        <%= render "games/messages/message", message: message %>
+      <% end %>
+    </div>
+
+    <div class="message-form-container">
+      <%= render "games/messages/form", game: @game, message: @message %>
+    </div>
   </div>
 
-  <p>
-    <%= link_to "Back to Games", games_path %>
-  </p>
+  <footer class="game-footer">
+    <%= link_to "Game Control", game_dm_path(@game), class: "btn btn-warning" %>
+    <%= link_to "Back to Games", games_path, class: "btn btn-secondary" %>
+  </footer>
 </div>

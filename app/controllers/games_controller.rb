@@ -6,7 +6,9 @@ class GamesController < ApplicationController
   end
 
   def show
-    redirect_to game_play_path(@game) if @game.playing?
+    if @game.playing?
+      redirect_to game_play_path(@game)
+    end
   end
 
   def new

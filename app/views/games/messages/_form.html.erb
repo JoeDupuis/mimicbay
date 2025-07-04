@@ -1,0 +1,13 @@
+<%= form_with(model: [game, message], id: "new_message_form", data: { turbo_frame: "_top" }) do |form| %>
+  <%= form_errors(message) %>
+
+  <div class="message-input-container">
+    <%= form.text_area :content,
+        placeholder: "What do you want to say or do?",
+        rows: 2,
+        class: "message-input",
+        autocomplete: "off",
+        data: { controller: "message-form", action: "keydown.enter->message-form#submitOnEnter" } %>
+    <%= form.submit "Send", class: "btn btn-primary" %>
+  </div>
+<% end %>
