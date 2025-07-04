@@ -34,10 +34,12 @@ if Rails.env.development?
   end
 
   # Create characters for game1
-  Character.find_or_create_by!(name: "Sir Galahad", game: game1) do |char|
+  sir_galahad = Character.find_or_create_by!(name: "Sir Galahad", game: game1) do |char|
     char.description = "A noble knight in shining armor"
     char.properties = { "class": "Knight", "level": 10, "stats": { "strength": 18, "wisdom": 12 } }
+    char.is_player = true
   end
+  sir_galahad.update!(is_player: true) if sir_galahad.persisted?
 
   Character.find_or_create_by!(name: "Elara the Wise", game: game1) do |char|
     char.description = "An ancient elf wizard with centuries of knowledge"
