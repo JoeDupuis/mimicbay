@@ -1,9 +1,16 @@
 # Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  name: MyString
+  name: Test Game One
   user: one
+  state: playing
 
 two:
-  name: MyString
+  name: Test Game Two
   user: two
+  state: playing
+
+three:
+  name: Test Game Three
+  user: one
+  state: creating

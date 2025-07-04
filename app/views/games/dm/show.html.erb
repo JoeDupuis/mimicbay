@@ -5,6 +5,28 @@
       This is a debug interface for controlling the game. In the future, an AI agent will handle these DM functions.
     </p>
 
+    <div class="character-impersonation mb-3">
+      <h3>Character Views</h3>
+      <p class="text-muted">Open character views in new windows to act as them:</p>
+      <div class="character-links">
+        <% @characters.each do |character| %>
+          <div class="character-link-item mb-2">
+            <%= link_to game_play_path(@game, character_id: character.id), 
+                        target: "_blank", 
+                        class: "btn btn-sm #{character.is_player? ? 'btn-primary' : 'btn-secondary'}" do %>
+              Open as <%= character.name %>
+              <% if character.is_player? %>
+                <span class="badge badge-light">Player</span>
+              <% end %>
+              <% if character.area %>
+                <small class="text-muted">(<%= character.area.name %>)</small>
+              <% end %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
     <div class="message-filter mb-3">
       <label>Filter Messages:</label>
       <select class="form-select" data-action="change->message-filter#filter">

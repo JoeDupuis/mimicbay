@@ -2,14 +2,19 @@
   <header class="game-header">
     <h1><%= @game.name %></h1>
     <div class="game-info">
-      <span class="player-info">Playing as: <strong><%= @player_character.name %></strong></span>
-      <% if @player_character.area %>
-        <span class="location-info">Location: <strong><%= @player_character.area.name %></strong></span>
+      <span class="player-info">
+        Playing as: <strong><%= @active_character.name %></strong>
+        <% if @is_impersonating %>
+          <span class="badge badge-warning">(DM Impersonating)</span>
+        <% end %>
+      </span>
+      <% if @active_character.area %>
+        <span class="location-info">Location: <strong><%= @active_character.area.name %></strong></span>
       <% end %>
     </div>
   </header>
 
-  <%= turbo_stream_from "game_#{@game.id}_character_#{@player_character.id}_messages" %>
+  <%= turbo_stream_from "game_#{@game.id}_character_#{@active_character.id}_messages" %>
 
   <div class="chat-container">
     <div class="messages-container" id="messages" data-controller="auto-scroll">
@@ -19,7 +24,7 @@
     </div>
 
     <div class="message-form-container">
-      <%= render "games/messages/form", game: @game, message: @message %>
+      <%= render "games/messages/form", game: @game, message: @message, character_id: params[:character_id] %>
     </div>
   </div>
 

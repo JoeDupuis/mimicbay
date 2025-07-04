@@ -1,5 +1,8 @@
 <%= form_with(model: [game, message], id: "new_message_form", data: { turbo_frame: "_top" }) do |form| %>
   <%= form_errors(message) %>
+  <% if defined?(character_id) && character_id.present? %>
+    <%= hidden_field_tag :character_id, character_id %>
+  <% end %>
 
   <div class="message-input-container">
     <%= form.text_area :content,

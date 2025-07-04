@@ -14,8 +14,9 @@ class Games::PlayControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should redirect if no player character" do
-    get game_play_url(@game)
-    assert_redirected_to @game
+    game_without_player = games(:three)
+    get game_play_url(game_without_player)
+    assert_redirected_to game_without_player
   end
 
   test "should require authentication" do

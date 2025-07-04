@@ -2,12 +2,21 @@
 
 one:
   game: one
-  name: MyString
-  description: MyText
+  name: Player Character
+  description: The main player
+  is_player: true
   properties:
 
 two:
+  game: one
+  name: NPC Character
+  description: A non-player character
+  is_player: false
+  properties:
+
+three:
   game: two
-  name: MyString
-  description: MyText
+  name: Other Player
+  description: Player in game two
+  is_player: true
   properties:
