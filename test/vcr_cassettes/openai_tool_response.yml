@@ -1,0 +1,160 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-4o-mini","input":[{"role":"user","content":"Create an
+        area called ''Dark Forest''"},{"role":"assistant","content":""},{"type":"function_call","call_id":"call_123","name":"create_area","arguments":"{\"name\":\"Dark
+        Forest\",\"description\":\"A mysterious forest\"}"},{"type":"function_call_output","call_id":"call_123","output":"{\"success\":
+        true, \"area_id\": 1, \"name\": \"Dark Forest\", \"message\": \"Created area
+        ''Dark Forest''\"}"}],"store":false}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Host:
+      - api.openai.com
+      X-Stainless-Arch:
+      - arm64
+      X-Stainless-Lang:
+      - ruby
+      X-Stainless-Os:
+      - MacOS
+      X-Stainless-Package-Version:
+      - 0.11.0
+      X-Stainless-Runtime:
+      - ruby
+      X-Stainless-Runtime-Version:
+      - 3.4.4
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      X-Stainless-Retry-Count:
+      - '0'
+      X-Stainless-Timeout:
+      - '600.0'
+      Content-Length:
+      - '465'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 05 Jul 2025 19:46:30 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Ratelimit-Limit-Requests:
+      - '5000'
+      X-Ratelimit-Limit-Tokens:
+      - '4000000'
+      X-Ratelimit-Remaining-Requests:
+      - '4999'
+      X-Ratelimit-Remaining-Tokens:
+      - '3999904'
+      X-Ratelimit-Reset-Requests:
+      - 12ms
+      X-Ratelimit-Reset-Tokens:
+      - 1ms
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - personal-obyvyy
+      X-Request-Id:
+      - req_09f6930f8c35e27510436c3d630ea5b2
+      Openai-Processing-Ms:
+      - '1178'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=7qfreKUfpul9uFmpIDR5wrdIeD.K9JgX_1w7pMIyns0-1751744790-1.0.1.1-KT8ub7d85GvbKJSZqDIhQHh9HzXUmOC5WiGUb0RoY36jjWRYXL3Pma5rU4e2LxCFqe6KqSZ_Kqn_z7I4lNMjuqp5f_zBZHQtgUr6n7z.cac;
+        path=/; expires=Sat, 05-Jul-25 20:16:30 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=tCQ2AuugYbnOqS9ZU_0WwCxdhpYl2StAdL6imUv4FVA-1751744790558-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 95a95e64e9a6051c-YVR
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+          "id": "resp_68698115568081918fa5c63b500285e209b104670459d443",
+          "object": "response",
+          "created_at": 1751744789,
+          "status": "completed",
+          "background": false,
+          "error": null,
+          "incomplete_details": null,
+          "instructions": null,
+          "max_output_tokens": null,
+          "max_tool_calls": null,
+          "model": "gpt-4o-mini-2024-07-18",
+          "output": [
+            {
+              "id": "msg_6869811591108191844d83e7e7fad74f09b104670459d443",
+              "type": "message",
+              "status": "completed",
+              "content": [
+                {
+                  "type": "output_text",
+                  "annotations": [],
+                  "logprobs": [],
+                  "text": "The area called **Dark Forest** has been successfully created! \n\n### Dark Forest\n- **Description:** A mysterious forest shrouded in shadows and whispers. Towering trees block the sunlight, and a thick fog blankets the ground. Strange sounds echo through the air, and luminescent fungi adorn the damp terrain. Adventure awaits, but tread carefully\u2014many secrets lie hidden within these woods.\n\nIf you need more details or specific features for this area, let me know!"
+                }
+              ],
+              "role": "assistant"
+            }
+          ],
+          "parallel_tool_calls": true,
+          "previous_response_id": null,
+          "reasoning": {
+            "effort": null,
+            "summary": null
+          },
+          "service_tier": "default",
+          "store": false,
+          "temperature": 1.0,
+          "text": {
+            "format": {
+              "type": "text"
+            }
+          },
+          "tool_choice": "auto",
+          "tools": [],
+          "top_logprobs": 0,
+          "top_p": 1.0,
+          "truncation": "disabled",
+          "usage": {
+            "input_tokens": 76,
+            "input_tokens_details": {
+              "cached_tokens": 0
+            },
+            "output_tokens": 96,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 172
+          },
+          "user": null,
+          "metadata": {}
+        }
+  recorded_at: Sat, 05 Jul 2025 19:46:30 GMT
+recorded_with: VCR 6.3.1

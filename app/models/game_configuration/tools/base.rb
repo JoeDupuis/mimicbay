@@ -3,17 +3,6 @@ module GameConfiguration
     class Base
       attr_reader :game
 
-      TOOL_CLASSES = [
-        CreateArea,
-        CreateCharacter,
-        DeleteArea,
-        DeleteCharacter,
-        ListAreas,
-        ListCharacters,
-        UpdateArea,
-        UpdateCharacter
-      ].freeze
-
       def initialize(game)
         @game = game
       end
@@ -26,14 +15,27 @@ module GameConfiguration
         raise NotImplementedError, "Subclasses must implement #definition"
       end
 
+      def self.tool_classes
+        @tool_classes ||= [
+          CreateArea,
+          CreateCharacter,
+          DeleteArea,
+          DeleteCharacter,
+          ListAreas,
+          ListCharacters,
+          UpdateArea,
+          UpdateCharacter
+        ].freeze
+      end
+
       def self.all_definitions
-        TOOL_CLASSES.map do |tool_class|
+        tool_classes.map do |tool_class|
           tool_class.new(nil).definition
         end
       end
 
       def self.find_by_name(name)
-        TOOL_CLASSES.find { |tool| tool.new(nil).definition["name"] == name }
+        tool_classes.find { |tool| tool.new(nil).definition["name"] == name }
       end
     end
   end
