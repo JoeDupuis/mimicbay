@@ -114,10 +114,15 @@ class ProcessLLMResponseJobTest < ActiveJob::TestCase
     assert message.content.include?("API Error: Connection failed")
   end
 
-  test "returns early if adapter not found" do
-    assert_no_difference -> { @session.game_configuration_messages.count } do
+  test "handles unknown model error" do
+    assert_difference -> { @session.game_configuration_messages.count }, 1 do
       ProcessLLMResponseJob.perform_now(@session.id, "unknown-model")
     end
+    
+    message = @session.game_configuration_messages.last
+    assert_equal "assistant", message.role
+    assert message.content.include?("I encountered an error")
+    assert message.content.include?("Unknown model: unknown-model")
   end
 
   test "includes existing messages in conversation context" do

@@ -5,7 +5,7 @@ class ProcessLLMResponseJob < ApplicationJob
     session = GameConfigurationSession.find(session_id)
 
     adapter_class = LLM.adapter_for_model(model)
-    return unless adapter_class
+    raise ArgumentError, "Unknown model: #{model}" unless adapter_class
 
     adapter = adapter_class.new(model: model, user_id: session.game.user_id)
     tools = GameConfiguration::Tools::Base.all_definitions
