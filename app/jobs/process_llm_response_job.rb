@@ -1,4 +1,4 @@
-class ProcessLlmResponseJob < ApplicationJob
+class ProcessLLMResponseJob < ApplicationJob
   queue_as :default
 
   def perform(session_id, model)
@@ -60,6 +60,6 @@ class ProcessLlmResponseJob < ApplicationJob
     end
 
     # Continue the conversation after processing tool calls
-    ProcessLlmResponseJob.perform_later(session.id, model)
+    ProcessLLMResponseJob.perform_later(session.id, model)
   end
 end
