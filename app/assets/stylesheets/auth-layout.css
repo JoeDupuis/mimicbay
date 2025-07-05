@@ -3,18 +3,18 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--primary-color);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   padding: 1rem;
 }
 
 .auth-layout > .card {
   width: 100%;
   max-width: 400px;
-  background-color: #fff;
-  border: 1px solid #dee2e6;
-  border-radius: 0.5rem;
-  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-  padding: 2rem;
+  background-color: var(--bg-primary);
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  padding: 3rem 2rem;
 }
 
 .auth-layout > .card > .logo-container {
@@ -28,18 +28,19 @@
 }
 
 .auth-layout > .card > .title {
-  font-size: 1.75rem;
-  font-weight: 500;
+  font-size: 2rem;
+  font-weight: 700;
   text-align: center;
-  margin-bottom: 1.5rem;
-  color: #212529;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
 }
 
 .auth-layout > .card > .subtitle {
   font-size: 1rem;
   text-align: center;
-  color: #6c757d;
-  margin-bottom: 1.5rem;
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+  line-height: 1.6;
 }
 
 .auth-form {
