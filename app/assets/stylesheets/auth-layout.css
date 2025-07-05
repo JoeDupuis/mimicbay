@@ -23,8 +23,9 @@
 }
 
 .auth-layout > .card > .logo-container > .logo {
-  width: 80px;
-  height: 80px;
+  width: 200px;
+  height: auto;
+  max-height: 120px;
 }
 
 .auth-layout > .card > .title {
