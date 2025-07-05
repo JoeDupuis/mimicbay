@@ -3,7 +3,16 @@ class Game < ApplicationRecord
   has_many :areas, dependent: :destroy
   has_many :characters, dependent: :destroy
   has_many :messages, dependent: :destroy
-  has_one :game_configuration_session, dependent: :destroy
+  has_one :game_configuration_session, dependent: :destroy do
+    def find_or_create_with_system_message!
+      find_or_create_by!(game: proxy_association.owner) do |session|
+        session.game_configuration_messages.create!(
+          role: :system,
+          content: "You are a helpful game configuration assistant. Help the user create areas and characters for their tabletop RPG game. Use the provided tools to create, update, list, and delete game entities based on the user's descriptions."
+        )
+      end
+    end
+  end
 
   validates :name, presence: true
   validate :requires_player_character_to_play

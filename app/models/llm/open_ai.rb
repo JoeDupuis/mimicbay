@@ -26,7 +26,8 @@ module LLM
 
       # Format messages for the responses API
       # The responses API expects an array of message objects
-      formatted_messages = format_messages(messages)
+      # Handle both ActiveRecord models and hash format
+      formatted_messages = messages.first.respond_to?(:role) ? format_message_models(messages) : format_messages(messages)
 
       parameters = {
         model: model,
@@ -48,6 +49,25 @@ module LLM
     end
 
     private
+
+    def format_message_models(message_models)
+      message_models.map do |msg|
+        if msg.tool?
+          {
+            role: "tool",
+            tool_call_id: msg.tool_results["tool_use_id"],
+            content: msg.content
+          }
+        else
+          formatted = {
+            role: msg.role,
+            content: msg.content
+          }
+          formatted[:tool_calls] = msg.tool_calls if msg.tool_calls.present?
+          formatted
+        end
+      end
+    end
 
     def format_messages(messages)
       messages.map do |message|

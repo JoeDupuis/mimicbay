@@ -13,7 +13,6 @@ class GameConfigurationSession < ApplicationRecord
     return unless adapter_class
 
     adapter = adapter_class.new(model: model, user_id: game.user_id)
-    messages = format_messages_for_llm
     tools = GameConfiguration::Tools::Base.all_definitions
 
     response = adapter.chat(messages, tools: tools)
@@ -36,34 +35,6 @@ class GameConfigurationSession < ApplicationRecord
   end
 
   private
-
-  def format_messages_for_llm
-    system_message = {
-      role: "system",
-      content: "You are a helpful game configuration assistant. Help the user create areas and characters for their tabletop RPG game. Use the provided tools to create, update, list, and delete game entities based on the user's descriptions."
-    }
-
-    messages = [ system_message ]
-
-    self.messages.each do |msg|
-      if msg.tool?
-        messages << {
-          role: "tool",
-          content: msg.content,
-          tool_use_id: msg.tool_results["tool_use_id"]
-        }
-      else
-        formatted_msg = {
-          role: msg.role,
-          content: msg.content
-        }
-        formatted_msg[:tool_calls] = msg.tool_calls if msg.tool_calls.present?
-        messages << formatted_msg
-      end
-    end
-
-    messages
-  end
 
   def process_tool_calls(tool_calls, assistant_message, model: nil)
     tool_calls.each do |tool_call|
@@ -101,7 +72,6 @@ class GameConfigurationSession < ApplicationRecord
     raise "Unknown model: #{model}" unless adapter_class
 
     adapter = adapter_class.new(model: model, user_id: game.user_id)
-    messages = format_messages_for_llm
     tools = GameConfiguration::Tools::Base.all_definitions
 
     response = adapter.chat(messages, tools: tools)
