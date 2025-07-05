@@ -24,15 +24,8 @@ class LLM::OpenAi < LLM
     parameters[:user] = user_id.to_s if user_id
 
     # Add tools if provided
-    if tools.present?
-      Rails.logger.info "Tools are present: #{tools.length} tools"
-      parameters[:tools] = format_tools_for_api(tools)
-    else
-      Rails.logger.info "No tools provided"
-    end
+    parameters[:tools] = format_tools_for_api(tools) if tools.present?
 
-    Rails.logger.info "Final parameters: #{parameters.inspect}"
-    
     response = client.responses.create(**parameters)
     parse_response(response)
   rescue => e
@@ -114,19 +107,14 @@ class LLM::OpenAi < LLM
   end
 
   def format_tools_for_api(tools)
-    Rails.logger.info "Input tools: #{tools.inspect}"
-    formatted = tools.map do |tool|
-      result = {
+    tools.map do |tool|
+      {
         "type" => "function",
-        "name" => tool[:name] || tool["name"],
-        "description" => tool[:description] || tool["description"],
-        "parameters" => tool[:parameters] || tool["parameters"]
+        "name" => tool["name"],
+        "description" => tool["description"],
+        "parameters" => tool["parameters"]
       }
-      Rails.logger.info "Formatted tool: #{result.inspect}"
-      result
     end
-    Rails.logger.info "All formatted tools: #{formatted.inspect}"
-    formatted
   end
 
   def parse_response(response)

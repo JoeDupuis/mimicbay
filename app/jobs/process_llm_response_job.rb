@@ -9,8 +9,6 @@ class ProcessLLMResponseJob < ApplicationJob
 
     adapter = adapter_class.new(model: model, user_id: session.game.user_id)
     tools = GameConfiguration::Tools::Base.all_definitions
-    
-    Rails.logger.info "Raw tools from all_definitions: #{tools.inspect}"
 
     response = adapter.chat(session.messages, tools: tools)
 
