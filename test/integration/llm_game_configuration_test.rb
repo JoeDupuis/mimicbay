@@ -9,10 +9,7 @@ class LLMGameConfigurationTest < ActionDispatch::IntegrationTest
 
   test "full flow: user message triggers LLM response with tool execution" do
     VCR.use_cassette("integration_full_flow") do
-      # Create session first
-      @game.create_game_configuration_session!
-      
-      # Navigate to game configuration
+      # Navigate to game configuration - this creates the session
       get game_configuration_path(@game)
       assert_response :success
       
@@ -45,8 +42,8 @@ class LLMGameConfigurationTest < ActionDispatch::IntegrationTest
   end
 
   test "handles API errors gracefully in integration" do
-    # Create session first
-    @game.create_game_configuration_session!
+    # Navigate to game configuration to create session
+    get game_configuration_path(@game)
     
     # Mock API error
     stub_adapter = Object.new
@@ -72,8 +69,8 @@ class LLMGameConfigurationTest < ActionDispatch::IntegrationTest
   end
 
   test "broadcasts updates via Turbo Streams" do
-    # Create session first
-    @game.create_game_configuration_session!
+    # Navigate to game configuration to create session
+    get game_configuration_path(@game)
     
     # This test verifies the Turbo Stream broadcasting works
     # In a real browser test, we'd verify the DOM updates
