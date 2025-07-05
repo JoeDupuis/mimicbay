@@ -3,7 +3,14 @@
 game_master:
   email_address: gm@example.com
   password_digest: <%= password_digest %>
+  role: standard
 
 other_player:
   email_address: player@example.com
   password_digest: <%= password_digest %>
+  role: standard
+
+admin_user:
+  email_address: admin@example.com
+  password_digest: <%= password_digest %>
+  role: admin

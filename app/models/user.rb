@@ -4,4 +4,6 @@ class User < ApplicationRecord
   has_many :games, dependent: :destroy
 
   normalizes :email_address, with: ->(e) { e.strip.downcase }
+
+  enum :role, { standard: 0, admin: 1 }
 end
