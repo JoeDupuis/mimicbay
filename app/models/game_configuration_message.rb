@@ -5,6 +5,8 @@ class GameConfigurationMessage < ApplicationRecord
 
   validates :content, presence: true, unless: -> { assistant? && tool_calls.present? }
 
+  after_create_commit -> { broadcast_append_to game_configuration_session, partial: "games/configurations/message", locals: { message: self }, target: "configuration-messages" }
+
   def tool_call?
     assistant? && tool_calls.present?
   end

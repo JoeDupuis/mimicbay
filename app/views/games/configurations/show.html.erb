@@ -1,3 +1,5 @@
+<%= turbo_stream_from @session %>
+
 <div class="configuration-container">
   <h1>Configure <%= @game.name %></h1>
 
@@ -9,7 +11,7 @@
     <% end %>
   </div>
 
-  <div id="configuration-messages" class="messages-container">
+  <div id="configuration-messages" class="messages-container" data-controller="auto-scroll">
     <%= render partial: "message", collection: @messages %>
   </div>
 

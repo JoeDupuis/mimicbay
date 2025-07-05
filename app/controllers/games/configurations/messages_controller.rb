@@ -14,34 +14,8 @@ class Games::Configurations::MessagesController < ApplicationController
 
     process_llm_response(user_content, model: model)
 
-    # Set up models for the turbo stream response
-    if @game.llm_adapter.present?
-      adapter = @game.llm_adapter_instance
-      @available_models = adapter.available_models
-      @default_model = adapter.default_model
-    end
-
     respond_to do |format|
-      format.turbo_stream do
-        render turbo_stream: [
-          turbo_stream.append("configuration-messages",
-            @session.messages.where("created_at > ?", 1.minute.ago).map { |message|
-              render_to_string(partial: "games/configurations/message", locals: { message: message })
-            }.join.html_safe
-          ),
-          turbo_stream.replace("configuration-message-form",
-            partial: "games/configurations/message_form",
-            locals: {
-              game: @game,
-              available_models: @available_models,
-              default_model: @default_model
-            }
-          ),
-          turbo_stream.append("configuration-messages",
-            "<script>document.getElementById('configuration-messages').scrollTop = document.getElementById('configuration-messages').scrollHeight;</script>".html_safe
-          )
-        ]
-      end
+      format.turbo_stream { head :ok }
       format.html { redirect_to game_configuration_path(@game) }
     end
   end
