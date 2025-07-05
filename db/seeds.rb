@@ -11,6 +11,7 @@
 if Rails.env.development?
   user = User.find_or_create_by!(email_address: "dev@example.com") do |u|
     u.password = "password"
+    u.role = :admin
   end
 
   # Create sample games
