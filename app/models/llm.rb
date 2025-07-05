@@ -1,5 +1,6 @@
 class LLM
   MODELS = [
+    { id: "gpt-4.1", name: "GPT-4.1", adapter: "OpenAi" },
     { id: "gpt-4o", name: "GPT-4o", adapter: "OpenAi" },
     { id: "gpt-4o-mini", name: "GPT-4o Mini", adapter: "OpenAi" },
     { id: "gpt-4-turbo", name: "GPT-4 Turbo", adapter: "OpenAi" },
