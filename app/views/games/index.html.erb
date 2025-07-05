@@ -1,16 +1,31 @@
-<h1>My Games</h1>
+<div class="game-layout">
+  <div class="content">
+    <div class="container">
+      <div class="page-header">
+        <h1 class="title">My Games</h1>
+      </div>
 
-<%= link_to "Start New Game", new_game_path %>
+      <div class="mb-4">
+        <%= link_to "Start New Game", new_game_path, class: "btn btn-primary" %>
+      </div>
 
-<% if @games.any? %>
-  <ul>
-    <% @games.each do |game| %>
-      <li>
-        <%= link_to game.name, game %>
-        <%= button_to "Delete", game, method: :delete, data: { turbo_confirm: "Are you sure?" } %>
-      </li>
-    <% end %>
-  </ul>
-<% else %>
-  <p>You haven't started any games yet.</p>
-<% end %>
+      <% if @games.any? %>
+        <div class="resource-section">
+          <% @games.each do |game| %>
+            <div class="game-card">
+              <h3 class="title"><%= link_to game.name, game %></h3>
+              <div class="actions">
+                <%= link_to "View", game, class: "btn btn-primary" %>
+                <%= button_to "Delete", game, method: :delete, data: { turbo_confirm: "Are you sure?" }, class: "btn btn-danger btn-sm" %>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <div class="resource-section">
+          <p class="text-muted">You haven't started any games yet.</p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

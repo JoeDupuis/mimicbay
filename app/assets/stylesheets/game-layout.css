@@ -75,3 +75,19 @@
   gap: 0.5rem;
   flex-wrap: wrap;
 }
+
+.character-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.area-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-right: 1rem;
+  margin-bottom: 0.5rem;
+}
