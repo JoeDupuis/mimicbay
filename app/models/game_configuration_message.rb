@@ -1,18 +1,15 @@
 class GameConfigurationMessage < ApplicationRecord
   belongs_to :game_configuration_session
 
-  validates :role, presence: true, inclusion: { in: %w[user assistant tool] }
-  validates :content, presence: true, unless: -> { role == "assistant" && tool_calls.present? }
+  enum :role, { user: 0, assistant: 1, tool: 2 }
 
-  scope :user, -> { where(role: "user") }
-  scope :assistant, -> { where(role: "assistant") }
-  scope :tool, -> { where(role: "tool") }
+  validates :content, presence: true, unless: -> { assistant? && tool_calls.present? }
 
   def tool_call?
-    role == "assistant" && tool_calls.present?
+    assistant? && tool_calls.present?
   end
 
   def tool_result?
-    role == "tool"
+    tool?
   end
 end

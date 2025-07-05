@@ -9,8 +9,8 @@ Rails.application.routes.draw do
     resources :dm_messages, only: [ :create ], controller: "games/dm_messages"
     resource :dm, only: [ :show ], controller: "games/dm"
     resource :configuration, only: [ :show ], controller: "games/configurations" do
-      post :create_message
-      get :available_models
+      resources :messages, only: [ :create ], controller: "games/configurations/messages"
+      resources :models, only: [ :index ], controller: "games/configurations/models"
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

@@ -14,7 +14,7 @@
   </div>
 
   <% if @game.llm_adapter.present? %>
-    <%= form_with url: create_message_game_configuration_path(@game),
+    <%= form_with url: game_configuration_messages_path(@game),
                   id: "configuration-message-form",
                   class: "message-form" do |form| %>
       <div class="form-group">

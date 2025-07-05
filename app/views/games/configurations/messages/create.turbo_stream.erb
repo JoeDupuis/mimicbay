@@ -1,11 +1,11 @@
 <%= turbo_stream.append "configuration-messages" do %>
   <% @session.messages.where("created_at > ?", 1.minute.ago).each do |message| %>
-    <%= render partial: "message", locals: { message: message } %>
+    <%= render partial: "games/configurations/message", locals: { message: message } %>
   <% end %>
 <% end %>
 
 <%= turbo_stream.replace "configuration-message-form" do %>
-  <%= form_with url: create_message_game_configuration_path(@game),
+  <%= form_with url: game_configuration_messages_path(@game),
                 id: "configuration-message-form",
                 class: "message-form" do |form| %>
     <div class="form-group">
