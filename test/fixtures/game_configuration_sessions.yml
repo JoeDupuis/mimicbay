@@ -2,8 +2,6 @@
 
 one:
   game: game_without_characters
-  status: 0
 
 two:
   game: game_with_characters
-  status: 1

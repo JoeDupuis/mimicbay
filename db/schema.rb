@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_07_05_031730) do
+ActiveRecord::Schema[8.1].define(version: 2025_07_05_032040) do
   create_table "areas", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -50,7 +50,6 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_05_031730) do
   create_table "game_configuration_sessions", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.integer "game_id", null: false
-    t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
     t.index [ "game_id" ], name: "index_game_configuration_sessions_on_game_id"
   end
