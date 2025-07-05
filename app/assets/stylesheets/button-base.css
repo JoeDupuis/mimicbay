@@ -30,18 +30,18 @@
 
 .button-base.-primary {
   color: #fff;
-  background-color: #007bff;
-  border-color: #007bff;
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
 }
 
 .button-base.-primary:hover {
   color: #fff;
-  background-color: #0069d9;
-  border-color: #0062cc;
+  background-color: var(--primary-hover);
+  border-color: var(--primary-hover);
 }
 
 .button-base.-primary:focus {
-  box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+  box-shadow: 0 0 0 0.2rem var(--primary-focus);
 }
 
 .button-base.-secondary {

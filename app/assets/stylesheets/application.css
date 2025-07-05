@@ -24,9 +24,13 @@ body {
 }
 
 :root {
-  --primary-color: #7c3aed;
-  --primary-hover: #6d28d9;
-  --primary-focus: rgba(124, 58, 237, 0.25);
+  --primary-color: #0F1B26;
+  --primary-hover: #1a2b3d;
+  --primary-focus: rgba(15, 27, 38, 0.25);
+  --secondary-color: #B7423B;
+  --secondary-hover: #a03530;
+  --accent-color: #A7733C;
+  --accent-hover: #956635;
 }
 
 a {
@@ -62,7 +66,7 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 600;
   line-height: 1;
   color: #fff;
-  background-color: #007bff;
+  background-color: var(--secondary-color);
   border-radius: 0.25rem;
   vertical-align: middle;
   margin-left: 0.5rem;
