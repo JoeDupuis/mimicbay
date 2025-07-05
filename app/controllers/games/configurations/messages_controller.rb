@@ -10,6 +10,11 @@ class Games::Configurations::MessagesController < ApplicationController
       format.turbo_stream { head :ok }
       format.html { redirect_to game_configuration_path(@game) }
     end
+  rescue => e
+    respond_to do |format|
+      format.turbo_stream { head :unprocessable_entity }
+      format.html { redirect_to game_configuration_path(@game), alert: e.message }
+    end
   end
 
   private

@@ -7,9 +7,9 @@ class GameConfigurationSession < ApplicationRecord
   end
 
   def prompt(content, model: nil)
-    game_configuration_messages.create!(role: :user, content: content)
+    raise "No LLM adapter configured" unless game.llm_adapter.present?
 
-    return unless game.llm_adapter.present?
+    game_configuration_messages.create!(role: :user, content: content)
 
     adapter = game.llm_adapter_instance(model: model)
     messages = format_messages_for_llm
