@@ -4,7 +4,6 @@ class Games::Configurations::MessagesController < ApplicationController
   before_action :set_or_create_session
 
   def create
-    Rails.logger.info "MessageController#create - params[:model]: #{params[:model].inspect}"
     @session.prompt(params[:content], model: params[:model])
 
     respond_to do |format|

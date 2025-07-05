@@ -2,11 +2,9 @@ class ProcessLLMResponseJob < ApplicationJob
   queue_as :default
 
   def perform(session_id, model)
-    Rails.logger.info "ProcessLLMResponseJob#perform - model: #{model.inspect}"
     session = GameConfigurationSession.find(session_id)
 
     adapter_class = LLM.adapter_for_model(model)
-    Rails.logger.info "ProcessLLMResponseJob#perform - adapter_class: #{adapter_class.inspect}"
     return unless adapter_class
 
     adapter = adapter_class.new(model: model, user_id: session.game.user_id)

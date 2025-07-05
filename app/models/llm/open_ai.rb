@@ -14,8 +14,6 @@ class LLM::OpenAi < LLM
     # Handle both ActiveRecord models and hash format
     formatted_messages = messages.first.respond_to?(:role) ? format_message_models(messages) : format_messages(messages)
 
-    Rails.logger.info "OpenAI API Call - Model: #{model.inspect}"
-    
     parameters = {
       model: model,
       input: formatted_messages,
@@ -28,7 +26,7 @@ class LLM::OpenAi < LLM
     # Add tools if provided
     parameters[:tools] = format_tools_for_api(tools) if tools.present?
 
-    response = client.responses.create(parameters: parameters)
+    response = client.responses.create(**parameters)
     parse_response(response)
   rescue => e
     Rails.logger.error "OpenAI API Error: #{e.class.name} - #{e.message}"
@@ -96,23 +94,24 @@ class LLM::OpenAi < LLM
   end
 
   def parse_response(response)
-    output = response["output"]&.first
+    output = response.output&.first
 
     return { role: "assistant", content: "" } unless output
 
     result = { role: "assistant" }
 
-    if output["type"] == "function_call"
+    if output.type == :function_call
       # Handle tool calls
       result[:content] = ""
       result[:tool_calls] = [ {
-        "id" => output["call_id"],
-        "name" => output["name"],
-        "arguments" => JSON.parse(output["arguments"])
+        "id" => output.id,
+        "name" => output.name,
+        "arguments" => JSON.parse(output.arguments)
       } ]
     else
-      # Regular text response
-      result[:content] = output.dig("content", 0, "text") || ""
+      # Regular text response - output is a message with content array
+      content = output.content&.first
+      result[:content] = content&.text || ""
     end
 
     result
