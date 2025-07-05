@@ -21,7 +21,7 @@ class Games::MessagesController < ApplicationController
       end
     else
       respond_to do |format|
-        format.turbo_stream { render turbo_stream: turbo_stream.replace("new_message_form", partial: "games/messages/form", locals: { game: @game, message: @message }) }
+        format.turbo_stream { render :error }
         format.html { redirect_to game_play_path(@game, character_id: params[:character_id]), alert: @message.errors.full_messages.join(", ") }
       end
     end
