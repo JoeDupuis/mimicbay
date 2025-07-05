@@ -1,4 +1,4 @@
-module LLM
+class LLM
   MODELS = [
     { id: "gpt-4o", name: "GPT-4o", adapter: "OpenAi" },
     { id: "gpt-4o-mini", name: "GPT-4o Mini", adapter: "OpenAi" },
@@ -17,31 +17,29 @@ module LLM
     "LLM::#{model[:adapter]}".constantize
   end
 
-  class Base
-    attr_reader :api_key, :model, :user_id
+  attr_reader :api_key, :model, :user_id
 
-    def initialize(api_key: nil, model: nil, user_id: nil)
-      @api_key = api_key
-      @model = model
-      @user_id = user_id
-    end
+  def initialize(api_key: nil, model: nil, user_id: nil)
+    @api_key = api_key
+    @model = model
+    @user_id = user_id
+  end
 
-    def chat(messages, tools: [])
-      raise NotImplementedError, "Subclasses must implement #chat"
-    end
+  def chat(messages, tools: [])
+    raise NotImplementedError, "Subclasses must implement #chat"
+  end
 
-    def self.adapter_name
-      name.demodulize.underscore.humanize
-    end
+  def self.adapter_name
+    name.demodulize.underscore.humanize
+  end
 
-    protected
+  protected
 
-    def format_tools_for_api
-      raise NotImplementedError, "Subclasses must implement #format_tools_for_api"
-    end
+  def format_tools_for_api
+    raise NotImplementedError, "Subclasses must implement #format_tools_for_api"
+  end
 
-    def parse_tool_calls_from_response(response)
-      raise NotImplementedError, "Subclasses must implement #parse_tool_calls_from_response"
-    end
+  def parse_tool_calls_from_response(response)
+    raise NotImplementedError, "Subclasses must implement #parse_tool_calls_from_response"
   end
 end
