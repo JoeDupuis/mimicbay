@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_07_05_072612) do
+ActiveRecord::Schema[8.1].define(version: 2025_07_04_200820) do
   create_table "areas", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -40,7 +40,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_05_072612) do
     t.datetime "created_at", null: false
     t.integer "game_configuration_session_id", null: false
     t.string "model"
-    t.string "role"
+    t.integer "role", null: false
     t.json "tool_calls"
     t.json "tool_results"
     t.datetime "updated_at", null: false
