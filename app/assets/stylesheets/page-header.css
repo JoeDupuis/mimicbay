@@ -1,0 +1,34 @@
+.page-header {
+  padding: 2rem 0;
+  margin-bottom: 2rem;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.page-header > .title {
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1.2;
+  color: #212529;
+  margin: 0;
+}
+
+.page-header > .subtitle {
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: #6c757d;
+  margin-top: 0.5rem;
+}
+
+.page-header.-compact {
+  padding: 1rem 0;
+  margin-bottom: 1rem;
+}
+
+.page-header.-compact > .title {
+  font-size: 1.75rem;
+}
+
+.page-header.-centered {
+  text-align: center;
+}
