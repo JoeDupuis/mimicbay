@@ -85,9 +85,9 @@ class LLM::OpenAi < LLM
       {
         type: :function,
         function: {
-          name: tool[:name],
-          description: tool[:description],
-          parameters: tool[:parameters]
+          name: tool[:name] || tool["name"],
+          description: tool[:description] || tool["description"],
+          parameters: tool[:parameters] || tool["parameters"]
         }
       }
     end
