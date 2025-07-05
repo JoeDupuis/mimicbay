@@ -48,6 +48,13 @@ class Games::ConfigurationsController < ApplicationController
 
     process_llm_response(user_content, model: model)
 
+    # Set up models for the turbo stream response
+    if @game.llm_adapter.present?
+      adapter = @game.llm_adapter_instance
+      @available_models = adapter.available_models
+      @default_model = adapter.default_model
+    end
+
     respond_to do |format|
       format.turbo_stream
       format.html { redirect_to game_configuration_path(@game) }

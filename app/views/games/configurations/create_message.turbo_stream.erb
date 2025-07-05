@@ -17,18 +17,12 @@
     </div>
     <div class="form-group model-selector">
       <%= form.label :model, "Model:", class: "model-label" %>
-      <% model_options = [
-        ['GPT-4.1', 'gpt-4.1'],
-        ['GPT-4o', 'gpt-4o'],
-        ['GPT-4o Mini', 'gpt-4o-mini'],
-        ['GPT-4 Turbo', 'gpt-4-turbo'],
-        ['GPT-4', 'gpt-4'],
-        ['GPT-3.5 Turbo', 'gpt-3.5-turbo']
-      ] %>
-      <%= form.select :model,
-          options_for_select(model_options, params[:model] || 'gpt-4.1'),
-          {},
-          { class: "model-select" } %>
+      <% if @available_models.present? %>
+        <%= form.select :model,
+            options_for_select(@available_models.map { |m| [m, m] }, params[:model] || @default_model),
+            {},
+            { class: "model-select", data: { adapter: @game.llm_adapter } } %>
+      <% end %>
     </div>
     <div class="form-actions">
       <%= form.submit "Send", class: "btn btn-primary" %>
