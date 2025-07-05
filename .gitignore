@@ -47,7 +47,3 @@ vendor/bundle
 
 
 .claude/hook_log.txt
-
-# VCR cassettes - exclude any with potential API keys as extra safety
-test/vcr_cassettes/**/*api_key*
-test/vcr_cassettes/**/*sk-*
