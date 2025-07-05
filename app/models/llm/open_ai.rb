@@ -3,6 +3,7 @@ require "openai"
 class LLM::OpenAi < LLM
   def initialize(api_key: nil, model: nil, user_id: nil)
     api_key ||= Rails.application.credentials.dig(:llm, :open_ai)
+    api_key ||= Rails.configuration.x.llm[:openai][:api_key] if Rails.configuration.x.llm[:openai].present?
     super(api_key: api_key, model: model, user_id: user_id)
   end
 

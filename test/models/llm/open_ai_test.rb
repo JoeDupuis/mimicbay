@@ -7,9 +7,9 @@ class LLM::OpenAiTest < ActiveSupport::TestCase
       messages = [
         { role: "user", content: "Say hello in exactly 3 words" }
       ]
-      
+
       response = adapter.chat(messages)
-      
+
       assert_equal "assistant", response[:role]
       assert response[:content].present?
     end
@@ -21,7 +21,7 @@ class LLM::OpenAiTest < ActiveSupport::TestCase
       messages = [
         { role: "user", content: "Create an area called 'Dark Forest' with a spooky description" }
       ]
-      
+
       tools = [
         {
           "name" => "create_area",
@@ -32,13 +32,13 @@ class LLM::OpenAiTest < ActiveSupport::TestCase
               "name" => { "type" => "string", "description" => "The name of the area" },
               "description" => { "type" => "string", "description" => "A detailed description of the area" }
             },
-            "required" => ["name", "description"]
+            "required" => [ "name", "description" ]
           }
         }
       ]
-      
+
       response = adapter.chat(messages, tools: tools)
-      
+
       assert_equal "assistant", response[:role]
       assert response[:tool_calls].present?
       assert_equal "create_area", response[:tool_calls].first["name"]
@@ -54,12 +54,12 @@ class LLM::OpenAiTest < ActiveSupport::TestCase
         { role: "user", content: "Create an area called 'Dark Forest'" },
         { role: "assistant", content: "", tool_calls: [
           { "id" => "call_123", "name" => "create_area", "arguments" => { "name" => "Dark Forest", "description" => "A mysterious forest" } }
-        ]},
+        ] },
         { role: "tool", tool_use_id: "call_123", content: '{"success": true, "area_id": 1, "name": "Dark Forest", "message": "Created area \'Dark Forest\'"}' }
       ]
-      
+
       response = adapter.chat(messages)
-      
+
       assert_equal "assistant", response[:role]
       assert response[:content].present?
       assert response[:content].include?("Dark Forest") || response[:content].include?("created") || response[:content].include?("area")
@@ -69,8 +69,8 @@ class LLM::OpenAiTest < ActiveSupport::TestCase
   test "chat handles API errors gracefully" do
     VCR.use_cassette("openai_api_error") do
       adapter = LLM::OpenAi.new(model: "invalid-model")
-      messages = [{ role: "user", content: "Hello" }]
-      
+      messages = [ { role: "user", content: "Hello" } ]
+
       assert_raises(RuntimeError) do
         adapter.chat(messages)
       end
@@ -91,8 +91,8 @@ class LLM::OpenAiTest < ActiveSupport::TestCase
   test "includes user_id in API request when provided" do
     VCR.use_cassette("openai_with_user_id") do
       adapter = LLM::OpenAi.new(model: "gpt-4o-mini", user_id: 123)
-      messages = [{ role: "user", content: "Hello" }]
-      
+      messages = [ { role: "user", content: "Hello" } ]
+
       response = adapter.chat(messages)
       assert_equal "assistant", response[:role]
     end
