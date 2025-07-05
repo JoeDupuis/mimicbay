@@ -2,6 +2,10 @@ require "openai"
 
 module LLM
   class OpenAi < Base
+    def initialize(model: nil, user_id: nil)
+      api_key = Rails.application.credentials.dig(:llm, :open_ai)
+      super(api_key: api_key, model: model, user_id: user_id)
+    end
     def available_models
       [
         "gpt-4.1",

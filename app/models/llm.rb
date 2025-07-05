@@ -2,7 +2,7 @@ module LLM
   class Base
     attr_reader :api_key, :model, :user_id
 
-    def initialize(api_key:, model: nil, user_id: nil)
+    def initialize(api_key: nil, model: nil, user_id: nil)
       @api_key = api_key
       @model = model || default_model
       @user_id = user_id

@@ -3,7 +3,7 @@
 
   <div class="configuration-info">
     <% if @game.llm_adapter.present? %>
-      <p>Using <%= @game.llm_adapter.split("::").last %></p>
+      <p>Using <%= @game.llm_adapter %></p>
     <% else %>
       <p class="warning">No LLM adapter configured. <%= link_to "Edit game settings", edit_game_path(@game) %></p>
     <% end %>
@@ -30,7 +30,7 @@
           <%= form.select :model,
               options_for_select(@available_models.map { |m| [m, m] }, @default_model),
               {},
-              { class: "model-select", data: { adapter: @game.llm_adapter } } %>
+              { class: "model-select" } %>
         <% end %>
       </div>
       <div class="form-actions">

@@ -13,20 +13,18 @@ class Games::ConfigurationsController < ApplicationController
   end
 
   def available_models
-    adapter_class_name = params[:adapter]
-    return render json: { models: [], default: nil } unless adapter_class_name.present?
+    adapter_name = params[:adapter]
+    return render json: { models: [], default: nil } unless adapter_name.present?
 
     # Whitelist of allowed adapters to prevent arbitrary code execution
-    allowed_adapters = [ "LLM::OpenAi" ]
-    unless allowed_adapters.include?(adapter_class_name)
+    allowed_adapters = [ "OpenAi" ]
+    unless allowed_adapters.include?(adapter_name)
       return render json: { models: [], default: nil }
     end
 
     begin
-      adapter_class = adapter_class_name.constantize
-      key_name = :open_ai
-      api_key = Rails.application.credentials.dig(:llm, key_name)
-      adapter = adapter_class.new(api_key: api_key)
+      adapter_class = "LLM::#{adapter_name}".constantize
+      adapter = adapter_class.new
 
       render json: {
         models: adapter.available_models,

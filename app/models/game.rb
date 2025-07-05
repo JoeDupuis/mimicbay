@@ -14,14 +14,8 @@ class Game < ApplicationRecord
   def llm_adapter_instance(model: nil)
     return nil unless llm_adapter.present?
 
-    # Reference the module to trigger autoloading
-    ::LLM
-
-    adapter_class = llm_adapter.constantize
-    # Use open_ai as the credential key
-    key_name = :open_ai
-    api_key = Rails.application.credentials.dig(:llm, key_name)
-    adapter_class.new(api_key: api_key, model: model, user_id: user_id)
+    adapter_class = "LLM::#{llm_adapter}".constantize
+    adapter_class.new(model: model, user_id: user_id)
   end
 
   private
@@ -35,11 +29,8 @@ class Game < ApplicationRecord
   def llm_adapter_must_be_valid
     return unless llm_adapter.present?
 
-    # Skip validation if value is one of the known adapters
-    return if llm_adapter == "LLM::OpenAi"
-
     begin
-      adapter_class = llm_adapter.constantize
+      adapter_class = "LLM::#{llm_adapter}".constantize
       unless adapter_class < LLM::Base
         errors.add(:llm_adapter, "must be a subclass of LLM::Base")
       end

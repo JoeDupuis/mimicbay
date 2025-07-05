@@ -21,7 +21,7 @@
         <%= form.select :model,
             options_for_select(@available_models.map { |m| [m, m] }, params[:model] || @default_model),
             {},
-            { class: "model-select", data: { adapter: @game.llm_adapter } } %>
+            { class: "model-select" } %>
       <% end %>
     </div>
     <div class="form-actions">
