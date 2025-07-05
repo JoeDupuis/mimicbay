@@ -5,7 +5,7 @@
   <div class="resource-links">
     <%= link_to "Areas", game_areas_path(@game), class: "btn btn-primary" %>
     <%= link_to "Characters", game_characters_path(@game), class: "btn btn-primary" %>
-    <% if @game.creating? && @game.llm_adapter.present? %>
+    <% if @game.creating? %>
       <%= link_to "Configure with AI", game_configuration_path(@game), class: "btn btn-primary" %>
     <% end %>
   </div>

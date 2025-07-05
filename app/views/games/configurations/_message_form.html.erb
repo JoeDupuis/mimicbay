@@ -17,7 +17,7 @@
     <%= form.label :model, "Model:", class: "model-label" %>
     <% if available_models.present? %>
       <%= form.select :model,
-          options_for_select(available_models.map { |m| [m, m] }, params[:model] || default_model),
+          options_for_select(available_models, params[:model] || default_model),
           {},
           { class: "model-select" } %>
     <% end %>

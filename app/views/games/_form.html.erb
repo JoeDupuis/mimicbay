@@ -6,19 +6,11 @@
     <%= form.text_field :name %>
   </div>
 
-  <div class="field">
-    <%= form.label :llm_adapter, "AI Assistant" %>
-    <% adapter_options = [["None", ""]] + LLM::Base.adapter_options %>
-    <%= form.select :llm_adapter,
-        options_for_select(adapter_options, game.llm_adapter),
-        {},
-        { class: "llm-adapter-select", data: { game_id: game.persisted? ? game.id : "new" } } %>
-  </div>
 
 
   <div class="actions">
     <%= form.submit %>
-    <% if game.persisted? && game.creating? && game.llm_adapter.present? %>
+    <% if game.persisted? && game.creating? %>
       <%= link_to "Configure with AI", game_configuration_path(game), class: "btn btn-secondary" %>
     <% end %>
   </div>

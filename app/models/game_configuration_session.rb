@@ -7,11 +7,14 @@ class GameConfigurationSession < ApplicationRecord
   end
 
   def prompt(content, model: nil)
-    raise "No LLM adapter configured" unless game.llm_adapter.present?
+    raise "No model specified" if model.blank?
+
+    adapter_class = LLM.adapter_for_model(model)
+    raise "Unknown model: #{model}" unless adapter_class
 
     game_configuration_messages.create!(role: :user, content: content)
 
-    adapter = game.llm_adapter_instance(model: model)
+    adapter = adapter_class.new(model: model, user_id: game.user_id)
     messages = format_messages_for_llm
     tools = GameConfiguration::Tools::Base.all_definitions
 
@@ -96,7 +99,10 @@ class GameConfigurationSession < ApplicationRecord
   end
 
   def continue_conversation_after_tools(model: nil)
-    adapter = game.llm_adapter_instance(model: model)
+    adapter_class = LLM.adapter_for_model(model)
+    raise "Unknown model: #{model}" unless adapter_class
+
+    adapter = adapter_class.new(model: model, user_id: game.user_id)
     messages = format_messages_for_llm
     tools = GameConfiguration::Tools::Base.all_definitions
 

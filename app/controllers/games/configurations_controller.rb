@@ -5,11 +5,8 @@ class Games::ConfigurationsController < ApplicationController
 
   def show
     @messages = @session.messages.includes(:game_configuration_session)
-    if @game.llm_adapter.present?
-      adapter = @game.llm_adapter_instance
-      @available_models = adapter.available_models
-      @default_model = adapter.default_model
-    end
+    @available_models = LLM::MODELS.map { |m| [ m[:name], m[:id] ] }
+    @default_model = LLM::MODELS.first[:id]
   end
 
 

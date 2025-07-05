@@ -3,23 +3,14 @@
 <div class="configuration-container">
   <h1>Configure <%= @game.name %></h1>
 
-  <div class="configuration-info">
-    <% if @game.llm_adapter.present? %>
-      <p>Using <%= @game.llm_adapter %></p>
-    <% else %>
-      <p class="warning">No LLM adapter configured. <%= link_to "Edit game settings", edit_game_path(@game) %></p>
-    <% end %>
-  </div>
 
   <div id="configuration-messages" class="messages-container" data-controller="auto-scroll">
     <%= render partial: "message", collection: @messages %>
   </div>
 
-  <% if @game.llm_adapter.present? %>
-    <%= render partial: "message_form", locals: {
-      game: @game,
-      available_models: @available_models,
-      default_model: @default_model
-    } %>
-  <% end %>
+  <%= render partial: "message_form", locals: {
+    game: @game,
+    available_models: @available_models,
+    default_model: @default_model
+  } %>
 </div>

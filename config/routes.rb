@@ -10,7 +10,6 @@ Rails.application.routes.draw do
     resource :dm, only: [ :show ], controller: "games/dm"
     resource :configuration, only: [ :show ], controller: "games/configurations" do
       resources :messages, only: [ :create ], controller: "games/configurations/messages"
-      resources :models, only: [ :index ], controller: "games/configurations/models"
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

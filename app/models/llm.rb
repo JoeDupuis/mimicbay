@@ -1,4 +1,22 @@
 module LLM
+  MODELS = [
+    { id: "gpt-4o", name: "GPT-4o", adapter: "OpenAi" },
+    { id: "gpt-4o-mini", name: "GPT-4o Mini", adapter: "OpenAi" },
+    { id: "gpt-4-turbo", name: "GPT-4 Turbo", adapter: "OpenAi" },
+    { id: "gpt-4", name: "GPT-4", adapter: "OpenAi" },
+    { id: "gpt-3.5-turbo", name: "GPT-3.5 Turbo", adapter: "OpenAi" }
+  ].freeze
+
+  def self.find_model(id)
+    MODELS.find { |m| m[:id] == id }
+  end
+
+  def self.adapter_for_model(model_id)
+    model = find_model(model_id)
+    return nil unless model
+    "LLM::#{model[:adapter]}".constantize
+  end
+
   class Base
     attr_reader :api_key, :model, :user_id
 
@@ -22,15 +40,6 @@ module LLM
 
     def self.adapter_name
       name.demodulize.underscore.humanize
-    end
-
-    def self.descendants_names
-      descendants.map(&:name).sort
-    end
-
-    def self.adapter_options
-      Rails.application.eager_load! unless Rails.application.config.eager_load
-      descendants.map { |klass| [ klass.adapter_name, klass.name.demodulize ] }.sort_by(&:first)
     end
 
     protected
