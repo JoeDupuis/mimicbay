@@ -191,7 +191,7 @@
 }
 
 .hidden {
-  display: none !important;
+  display: none;
 }
 
 /* DM Impersonation styling */
@@ -220,7 +220,7 @@
 }
 
 .character-link-item {
-  margin-bottom: 0 !important;
+  margin-bottom: 0;
 }
 
 /* Bootstrap utility classes for consistency */

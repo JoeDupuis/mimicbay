@@ -1,15 +1,13 @@
 <%= form_with(model: game) do |form| %>
   <%= form_errors(game) %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div class="form-group">
+    <%= form.label :name, class: "label" %>
+    <%= form.text_field :name, class: "input" %>
   </div>
 
-
-
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class: "btn btn-primary" %>
     <% if game.persisted? && game.creating? %>
       <%= link_to "Configure with AI", game_configuration_path(game), class: "btn btn-secondary" %>
     <% end %>
