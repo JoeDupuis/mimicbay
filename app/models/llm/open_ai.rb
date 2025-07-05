@@ -14,6 +14,8 @@ class LLM::OpenAi < LLM
     # Handle both ActiveRecord models and hash format
     formatted_messages = messages.first.respond_to?(:role) ? format_message_models(messages) : format_messages(messages)
 
+    Rails.logger.info "OpenAI API Call - Model: #{model.inspect}"
+    
     parameters = {
       model: model,
       input: formatted_messages,
