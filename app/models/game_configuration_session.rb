@@ -12,7 +12,7 @@ class GameConfigurationSession < ApplicationRecord
 
   def prompt(content, model: nil)
     game_configuration_messages.create!(role: :user, content: content)
-    ProcessLlmResponseJob.perform_later(id, model) if model.present?
+    ::ProcessLlmResponseJob.perform_later(id, model) if model.present?
   end
 
   private
