@@ -20,6 +20,10 @@ module GameConfiguration
                 "type" => "integer",
                 "description" => "The ID of the area where the character is located (optional)"
               },
+              "is_player" => {
+                "type" => "boolean",
+                "description" => "Whether this is the player character (optional, defaults to false)"
+              },
               "properties" => {
                 "type" => "object",
                 "description" => "Additional properties for the character (optional)",
@@ -36,7 +40,7 @@ module GameConfiguration
           name: params["name"],
           description: params["description"],
           properties: params["properties"] || {},
-          is_player: false
+          is_player: params["is_player"] || false
         }
 
         if params["area_id"]

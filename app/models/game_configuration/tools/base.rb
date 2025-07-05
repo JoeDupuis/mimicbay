@@ -10,7 +10,6 @@ module GameConfiguration
         DeleteCharacter,
         ListAreas,
         ListCharacters,
-        SetPlayerCharacter,
         UpdateArea,
         UpdateCharacter
       ].freeze

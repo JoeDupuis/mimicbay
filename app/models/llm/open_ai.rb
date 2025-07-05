@@ -90,7 +90,7 @@ class LLM::OpenAi < LLM
             formatted << {
               type: "function_call",
               call_id: tc["id"],
-              name: tc["name"], 
+              name: tc["name"],
               arguments: tc["arguments"].is_a?(String) ? tc["arguments"] : tc["arguments"].to_json
             }
           end

@@ -24,6 +24,10 @@ module GameConfiguration
                 "type" => "integer",
                 "description" => "The ID of the area to move the character to (optional)"
               },
+              "is_player" => {
+                "type" => "boolean",
+                "description" => "Whether this is the player character (optional)"
+              },
               "properties" => {
                 "type" => "object",
                 "description" => "Additional properties to update (optional)",
@@ -38,16 +42,10 @@ module GameConfiguration
       def execute(params)
         character = game.characters.find(params["character_id"])
 
-        if character.is_player?
-          return {
-            success: false,
-            error: "Cannot update the player character through this tool"
-          }
-        end
-
         update_params = {}
         update_params[:name] = params["name"] if params.key?("name")
         update_params[:description] = params["description"] if params.key?("description")
+        update_params[:is_player] = params["is_player"] if params.key?("is_player")
         update_params[:properties] = character.properties.merge(params["properties"]) if params.key?("properties")
 
         if params.key?("area_id")
