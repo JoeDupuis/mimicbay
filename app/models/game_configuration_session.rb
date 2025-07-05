@@ -4,89 +4,23 @@ class GameConfigurationSession < ApplicationRecord
   belongs_to :game
   has_many :game_configuration_messages, dependent: :destroy
 
+  before_validation :create_system_message, on: :create
+
   def messages
     game_configuration_messages.order(:created_at)
   end
 
   def prompt(content, model: nil)
     game_configuration_messages.create!(role: :user, content: content)
-
-    adapter_class = LLM.adapter_for_model(model)
-    return unless adapter_class
-
-    adapter = adapter_class.new(model: model, user_id: game.user_id)
-    tools = GameConfiguration::Tools::Base.all_definitions
-
-    response = adapter.chat(messages, tools: tools)
-
-    assistant_message = game_configuration_messages.create!(
-      role: :assistant,
-      content: response[:content],
-      tool_calls: response[:tool_calls],
-      model: model
-    )
-
-    if response[:tool_calls].present?
-      process_tool_calls(response[:tool_calls], assistant_message, model: model)
-    end
-  rescue => e
-    game_configuration_messages.create!(
-      role: :assistant,
-      content: "I encountered an error: #{e.message}"
-    )
+    ProcessLlmResponseJob.perform_later(id, model) if model.present?
   end
 
   private
 
-  def process_tool_calls(tool_calls, assistant_message, model: nil)
-    tool_calls.each do |tool_call|
-      tool_class = GameConfiguration::Tools::Base.find_by_name(tool_call["name"])
-
-      if tool_class
-        tool = tool_class.new(game)
-        result = tool.execute(tool_call["arguments"])
-
-        game_configuration_messages.create!(
-          role: :tool,
-          content: result.to_json,
-          tool_results: {
-            "tool_use_id" => tool_call["id"],
-            "tool_name" => tool_call["name"]
-          }
-        )
-      else
-        game_configuration_messages.create!(
-          role: :tool,
-          content: { error: "Unknown tool: #{tool_call["name"]}" }.to_json,
-          tool_results: {
-            "tool_use_id" => tool_call["id"],
-            "tool_name" => tool_call["name"]
-          }
-        )
-      end
-    end
-
-    continue_conversation_after_tools(model: model)
-  end
-
-  def continue_conversation_after_tools(model: nil)
-    adapter_class = LLM.adapter_for_model(model)
-    raise "Unknown model: #{model}" unless adapter_class
-
-    adapter = adapter_class.new(model: model, user_id: game.user_id)
-    tools = GameConfiguration::Tools::Base.all_definitions
-
-    response = adapter.chat(messages, tools: tools)
-
-    game_configuration_messages.create!(
-      role: :assistant,
-      content: response[:content],
-      tool_calls: response[:tool_calls],
-      model: model
+  def create_system_message
+    game_configuration_messages.build(
+      role: :system,
+      content: SYSTEM_PROMPT
     )
-
-    if response[:tool_calls].present?
-      process_tool_calls(response[:tool_calls], nil, model: model)
-    end
   end
 end

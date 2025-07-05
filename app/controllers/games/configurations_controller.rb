@@ -21,6 +21,6 @@ class Games::ConfigurationsController < ApplicationController
   end
 
   def set_or_create_session
-    @session = @game.game_configuration_session.find_or_create_with_system_message!
+    @session = @game.game_configuration_session || @game.create_game_configuration_session!
   end
 end

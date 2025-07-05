@@ -3,16 +3,7 @@ class Game < ApplicationRecord
   has_many :areas, dependent: :destroy
   has_many :characters, dependent: :destroy
   has_many :messages, dependent: :destroy
-  has_one :game_configuration_session, dependent: :destroy do
-    def find_or_create_with_system_message!
-      find_or_create_by!(game: proxy_association.owner) do |session|
-        session.game_configuration_messages.create!(
-          role: :system,
-          content: GameConfigurationSession::SYSTEM_PROMPT
-        )
-      end
-    end
-  end
+  has_one :game_configuration_session, dependent: :destroy
 
   validates :name, presence: true
   validate :requires_player_character_to_play
