@@ -8,10 +8,7 @@
 
   <div class="field">
     <%= form.label :llm_adapter, "AI Assistant" %>
-    <% adapter_options = [
-      ["None", ""],
-      ["OpenAI", "OpenAi"]
-    ] %>
+    <% adapter_options = [["None", ""]] + LLM::Base.adapter_options %>
     <%= form.select :llm_adapter,
         options_for_select(adapter_options, game.llm_adapter),
         {},

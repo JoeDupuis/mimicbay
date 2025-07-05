@@ -28,6 +28,11 @@ module LLM
       descendants.map(&:name).sort
     end
 
+    def self.adapter_options
+      Rails.application.eager_load! unless Rails.application.config.eager_load
+      descendants.map { |klass| [ klass.adapter_name, klass.name.demodulize ] }.sort_by(&:first)
+    end
+
     protected
 
     def format_tools_for_api
