@@ -8,7 +8,7 @@ class Game < ApplicationRecord
       find_or_create_by!(game: proxy_association.owner) do |session|
         session.game_configuration_messages.create!(
           role: :system,
-          content: "You are a helpful game configuration assistant. Help the user create areas and characters for their tabletop RPG game. Use the provided tools to create, update, list, and delete game entities based on the user's descriptions."
+          content: GameConfigurationSession::SYSTEM_PROMPT
         )
       end
     end

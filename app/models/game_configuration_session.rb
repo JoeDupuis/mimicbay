@@ -1,4 +1,6 @@
 class GameConfigurationSession < ApplicationRecord
+  SYSTEM_PROMPT = "You are a helpful game configuration assistant. Help the user create areas and characters for their tabletop RPG game. Use the provided tools to create, update, list, and delete game entities based on the user's descriptions.".freeze
+
   belongs_to :game
   has_many :game_configuration_messages, dependent: :destroy
 
