@@ -3,34 +3,34 @@ module GameConfiguration
     class UpdateCharacter < Base
       def definition
         {
-          name: "update_character",
-          description: "Update an existing character in the game",
-          parameters: {
-            type: "object",
-            properties: {
-              character_id: {
-                type: "integer",
-                description: "The ID of the character to update"
+          "name" => "update_character",
+          "description" => "Update an existing character in the game",
+          "parameters" => {
+            "type" => "object",
+            "properties" => {
+              "character_id" => {
+                "type" => "integer",
+                "description" => "The ID of the character to update"
               },
-              name: {
-                type: "string",
-                description: "The new name of the character (optional)"
+              "name" => {
+                "type" => "string",
+                "description" => "The new name of the character (optional)"
               },
-              description: {
-                type: "string",
-                description: "The new description of the character (optional)"
+              "description" => {
+                "type" => "string",
+                "description" => "The new description of the character (optional)"
               },
-              area_id: {
-                type: "integer",
-                description: "The ID of the area to move the character to (optional)"
+              "area_id" => {
+                "type" => "integer",
+                "description" => "The ID of the area to move the character to (optional)"
               },
-              properties: {
-                type: "object",
-                description: "Additional properties to update (optional)",
-                additionalProperties: true
+              "properties" => {
+                "type" => "object",
+                "description" => "Additional properties to update (optional)",
+                "additionalProperties" => true
               }
             },
-            required: [ "character_id" ]
+            "required" => [ "character_id" ]
           }
         }
       end

@@ -24,8 +24,15 @@ class LLM::OpenAi < LLM
     parameters[:user] = user_id.to_s if user_id
 
     # Add tools if provided
-    parameters[:tools] = format_tools_for_api(tools) if tools.present?
+    if tools.present?
+      Rails.logger.info "Tools are present: #{tools.length} tools"
+      parameters[:tools] = format_tools_for_api(tools)
+    else
+      Rails.logger.info "No tools provided"
+    end
 
+    Rails.logger.info "Final parameters: #{parameters.inspect}"
+    
     response = client.responses.create(**parameters)
     parse_response(response)
   rescue => e
@@ -37,64 +44,92 @@ class LLM::OpenAi < LLM
   private
 
   def format_message_models(message_models)
-    message_models.map do |msg|
+    formatted = []
+    message_models.each do |msg|
       if msg.tool?
-        {
-          role: "tool",
-          tool_call_id: msg.tool_results["tool_use_id"],
-          content: msg.content
+        formatted << {
+          type: "function_call_output",
+          call_id: msg.tool_results["tool_use_id"],
+          output: msg.content
         }
-      else
-        formatted = {
+      elsif msg.assistant? && msg.tool_calls.present?
+        # Assistant message followed by function calls
+        formatted << {
           role: msg.role,
           content: msg.content
         }
-        formatted[:tool_calls] = msg.tool_calls if msg.tool_calls.present?
-        formatted
+        msg.tool_calls.each do |tc|
+          formatted << {
+            type: "function_call",
+            call_id: tc["id"],
+            name: tc["name"],
+            arguments: tc["arguments"].is_a?(String) ? tc["arguments"] : tc["arguments"].to_json
+          }
+        end
+      else
+        formatted << {
+          role: msg.role,
+          content: msg.content
+        }
       end
     end
+    formatted
   end
 
   def format_messages(messages)
-    messages.map do |message|
+    formatted = []
+    messages.each do |message|
       case message[:role]
       when "tool"
-        {
-          role: "tool",
-          tool_call_id: message[:tool_use_id] || message[:tool_call_id],
-          content: message[:content]
+        formatted << {
+          type: "function_call_output",
+          call_id: message[:tool_use_id] || message[:tool_call_id],
+          output: message[:content]
         }
-      else
-        # Format message for responses API
-        formatted = {
+      when "assistant"
+        formatted << {
           role: message[:role],
           content: message[:content]
         }
-
-        if message[:tool_calls]
-          formatted[:tool_calls] = message[:tool_calls]
+        # Add function calls as separate messages
+        if message[:tool_calls].present?
+          message[:tool_calls].each do |tc|
+            formatted << {
+              type: "function_call",
+              call_id: tc["id"],
+              name: tc["name"], 
+              arguments: tc["arguments"].is_a?(String) ? tc["arguments"] : tc["arguments"].to_json
+            }
+          end
         end
-
-        formatted
+      else
+        # Format message for responses API
+        formatted << {
+          role: message[:role],
+          content: message[:content]
+        }
       end
     end
+    formatted
   end
 
   def format_tools_for_api(tools)
-    tools.map do |tool|
-      {
-        type: :function,
-        function: {
-          name: tool[:name] || tool["name"],
-          description: tool[:description] || tool["description"],
-          parameters: tool[:parameters] || tool["parameters"]
-        }
+    Rails.logger.info "Input tools: #{tools.inspect}"
+    formatted = tools.map do |tool|
+      result = {
+        "type" => "function",
+        "name" => tool[:name] || tool["name"],
+        "description" => tool[:description] || tool["description"],
+        "parameters" => tool[:parameters] || tool["parameters"]
       }
+      Rails.logger.info "Formatted tool: #{result.inspect}"
+      result
     end
+    Rails.logger.info "All formatted tools: #{formatted.inspect}"
+    formatted
   end
 
   def parse_response(response)
-    debugger
     output = response.output&.first
 
     return { role: "assistant", content: "" } unless output

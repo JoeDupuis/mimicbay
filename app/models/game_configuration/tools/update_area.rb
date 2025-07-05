@@ -3,30 +3,30 @@ module GameConfiguration
     class UpdateArea < Base
       def definition
         {
-          name: "update_area",
-          description: "Update an existing area in the game",
-          parameters: {
-            type: "object",
-            properties: {
-              area_id: {
-                type: "integer",
-                description: "The ID of the area to update"
+          "name" => "update_area",
+          "description" => "Update an existing area in the game",
+          "parameters" => {
+            "type" => "object",
+            "properties" => {
+              "area_id" => {
+                "type" => "integer",
+                "description" => "The ID of the area to update"
               },
-              name: {
-                type: "string",
-                description: "The new name of the area (optional)"
+              "name" => {
+                "type" => "string",
+                "description" => "The new name of the area (optional)"
               },
-              description: {
-                type: "string",
-                description: "The new description of the area (optional)"
+              "description" => {
+                "type" => "string",
+                "description" => "The new description of the area (optional)"
               },
-              properties: {
-                type: "object",
-                description: "Additional properties to update (optional)",
-                additionalProperties: true
+              "properties" => {
+                "type" => "object",
+                "description" => "Additional properties to update (optional)",
+                "additionalProperties" => true
               }
             },
-            required: [ "area_id" ]
+            "required" => [ "area_id" ]
           }
         }
       end

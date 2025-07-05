@@ -34,7 +34,7 @@ module GameConfiguration
       end
 
       def self.find_by_name(name)
-        TOOL_CLASSES.find { |tool| tool.new(nil).definition[:name] == name }
+        TOOL_CLASSES.find { |tool| tool.new(nil).definition["name"] == name }
       end
     end
   end

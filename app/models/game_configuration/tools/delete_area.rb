@@ -3,17 +3,17 @@ module GameConfiguration
     class DeleteArea < Base
       def definition
         {
-          name: "delete_area",
-          description: "Delete an area from the game",
-          parameters: {
-            type: "object",
-            properties: {
-              area_id: {
-                type: "integer",
-                description: "The ID of the area to delete"
+          "name" => "delete_area",
+          "description" => "Delete an area from the game",
+          "parameters" => {
+            "type" => "object",
+            "properties" => {
+              "area_id" => {
+                "type" => "integer",
+                "description" => "The ID of the area to delete"
               }
             },
-            required: [ "area_id" ]
+            "required" => [ "area_id" ]
           }
         }
       end

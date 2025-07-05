@@ -3,30 +3,30 @@ module GameConfiguration
     class SetPlayerCharacter < Base
       def definition
         {
-          name: "set_player_character",
-          description: "Create or update the player character for the game",
-          parameters: {
-            type: "object",
-            properties: {
-              name: {
-                type: "string",
-                description: "The name of the player character"
+          "name" => "set_player_character",
+          "description" => "Create or update the player character for the game",
+          "parameters" => {
+            "type" => "object",
+            "properties" => {
+              "name" => {
+                "type" => "string",
+                "description" => "The name of the player character"
               },
-              description: {
-                type: "string",
-                description: "A detailed description of the player character"
+              "description" => {
+                "type" => "string",
+                "description" => "A detailed description of the player character"
               },
-              area_id: {
-                type: "integer",
-                description: "The ID of the starting area for the player (optional)"
+              "area_id" => {
+                "type" => "integer",
+                "description" => "The ID of the starting area for the player (optional)"
               },
-              properties: {
-                type: "object",
-                description: "Additional properties for the player character (optional)",
-                additionalProperties: true
+              "properties" => {
+                "type" => "object",
+                "description" => "Additional properties for the player character (optional)",
+                "additionalProperties" => true
               }
             },
-            required: [ "name", "description" ]
+            "required" => [ "name", "description" ]
           }
         }
       end

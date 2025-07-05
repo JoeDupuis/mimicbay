@@ -3,12 +3,12 @@ module GameConfiguration
     class ListCharacters < Base
       def definition
         {
-          name: "list_characters",
-          description: "List all characters in the game",
-          parameters: {
-            type: "object",
-            properties: {},
-            required: []
+          "name" => "list_characters",
+          "description" => "List all characters in the game",
+          "parameters" => {
+            "type" => "object",
+            "properties" => {},
+            "required" => []
           }
         }
       end

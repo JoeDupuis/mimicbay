@@ -3,30 +3,30 @@ module GameConfiguration
     class CreateCharacter < Base
       def definition
         {
-          name: "create_character",
-          description: "Create a new character (NPC) in the game",
-          parameters: {
-            type: "object",
-            properties: {
-              name: {
-                type: "string",
-                description: "The name of the character"
+          "name" => "create_character",
+          "description" => "Create a new character (NPC) in the game",
+          "parameters" => {
+            "type" => "object",
+            "properties" => {
+              "name" => {
+                "type" => "string",
+                "description" => "The name of the character"
               },
-              description: {
-                type: "string",
-                description: "A detailed description of the character"
+              "description" => {
+                "type" => "string",
+                "description" => "A detailed description of the character"
               },
-              area_id: {
-                type: "integer",
-                description: "The ID of the area where the character is located (optional)"
+              "area_id" => {
+                "type" => "integer",
+                "description" => "The ID of the area where the character is located (optional)"
               },
-              properties: {
-                type: "object",
-                description: "Additional properties for the character (optional)",
-                additionalProperties: true
+              "properties" => {
+                "type" => "object",
+                "description" => "Additional properties for the character (optional)",
+                "additionalProperties" => true
               }
             },
-            required: [ "name", "description" ]
+            "required" => [ "name", "description" ]
           }
         }
       end

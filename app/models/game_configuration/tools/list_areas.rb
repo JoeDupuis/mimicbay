@@ -3,12 +3,12 @@ module GameConfiguration
     class ListAreas < Base
       def definition
         {
-          name: "list_areas",
-          description: "List all areas in the game",
-          parameters: {
-            type: "object",
-            properties: {},
-            required: []
+          "name" => "list_areas",
+          "description" => "List all areas in the game",
+          "parameters" => {
+            "type" => "object",
+            "properties" => {},
+            "required" => []
           }
         }
       end

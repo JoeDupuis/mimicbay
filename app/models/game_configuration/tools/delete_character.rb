@@ -3,17 +3,17 @@ module GameConfiguration
     class DeleteCharacter < Base
       def definition
         {
-          name: "delete_character",
-          description: "Delete a character from the game",
-          parameters: {
-            type: "object",
-            properties: {
-              character_id: {
-                type: "integer",
-                description: "The ID of the character to delete"
+          "name" => "delete_character",
+          "description" => "Delete a character from the game",
+          "parameters" => {
+            "type" => "object",
+            "properties" => {
+              "character_id" => {
+                "type" => "integer",
+                "description" => "The ID of the character to delete"
               }
             },
-            required: [ "character_id" ]
+            "required" => [ "character_id" ]
           }
         }
       end

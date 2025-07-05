@@ -3,26 +3,26 @@ module GameConfiguration
     class CreateArea < Base
       def definition
         {
-          name: "create_area",
-          description: "Create a new area in the game",
-          parameters: {
-            type: "object",
-            properties: {
-              name: {
-                type: "string",
-                description: "The name of the area"
+          "name" => "create_area",
+          "description" => "Create a new area in the game",
+          "parameters" => {
+            "type" => "object",
+            "properties" => {
+              "name" => {
+                "type" => "string",
+                "description" => "The name of the area"
               },
-              description: {
-                type: "string",
-                description: "A detailed description of the area"
+              "description" => {
+                "type" => "string",
+                "description" => "A detailed description of the area"
               },
-              properties: {
-                type: "object",
-                description: "Additional properties for the area (optional)",
-                additionalProperties: true
+              "properties" => {
+                "type" => "object",
+                "description" => "Additional properties for the area (optional)",
+                "additionalProperties" => true
               }
             },
-            required: [ "name", "description" ]
+            "required" => [ "name", "description" ]
           }
         }
       end
