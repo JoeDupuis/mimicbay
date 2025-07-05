@@ -1,21 +1,66 @@
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-<%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
+<div class="auth-layout">
+  <div class="card">
+    <div class="logo-container">
+      <%= image_tag "logo.svg", alt: "MimicBay", class: "logo" %>
+    </div>
+    <h1 class="title">Sign In</h1>
 
-<%= form_with url: session_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %><br>
-  <%= form.submit "Sign in" %>
-<% end %>
-<br>
+    <% if flash[:alert] %>
+      <div class="alert -error mb-3">
+        <%= flash[:alert] %>
+      </div>
+    <% end %>
 
-<%= link_to "Forgot password?", new_password_path %>
+    <% if flash[:notice] %>
+      <div class="alert -success mb-3">
+        <%= flash[:notice] %>
+      </div>
+    <% end %>
 
-<% if Rails.env.development? %>
-  <hr>
-  <h3>Development Quick Sign In</h3>
-  <%= form_with url: session_path do |form| %>
-    <%= form.hidden_field :email_address, value: "dev@example.com" %>
-    <%= form.hidden_field :password, value: "password" %>
-    <%= form.submit "Sign in as Dev User" %>
-  <% end %>
-<% end %>
+    <%= form_with url: session_path, class: "auth-form" do |form| %>
+      <div class="form-group">
+        <%= form.label :email_address, "Email", class: "label" %>
+        <%= form.email_field :email_address,
+            required: true,
+            autofocus: true,
+            autocomplete: "username",
+            placeholder: "Enter your email address",
+            value: params[:email_address],
+            class: "input" %>
+      </div>
+
+      <div class="form-group">
+        <%= form.label :password, class: "label" %>
+        <%= form.password_field :password,
+            required: true,
+            autocomplete: "current-password",
+            placeholder: "Enter your password",
+            maxlength: 72,
+            class: "input" %>
+      </div>
+
+      <div class="actions">
+        <%= form.submit "Sign in", class: "submit btn btn-primary" %>
+      </div>
+    <% end %>
+
+    <div class="auth-links">
+      <%= link_to "Forgot password?", new_password_path, class: "link" %>
+    </div>
+
+    <% if Rails.env.development? %>
+      <div class="auth-divider">
+        <span class="text">or</span>
+      </div>
+
+      <div class="dev-signin">
+        <h3 class="title">Development Quick Sign In</h3>
+        <%= form_with url: session_path do |form| %>
+          <%= form.hidden_field :email_address, value: "dev@example.com" %>
+          <%= form.hidden_field :password, value: "password" %>
+          <%= form.submit "Sign in as Dev User", class: "btn btn-secondary btn-block" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

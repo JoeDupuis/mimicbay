@@ -23,13 +23,19 @@ body {
   padding: 0;
 }
 
+:root {
+  --primary-color: #7c3aed;
+  --primary-hover: #6d28d9;
+  --primary-focus: rgba(124, 58, 237, 0.25);
+}
+
 a {
-  color: #007bff;
+  color: var(--primary-color);
   text-decoration: none;
 }
 
 a:hover {
-  color: #0056b3;
+  color: var(--primary-hover);
   text-decoration: underline;
 }
 

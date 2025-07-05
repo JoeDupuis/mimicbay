@@ -1,0 +1,107 @@
+.auth-layout {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  padding: 1rem;
+}
+
+.auth-layout > .card {
+  width: 100%;
+  max-width: 400px;
+  background-color: #fff;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  padding: 2rem;
+}
+
+.auth-layout > .card > .logo-container {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.auth-layout > .card > .logo-container > .logo {
+  width: 80px;
+  height: 80px;
+}
+
+.auth-layout > .card > .title {
+  font-size: 1.75rem;
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #212529;
+}
+
+.auth-layout > .card > .subtitle {
+  font-size: 1rem;
+  text-align: center;
+  color: #6c757d;
+  margin-bottom: 1.5rem;
+}
+
+.auth-form {
+  margin-bottom: 1rem;
+}
+
+.auth-form > .form-group {
+  margin-bottom: 1rem;
+}
+
+.auth-form > .actions {
+  margin-top: 1.5rem;
+}
+
+.auth-form > .actions > .submit {
+  width: 100%;
+}
+
+.auth-links {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.auth-links > .link {
+  color: #007bff;
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.auth-links > .link:hover {
+  text-decoration: underline;
+}
+
+.auth-divider {
+  margin: 1.5rem 0;
+  border: 0;
+  border-top: 1px solid #dee2e6;
+  position: relative;
+  text-align: center;
+}
+
+.auth-divider > .text {
+  background-color: #fff;
+  padding: 0 1rem;
+  position: relative;
+  top: -0.75rem;
+  color: #6c757d;
+  font-size: 0.875rem;
+}
+
+.dev-signin {
+  background-color: #f8f9fa;
+  border: 1px solid #dee2e6;
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.dev-signin > .title {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #495057;
+  margin-bottom: 0.75rem;
+  text-align: center;
+}
