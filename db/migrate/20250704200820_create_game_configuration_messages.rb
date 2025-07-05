@@ -4,6 +4,7 @@ class CreateGameConfigurationMessages < ActiveRecord::Migration[8.1]
       t.references :game_configuration_session, null: false, foreign_key: true
       t.string :role
       t.text :content
+      t.string :model
       t.json :tool_calls
       t.json :tool_results
 
