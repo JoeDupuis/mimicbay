@@ -22,20 +22,12 @@ module LLM
 
     def initialize(api_key: nil, model: nil, user_id: nil)
       @api_key = api_key
-      @model = model || default_model
+      @model = model
       @user_id = user_id
     end
 
     def chat(messages, tools: [])
       raise NotImplementedError, "Subclasses must implement #chat"
-    end
-
-    def available_models
-      raise NotImplementedError, "Subclasses must implement #available_models"
-    end
-
-    def default_model
-      available_models.first
     end
 
     def self.adapter_name

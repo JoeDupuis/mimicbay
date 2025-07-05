@@ -6,20 +6,6 @@ module LLM
       api_key = Rails.application.credentials.dig(:llm, :open_ai)
       super(api_key: api_key, model: model, user_id: user_id)
     end
-    def available_models
-      [
-        "gpt-4.1",
-        "gpt-4o",
-        "gpt-4o-mini",
-        "gpt-4-turbo",
-        "gpt-4",
-        "gpt-3.5-turbo"
-      ]
-    end
-
-    def default_model
-      "gpt-4.1"
-    end
 
     def chat(messages, tools: [])
       client = ::OpenAI::Client.new(api_key: api_key)
