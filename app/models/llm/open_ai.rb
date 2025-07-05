@@ -23,9 +23,10 @@ class LLM::OpenAi < LLM
     # Add user ID if available
     parameters[:user] = user_id.to_s if user_id
 
-    # Skip tools for now to get basic functionality working
+    # Add tools if provided
+    parameters[:tools] = format_tools_for_api(tools) if tools.present?
 
-    response = client.responses.create(**parameters)
+    response = client.responses.create(parameters: parameters)
     parse_response(response)
   rescue => e
     Rails.logger.error "OpenAI API Error: #{e.class.name} - #{e.message}"
@@ -93,52 +94,25 @@ class LLM::OpenAi < LLM
   end
 
   def parse_response(response)
-    Rails.logger.info "OpenAI Response Class: #{response.class.name}"
-    Rails.logger.info "Response: #{response.inspect}"
+    output = response["output"]&.first
 
-    # The responses API returns output array
-    if response.respond_to?(:output)
-      output = response.output.first
-      Rails.logger.info "Output: #{output.inspect}" if output
+    return { role: "assistant", content: "" } unless output
 
-      return { role: "assistant", content: "" } unless output
+    result = { role: "assistant" }
 
-      # Try different ways to get the content
-      content = if output.respond_to?(:content) && output.content.is_a?(Array)
-        # Content is an array of content objects, extract the text
-        output.content.map { |c| c.respond_to?(:text) ? c.text : c.to_s }.join("\n")
-      elsif output.respond_to?(:content)
-        output.content
-      elsif output.respond_to?(:text)
-        output.text
-      elsif output.is_a?(String)
-        output
-      else
-        output.to_s
-      end
-
-      result = {
-        role: "assistant",
-        content: content || "[No content]"
-      }
+    if output["type"] == "function_call"
+      # Handle tool calls
+      result[:content] = ""
+      result[:tool_calls] = [ {
+        "id" => output["call_id"],
+        "name" => output["name"],
+        "arguments" => JSON.parse(output["arguments"])
+      } ]
     else
-      # Maybe response itself has the content
-      result = {
-        role: "assistant",
-        content: response.to_s
-      }
+      # Regular text response
+      result[:content] = output.dig("content", 0, "text") || ""
     end
 
     result
-  end
-
-  def parse_tool_calls(tool_calls)
-    tool_calls.map do |tool_call|
-      {
-        id: tool_call.id,
-        name: tool_call.function.name,
-        arguments: JSON.parse(tool_call.function.arguments)
-      }
-    end
   end
 end
