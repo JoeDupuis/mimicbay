@@ -13,12 +13,10 @@ class ProcessLLMResponseJobTest < ActiveJob::TestCase
       { role: "assistant", content: "I'll help you create your game world!" }
     end
     
-    LLM.stub :adapter_for_model, LLM::OpenAi do
-      LLM::OpenAi.stub :new, stub_adapter do
+    LLM::OpenAi.stub :new, stub_adapter do
         assert_difference -> { @session.game_configuration_messages.count }, 1 do
           ProcessLLMResponseJob.perform_now(@session.id, "gpt-4o-mini")
         end
-      end
     end
     
     message = @session.game_configuration_messages.last
@@ -42,8 +40,7 @@ class ProcessLLMResponseJobTest < ActiveJob::TestCase
       }
     end
     
-    LLM.stub :adapter_for_model, LLM::OpenAi do
-      LLM::OpenAi.stub :new, stub_adapter do
+    LLM::OpenAi.stub :new, stub_adapter do
         assert_difference -> { @session.game_configuration_messages.count }, 2 do
           assert_difference -> { @game.areas.count }, 1 do
             assert_enqueued_with(job: ProcessLLMResponseJob) do
@@ -51,7 +48,6 @@ class ProcessLLMResponseJobTest < ActiveJob::TestCase
             end
           end
         end
-      end
     end
     
     # Check assistant message with tool call
@@ -88,14 +84,12 @@ class ProcessLLMResponseJobTest < ActiveJob::TestCase
       }
     end
     
-    LLM.stub :adapter_for_model, LLM::OpenAi do
-      LLM::OpenAi.stub :new, stub_adapter do
+    LLM::OpenAi.stub :new, stub_adapter do
         assert_difference -> { @session.game_configuration_messages.count }, 2 do
           assert_enqueued_with(job: ProcessLLMResponseJob) do
             ProcessLLMResponseJob.perform_now(@session.id, "gpt-4o-mini")
           end
         end
-      end
     end
     
     tool_message = @session.game_configuration_messages.where(role: "tool").last
@@ -108,12 +102,10 @@ class ProcessLLMResponseJobTest < ActiveJob::TestCase
       raise "API Error: Connection failed"
     end
     
-    LLM.stub :adapter_for_model, LLM::OpenAi do
-      LLM::OpenAi.stub :new, stub_adapter do
+    LLM::OpenAi.stub :new, stub_adapter do
         assert_difference -> { @session.game_configuration_messages.count }, 1 do
           ProcessLLMResponseJob.perform_now(@session.id, "gpt-4o-mini")
         end
-      end
     end
     
     message = @session.game_configuration_messages.last
@@ -141,10 +133,8 @@ class ProcessLLMResponseJobTest < ActiveJob::TestCase
       { role: "assistant", content: "Forest created!" }
     end
     
-    LLM.stub :adapter_for_model, LLM::OpenAi do
-      LLM::OpenAi.stub :new, stub_adapter do
+    LLM::OpenAi.stub :new, stub_adapter do
         ProcessLLMResponseJob.perform_now(@session.id, "gpt-4o-mini")
-      end
     end
     
     # Verify the messages array included existing messages

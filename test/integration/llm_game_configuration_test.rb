@@ -9,6 +9,9 @@ class LLMGameConfigurationTest < ActionDispatch::IntegrationTest
 
   test "full flow: user message triggers LLM response with tool execution" do
     VCR.use_cassette("integration_full_flow") do
+      # Ensure the area doesn't exist yet
+      assert_nil @game.areas.find_by(name: "Mystic Cave")
+      
       # Navigate to game configuration - this creates the session
       get game_configuration_path(@game)
       assert_response :success
@@ -51,20 +54,18 @@ class LLMGameConfigurationTest < ActionDispatch::IntegrationTest
       raise "API Error: Rate limit exceeded"
     end
     
-    LLM.stub :adapter_for_model, LLM::OpenAi do
-      LLM::OpenAi.stub :new, stub_adapter do
-        post game_configuration_messages_path(@game), params: {
-          content: "Hello",
-          model: "gpt-4o-mini"
-        }, as: :turbo_stream
-        
-        perform_enqueued_jobs
-        
-        # Should create an error message
-        error_message = @game.game_configuration_session.game_configuration_messages.last
-        assert_equal "assistant", error_message.role
-        assert error_message.content.include?("I encountered an error")
-      end
+    LLM::OpenAi.stub :new, stub_adapter do
+      post game_configuration_messages_path(@game), params: {
+        content: "Hello",
+        model: "gpt-4o-mini"
+      }, as: :turbo_stream
+      
+      perform_enqueued_jobs
+      
+      # Should create an error message
+      error_message = @game.game_configuration_session.game_configuration_messages.last
+      assert_equal "assistant", error_message.role
+      assert error_message.content.include?("I encountered an error")
     end
   end
 
