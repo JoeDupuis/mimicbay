@@ -11,3 +11,6 @@ AllCops:
   Exclude:
     - 'db/*_schema.rb'
     - 'db/schema.rb'
+    - 'vendor/**/*'
+    - 'tmp/**/*'
+    - 'worktrees/**/*'

@@ -1,0 +1,375 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"gpt-4o-mini","input":[{"role":"system","content":"You are
+        a helpful game configuration assistant. Help the user create areas and characters
+        for their tabletop RPG game. Use the provided tools to create, update, list,
+        and delete game entities based on the user''s descriptions."},{"role":"user","content":"Create
+        an area called ''Mystic Cave'' with a description about crystals and magic"}],"store":false,"user":"272371231","tools":[{"type":"function","name":"create_area","description":"Create
+        a new area in the game","parameters":{"type":"object","properties":{"name":{"type":"string","description":"The
+        name of the area"},"description":{"type":"string","description":"A detailed
+        description of the area"},"properties":{"type":"object","description":"Additional
+        properties for the area (optional)","additionalProperties":true}},"required":["name","description"]}},{"type":"function","name":"create_character","description":"Create
+        a new character (NPC) in the game","parameters":{"type":"object","properties":{"name":{"type":"string","description":"The
+        name of the character"},"description":{"type":"string","description":"A detailed
+        description of the character"},"area_id":{"type":"integer","description":"The
+        ID of the area where the character is located (optional)"},"is_player":{"type":"boolean","description":"Whether
+        this is the player character (optional, defaults to false)"},"properties":{"type":"object","description":"Additional
+        properties for the character (optional)","additionalProperties":true}},"required":["name","description"]}},{"type":"function","name":"delete_area","description":"Delete
+        an area from the game","parameters":{"type":"object","properties":{"area_id":{"type":"integer","description":"The
+        ID of the area to delete"}},"required":["area_id"]}},{"type":"function","name":"delete_character","description":"Delete
+        a character from the game","parameters":{"type":"object","properties":{"character_id":{"type":"integer","description":"The
+        ID of the character to delete"}},"required":["character_id"]}},{"type":"function","name":"list_areas","description":"List
+        all areas in the game","parameters":{"type":"object","properties":{},"required":[]}},{"type":"function","name":"list_characters","description":"List
+        all characters in the game","parameters":{"type":"object","properties":{},"required":[]}},{"type":"function","name":"update_area","description":"Update
+        an existing area in the game","parameters":{"type":"object","properties":{"area_id":{"type":"integer","description":"The
+        ID of the area to update"},"name":{"type":"string","description":"The new
+        name of the area (optional)"},"description":{"type":"string","description":"The
+        new description of the area (optional)"},"properties":{"type":"object","description":"Additional
+        properties to update (optional)","additionalProperties":true}},"required":["area_id"]}},{"type":"function","name":"update_character","description":"Update
+        an existing character in the game","parameters":{"type":"object","properties":{"character_id":{"type":"integer","description":"The
+        ID of the character to update"},"name":{"type":"string","description":"The
+        new name of the character (optional)"},"description":{"type":"string","description":"The
+        new description of the character (optional)"},"area_id":{"type":"integer","description":"The
+        ID of the area to move the character to (optional)"},"is_player":{"type":"boolean","description":"Whether
+        this is the player character (optional)"},"properties":{"type":"object","description":"Additional
+        properties to update (optional)","additionalProperties":true}},"required":["character_id"]}}]}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Host:
+      - api.openai.com
+      X-Stainless-Arch:
+      - arm64
+      X-Stainless-Lang:
+      - ruby
+      X-Stainless-Os:
+      - MacOS
+      X-Stainless-Package-Version:
+      - 0.11.0
+      X-Stainless-Runtime:
+      - ruby
+      X-Stainless-Runtime-Version:
+      - 3.4.4
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      X-Stainless-Retry-Count:
+      - '0'
+      X-Stainless-Timeout:
+      - '600.0'
+      Content-Length:
+      - '3611'
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 05 Jul 2025 19:53:38 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      X-Ratelimit-Limit-Requests:
+      - '5000'
+      X-Ratelimit-Limit-Tokens:
+      - '4000000'
+      X-Ratelimit-Remaining-Requests:
+      - '4999'
+      X-Ratelimit-Remaining-Tokens:
+      - '3999343'
+      X-Ratelimit-Reset-Requests:
+      - 12ms
+      X-Ratelimit-Reset-Tokens:
+      - 9ms
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - personal-obyvyy
+      X-Request-Id:
+      - req_9e82cd22642b3397f4201fba55366051
+      Openai-Processing-Ms:
+      - '2513'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=Rbn5uiwdq9IHHr8vqj3y9ax.WxjAQPNlnJY9Mmmsr8w-1751745218-1.0.1.1-Z3A6C51WlLWPLjBzA3lnFxLctzATgHdDDWFKSaihgiRhiKMhnS8sFvFNqufxMsict6t5v7Mev9MZENIDwmgqdz2mWmdjukakzLAJmBoeqSc;
+        path=/; expires=Sat, 05-Jul-25 20:23:38 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=CgRJI_BLrzaPof79.SCugXqEj1xowF5qjQOMhL2olHQ-1751745218764-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 95a968d0e8344138-YVR
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: ASCII-8BIT
+      string: |-
+        {
+          "id": "resp_686982c03df481919aa2e887382b320d0846288c61cc3d3c",
+          "object": "response",
+          "created_at": 1751745216,
+          "status": "completed",
+          "background": false,
+          "error": null,
+          "incomplete_details": null,
+          "instructions": null,
+          "max_output_tokens": null,
+          "max_tool_calls": null,
+          "model": "gpt-4o-mini-2024-07-18",
+          "output": [
+            {
+              "id": "fc_686982c0ce9081919f1b4c9db008d48c0846288c61cc3d3c",
+              "type": "function_call",
+              "status": "completed",
+              "arguments": "{\"name\":\"Mystic Cave\",\"description\":\"A dark, enchanting cave illuminated by glimmering crystals that radiate magical energy. The walls are lined with shimmering gemstones, casting a kaleidoscope of colors across the damp stone. The air is thick with the scent of earth and a hint of something sweet. Magical whispers can often be heard echoing within, as if the cave itself is alive, guarding secrets and treasures untold.\"}",
+              "call_id": "call_MjVpKGP3m9lznCHAAHqwqyiP",
+              "name": "create_area"
+            }
+          ],
+          "parallel_tool_calls": true,
+          "previous_response_id": null,
+          "reasoning": {
+            "effort": null,
+            "summary": null
+          },
+          "service_tier": "default",
+          "store": false,
+          "temperature": 1.0,
+          "text": {
+            "format": {
+              "type": "text"
+            }
+          },
+          "tool_choice": "auto",
+          "tools": [
+            {
+              "type": "function",
+              "description": "Create a new area in the game",
+              "name": "create_area",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the area"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "A detailed description of the area"
+                  },
+                  "properties": {
+                    "type": "object",
+                    "description": "Additional properties for the area (optional)",
+                    "additionalProperties": true
+                  }
+                },
+                "required": [
+                  "name",
+                  "description"
+                ]
+              },
+              "strict": true
+            },
+            {
+              "type": "function",
+              "description": "Create a new character (NPC) in the game",
+              "name": "create_character",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "The name of the character"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "A detailed description of the character"
+                  },
+                  "area_id": {
+                    "type": "integer",
+                    "description": "The ID of the area where the character is located (optional)"
+                  },
+                  "is_player": {
+                    "type": "boolean",
+                    "description": "Whether this is the player character (optional, defaults to false)"
+                  },
+                  "properties": {
+                    "type": "object",
+                    "description": "Additional properties for the character (optional)",
+                    "additionalProperties": true
+                  }
+                },
+                "required": [
+                  "name",
+                  "description"
+                ]
+              },
+              "strict": true
+            },
+            {
+              "type": "function",
+              "description": "Delete an area from the game",
+              "name": "delete_area",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "area_id": {
+                    "type": "integer",
+                    "description": "The ID of the area to delete"
+                  }
+                },
+                "required": [
+                  "area_id"
+                ]
+              },
+              "strict": true
+            },
+            {
+              "type": "function",
+              "description": "Delete a character from the game",
+              "name": "delete_character",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "character_id": {
+                    "type": "integer",
+                    "description": "The ID of the character to delete"
+                  }
+                },
+                "required": [
+                  "character_id"
+                ]
+              },
+              "strict": true
+            },
+            {
+              "type": "function",
+              "description": "List all areas in the game",
+              "name": "list_areas",
+              "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+              },
+              "strict": true
+            },
+            {
+              "type": "function",
+              "description": "List all characters in the game",
+              "name": "list_characters",
+              "parameters": {
+                "type": "object",
+                "properties": {},
+                "required": []
+              },
+              "strict": true
+            },
+            {
+              "type": "function",
+              "description": "Update an existing area in the game",
+              "name": "update_area",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "area_id": {
+                    "type": "integer",
+                    "description": "The ID of the area to update"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The new name of the area (optional)"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "The new description of the area (optional)"
+                  },
+                  "properties": {
+                    "type": "object",
+                    "description": "Additional properties to update (optional)",
+                    "additionalProperties": true
+                  }
+                },
+                "required": [
+                  "area_id"
+                ]
+              },
+              "strict": true
+            },
+            {
+              "type": "function",
+              "description": "Update an existing character in the game",
+              "name": "update_character",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "character_id": {
+                    "type": "integer",
+                    "description": "The ID of the character to update"
+                  },
+                  "name": {
+                    "type": "string",
+                    "description": "The new name of the character (optional)"
+                  },
+                  "description": {
+                    "type": "string",
+                    "description": "The new description of the character (optional)"
+                  },
+                  "area_id": {
+                    "type": "integer",
+                    "description": "The ID of the area to move the character to (optional)"
+                  },
+                  "is_player": {
+                    "type": "boolean",
+                    "description": "Whether this is the player character (optional)"
+                  },
+                  "properties": {
+                    "type": "object",
+                    "description": "Additional properties to update (optional)",
+                    "additionalProperties": true
+                  }
+                },
+                "required": [
+                  "character_id"
+                ]
+              },
+              "strict": true
+            }
+          ],
+          "top_logprobs": 0,
+          "top_p": 1.0,
+          "truncation": "disabled",
+          "usage": {
+            "input_tokens": 440,
+            "input_tokens_details": {
+              "cached_tokens": 0
+            },
+            "output_tokens": 98,
+            "output_tokens_details": {
+              "reasoning_tokens": 0
+            },
+            "total_tokens": 538
+          },
+          "user": "272371231",
+          "metadata": {}
+        }
+  recorded_at: Sat, 05 Jul 2025 19:53:38 GMT
+recorded_with: VCR 6.3.1

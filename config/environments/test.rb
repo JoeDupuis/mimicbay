@@ -50,4 +50,9 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions.
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # Set dummy LLM API key for tests
+  config.x.llm = {}
+  config.x.llm[:openai] = {}
+  config.x.llm[:openai][:api_key] = "sk-test-dummy-key"
 end

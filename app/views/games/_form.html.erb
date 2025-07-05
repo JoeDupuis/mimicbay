@@ -6,7 +6,12 @@
     <%= form.text_field :name %>
   </div>
 
+
+
   <div class="actions">
     <%= form.submit %>
+    <% if game.persisted? && game.creating? %>
+      <%= link_to "Configure with AI", game_configuration_path(game), class: "btn btn-secondary" %>
+    <% end %>
   </div>
 <% end %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_07_04_081057) do
+ActiveRecord::Schema[8.1].define(version: 2025_07_04_200820) do
   create_table "areas", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -18,7 +18,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_04_081057) do
     t.string "name"
     t.json "properties"
     t.datetime "updated_at", null: false
-    t.index [ "game_id" ], name: "index_areas_on_game_id"
+    t.index ["game_id"], name: "index_areas_on_game_id"
   end
 
   create_table "characters", force: :cascade do |t|
@@ -30,8 +30,28 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_04_081057) do
     t.string "name"
     t.json "properties"
     t.datetime "updated_at", null: false
-    t.index [ "area_id" ], name: "index_characters_on_area_id"
-    t.index [ "game_id" ], name: "index_characters_on_game_id"
+    t.index ["area_id"], name: "index_characters_on_area_id"
+    t.index ["game_id", "is_player"], name: "index_characters_on_game_id_and_is_player", unique: true, where: "is_player = true"
+    t.index ["game_id"], name: "index_characters_on_game_id"
+  end
+
+  create_table "game_configuration_messages", force: :cascade do |t|
+    t.text "content"
+    t.datetime "created_at", null: false
+    t.integer "game_configuration_session_id", null: false
+    t.string "model"
+    t.integer "role", null: false
+    t.json "tool_calls"
+    t.json "tool_results"
+    t.datetime "updated_at", null: false
+    t.index ["game_configuration_session_id"], name: "idx_on_game_configuration_session_id_1f395c0ebb"
+  end
+
+  create_table "game_configuration_sessions", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.integer "game_id", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_id"], name: "index_game_configuration_sessions_on_game_id"
   end
 
   create_table "games", force: :cascade do |t|
@@ -40,7 +60,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_04_081057) do
     t.integer "state", default: 0, null: false
     t.datetime "updated_at", null: false
     t.integer "user_id", null: false
-    t.index [ "user_id" ], name: "index_games_on_user_id"
+    t.index ["user_id"], name: "index_games_on_user_id"
   end
 
   create_table "message_witnesses", force: :cascade do |t|
@@ -48,9 +68,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_04_081057) do
     t.datetime "created_at", null: false
     t.integer "message_id", null: false
     t.datetime "updated_at", null: false
-    t.index [ "character_id" ], name: "index_message_witnesses_on_character_id"
-    t.index [ "message_id", "character_id" ], name: "index_message_witnesses_on_message_id_and_character_id", unique: true
-    t.index [ "message_id" ], name: "index_message_witnesses_on_message_id"
+    t.index ["character_id"], name: "index_message_witnesses_on_character_id"
+    t.index ["message_id", "character_id"], name: "index_message_witnesses_on_message_id_and_character_id", unique: true
+    t.index ["message_id"], name: "index_message_witnesses_on_message_id"
   end
 
   create_table "messages", force: :cascade do |t|
@@ -62,9 +82,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_04_081057) do
     t.boolean "is_dm_whisper", default: false, null: false
     t.string "message_type"
     t.datetime "updated_at", null: false
-    t.index [ "area_id" ], name: "index_messages_on_area_id"
-    t.index [ "character_id" ], name: "index_messages_on_character_id"
-    t.index [ "game_id" ], name: "index_messages_on_game_id"
+    t.index ["area_id"], name: "index_messages_on_area_id"
+    t.index ["character_id"], name: "index_messages_on_character_id"
+    t.index ["game_id"], name: "index_messages_on_game_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -73,7 +93,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_04_081057) do
     t.datetime "updated_at", null: false
     t.string "user_agent"
     t.integer "user_id", null: false
-    t.index [ "user_id" ], name: "index_sessions_on_user_id"
+    t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -81,12 +101,14 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_04_081057) do
     t.string "email_address", null: false
     t.string "password_digest", null: false
     t.datetime "updated_at", null: false
-    t.index [ "email_address" ], name: "index_users_on_email_address", unique: true
+    t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
   add_foreign_key "areas", "games"
   add_foreign_key "characters", "areas"
   add_foreign_key "characters", "games"
+  add_foreign_key "game_configuration_messages", "game_configuration_sessions"
+  add_foreign_key "game_configuration_sessions", "games"
   add_foreign_key "games", "users"
   add_foreign_key "message_witnesses", "characters"
   add_foreign_key "message_witnesses", "messages"

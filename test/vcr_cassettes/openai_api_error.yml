@@ -1,0 +1,91 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: https://api.openai.com/v1/responses
+    body:
+      encoding: UTF-8
+      string: '{"model":"invalid-model","input":[{"role":"user","content":"Hello"}],"store":false}'
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - application/json
+      User-Agent:
+      - Ruby
+      Host:
+      - api.openai.com
+      X-Stainless-Arch:
+      - arm64
+      X-Stainless-Lang:
+      - ruby
+      X-Stainless-Os:
+      - MacOS
+      X-Stainless-Package-Version:
+      - 0.11.0
+      X-Stainless-Runtime:
+      - ruby
+      X-Stainless-Runtime-Version:
+      - 3.4.4
+      Content-Type:
+      - application/json
+      Authorization:
+      - Bearer <OPENAI_API_KEY>
+      X-Stainless-Retry-Count:
+      - '0'
+      X-Stainless-Timeout:
+      - '600.0'
+      Content-Length:
+      - '83'
+  response:
+    status:
+      code: 400
+      message: Bad Request
+    headers:
+      Date:
+      - Sat, 05 Jul 2025 19:46:24 GMT
+      Content-Type:
+      - application/json
+      Content-Length:
+      - '179'
+      Connection:
+      - keep-alive
+      Openai-Version:
+      - '2020-10-01'
+      Openai-Organization:
+      - personal-obyvyy
+      X-Request-Id:
+      - req_e7fcb4ce734ef63a4520d591b3a25dad
+      Openai-Processing-Ms:
+      - '200'
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains; preload
+      Cf-Cache-Status:
+      - DYNAMIC
+      Set-Cookie:
+      - __cf_bm=75WLmaL38utzp.1MTDaow7zSFlOy3gH5tX6VyYX9z38-1751744784-1.0.1.1-YX6C_4oUMLDW0ZU6M0rEboPjASb9B1ppD9Sae31jRYUoqm1TqkvxyYuTTaXZ0nZzS8k7zmMedOvZsE7AeO9M.Lz07znoyhlgVZlSEZ.6_2Y;
+        path=/; expires=Sat, 05-Jul-25 20:16:24 GMT; domain=.api.openai.com; HttpOnly;
+        Secure; SameSite=None
+      - _cfuvid=KQpB5rHuPc4fFLb8rbtJ_aAMcHrScQJLVfIuV1OBlnY-1751744784264-0.0.1.1-604800000;
+        path=/; domain=.api.openai.com; HttpOnly; Secure; SameSite=None
+      X-Content-Type-Options:
+      - nosniff
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 95a95e42cc7537ac-YVR
+      Alt-Svc:
+      - h3=":443"; ma=86400
+    body:
+      encoding: UTF-8
+      string: |-
+        {
+          "error": {
+            "message": "The requested model 'invalid-model' does not exist.",
+            "type": "invalid_request_error",
+            "param": "model",
+            "code": "model_not_found"
+          }
+        }
+  recorded_at: Sat, 05 Jul 2025 19:46:24 GMT
+recorded_with: VCR 6.3.1

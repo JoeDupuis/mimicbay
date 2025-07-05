@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  game_configuration_session: one
+  role: user
+  content: "Create a fantasy tavern"
+  tool_calls: {}
+  tool_results: {}
+
+two:
+  game_configuration_session: two
+  role: assistant
+  content: "I'll help you create a fantasy tavern"
+  tool_calls: {}
+  tool_results: {}
