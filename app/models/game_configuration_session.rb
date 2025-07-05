@@ -7,12 +7,10 @@ class GameConfigurationSession < ApplicationRecord
   end
 
   def prompt(content, model: nil)
-    raise "No model specified" if model.blank?
+    game_configuration_messages.create!(role: :user, content: content)
 
     adapter_class = LLM.adapter_for_model(model)
-    raise "Unknown model: #{model}" unless adapter_class
-
-    game_configuration_messages.create!(role: :user, content: content)
+    return unless adapter_class
 
     adapter = adapter_class.new(model: model, user_id: game.user_id)
     messages = format_messages_for_llm
