@@ -94,6 +94,7 @@ class LLM::OpenAi < LLM
   end
 
   def parse_response(response)
+    debugger
     output = response.output&.first
 
     return { role: "assistant", content: "" } unless output

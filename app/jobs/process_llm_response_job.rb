@@ -10,7 +10,10 @@ class ProcessLLMResponseJob < ApplicationJob
     adapter = adapter_class.new(model: model, user_id: session.game.user_id)
     tools = GameConfiguration::Tools::Base.all_definitions
 
+    debugger
+
     response = adapter.chat(session.messages, tools: tools)
+
 
     assistant_message = session.game_configuration_messages.create!(
       role: :assistant,

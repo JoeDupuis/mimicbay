@@ -3,6 +3,18 @@ module GameConfiguration
     class Base
       attr_reader :game
 
+      TOOL_CLASSES = [
+        CreateArea,
+        CreateCharacter,
+        DeleteArea,
+        DeleteCharacter,
+        ListAreas,
+        ListCharacters,
+        SetPlayerCharacter,
+        UpdateArea,
+        UpdateCharacter
+      ].freeze
+
       def initialize(game)
         @game = game
       end
@@ -16,13 +28,13 @@ module GameConfiguration
       end
 
       def self.all_definitions
-        descendants.map do |tool_class|
+        TOOL_CLASSES.map do |tool_class|
           tool_class.new(nil).definition
         end
       end
 
       def self.find_by_name(name)
-        descendants.find { |tool| tool.new(nil).definition[:name] == name }
+        TOOL_CLASSES.find { |tool| tool.new(nil).definition[:name] == name }
       end
     end
   end
