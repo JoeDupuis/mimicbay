@@ -31,8 +31,7 @@ module Authentication
 
     def request_authentication
       session[:return_to_after_authenticating] = request.url
-      # Use hardcoded path to avoid Mission Control's server_id parameter issue
-      redirect_to "/session/new"
+      redirect_to new_session_path
     end
 
     def after_authentication_url

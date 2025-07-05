@@ -4,7 +4,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   test "redirects non-admin users to root" do
     sign_in_as users(:game_master)
     get "/jobs"
-    assert_redirected_to "/"
+    assert_redirected_to root_path
   end
 
   test "allows admin users to access mission control" do

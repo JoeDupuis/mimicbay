@@ -4,6 +4,6 @@ class AdminController < ApplicationController
   private
 
   def require_admin
-    redirect_to "/" unless Current.session&.user&.admin?
+    redirect_to root_path unless Current.session&.user&.admin?
   end
 end
