@@ -10,6 +10,7 @@ Rails.application.routes.draw do
     resource :dm, only: [ :show ], controller: "games/dm"
     resource :configuration, only: [ :show ], controller: "games/configurations" do
       post :create_message
+      get :available_models
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

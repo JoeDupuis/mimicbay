@@ -5,6 +5,36 @@ class Games::ConfigurationsController < ApplicationController
 
   def show
     @messages = @session.messages.includes(:game_configuration_session)
+    if @game.llm_adapter.present?
+      adapter = @game.llm_adapter_instance
+      @available_models = adapter.available_models
+      @default_model = adapter.default_model
+    end
+  end
+
+  def available_models
+    adapter_class_name = params[:adapter]
+    return render json: { models: [], default: nil } unless adapter_class_name.present?
+
+    # Whitelist of allowed adapters to prevent arbitrary code execution
+    allowed_adapters = [ "LLM::OpenAi" ]
+    unless allowed_adapters.include?(adapter_class_name)
+      return render json: { models: [], default: nil }
+    end
+
+    begin
+      adapter_class = adapter_class_name.constantize
+      key_name = :open_ai
+      api_key = Rails.application.credentials.dig(:llm, key_name)
+      adapter = adapter_class.new(api_key: api_key)
+
+      render json: {
+        models: adapter.available_models,
+        default: adapter.default_model
+      }
+    rescue NameError
+      render json: { models: [], default: nil }
+    end
   end
 
   def create_message
