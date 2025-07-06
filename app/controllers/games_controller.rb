@@ -48,6 +48,6 @@ class GamesController < ApplicationController
   end
 
   def game_params
-    params.require(:game).permit(:name, :state, :llm_adapter)
+    params.require(:game).permit(:name, :state, :llm_adapter, :dm_model, :dm_description)
   end
 end

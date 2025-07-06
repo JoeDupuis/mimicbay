@@ -32,6 +32,11 @@ module GameConfiguration
                 "type" => "object",
                 "description" => "Additional properties to update (optional)",
                 "additionalProperties" => true
+              },
+              "llm_model" => {
+                "type" => "string",
+                "description" => "The LLM model for the character to use (e.g., 'gpt-4.1', 'o3', 'o4-mini')",
+                "enum" => LLM::MODELS.map { |m| m[:id] }
               }
             },
             "required" => [ "character_id" ]
@@ -47,6 +52,7 @@ module GameConfiguration
         update_params[:description] = params["description"] if params.key?("description")
         update_params[:is_player] = params["is_player"] if params.key?("is_player")
         update_params[:properties] = character.properties.merge(params["properties"]) if params.key?("properties")
+        update_params[:llm_model] = params["llm_model"] if params.key?("llm_model")
 
         if params.key?("area_id")
           if params["area_id"]

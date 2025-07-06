@@ -28,6 +28,11 @@ module GameConfiguration
                 "type" => "object",
                 "description" => "Additional properties for the character (optional)",
                 "additionalProperties" => true
+              },
+              "llm_model" => {
+                "type" => "string",
+                "description" => "The LLM model for the character to use (e.g., 'gpt-4.1', 'o3', 'o4-mini')",
+                "enum" => LLM::MODELS.map { |m| m[:id] }
               }
             },
             "required" => [ "name", "description" ]
@@ -42,6 +47,8 @@ module GameConfiguration
           properties: params["properties"] || {},
           is_player: params["is_player"] || false
         }
+        
+        character_params[:llm_model] = params["llm_model"] if params["llm_model"].present?
 
         if params["area_id"]
           area = game.areas.find(params["area_id"])

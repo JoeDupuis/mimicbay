@@ -17,8 +17,7 @@ class LLM::OpenAi < LLM
 
     parameters = {
       model: model,
-      input: formatted_messages,
-      store: false
+      input: formatted_messages
     }
 
     # Add user ID if available
@@ -119,24 +118,34 @@ class LLM::OpenAi < LLM
   end
 
   def parse_response(response)
-    output = response.output&.first
+    outputs = response.output
 
-    return { role: "assistant", content: "" } unless output
+    return { role: "assistant", content: "" } if outputs.blank?
 
-    result = { role: "assistant" }
+    result = { role: "assistant", content: "" }
 
-    if output.type == :function_call
-      # Handle tool calls
-      result[:content] = ""
-      result[:tool_calls] = [ {
-        "id" => output.id,
-        "name" => output.name,
-        "arguments" => JSON.parse(output.arguments)
-      } ]
+    # Check if we have function calls
+    function_calls = outputs.select { |output| output.type == :function_call }
+
+    if function_calls.any?
+      # Handle multiple tool calls
+      result[:tool_calls] = function_calls.map do |output|
+        {
+          "id" => output.id,
+          "name" => output.name,
+          "arguments" => JSON.parse(output.arguments)
+        }
+      end
     else
-      # Regular text response - output is a message with content array
-      content = output.content&.first
-      result[:content] = content&.text || ""
+      # Regular text response - combine all text outputs
+      text_outputs = outputs.select { |output| output.type == :message }
+      if text_outputs.any?
+        # Combine all text content
+        texts = text_outputs.flat_map { |output|
+          output.content&.map(&:text) || []
+        }.compact
+        result[:content] = texts.join("")
+      end
     end
 
     result
