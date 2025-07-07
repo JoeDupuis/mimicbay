@@ -1,6 +1,16 @@
-<h1>Edit Game</h1>
+<div class="game-layout">
+  <div class="content">
+    <div class="container">
+      <h1 class="page-title">Edit Game</h1>
 
-<%= render "form", game: @game %>
+      <div class="resource-section">
+        <%= render "form", game: @game %>
+      </div>
 
-<%= link_to "Show", @game %> |
-<%= link_to "Back to Games", games_path %>
+      <div class="mt-4">
+        <%= link_to "Show", @game, class: "btn btn-outline-secondary" %>
+        <%= link_to "Back to Games", games_path, class: "btn btn-outline-dark" %>
+      </div>
+    </div>
+  </div>
+</div>

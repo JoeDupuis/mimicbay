@@ -1,23 +1,23 @@
 <%= form_with(model: game) do |form| %>
   <%= form_errors(game) %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name %>
+  <div class="form-group">
+    <%= form.label :name, class: "label" %>
+    <%= form.text_field :name, class: "input" %>
   </div>
 
-  <div class="field">
-    <%= form.label :dm_model, "DM Model" %>
-    <%= form.select :dm_model, options_for_select(LLM::MODELS.map { |m| [m[:name], m[:id]] }, game.dm_model), {}, class: "form-select" %>
+  <div class="form-group">
+    <%= form.label :dm_model, "DM Model", class: "label" %>
+    <%= form.select :dm_model, options_for_select(LLM::MODELS.map { |m| [m[:name], m[:id]] }, game.dm_model), {}, class: "input" %>
   </div>
 
-  <div class="field">
-    <%= form.label :dm_description, "DM Instructions" %>
-    <%= form.text_area :dm_description, rows: 4, placeholder: "Optional instructions for the DM..." %>
+  <div class="form-group">
+    <%= form.label :dm_description, "DM Instructions", class: "label" %>
+    <%= form.text_area :dm_description, rows: 4, placeholder: "Optional instructions for the DM...", class: "input" %>
   </div>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class: "btn btn-primary" %>
     <% if game.persisted? && game.creating? %>
       <%= link_to "Configure with AI", game_configuration_path(game), class: "btn btn-secondary" %>
     <% end %>
