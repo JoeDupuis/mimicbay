@@ -32,7 +32,7 @@ module GameConfiguration
         update_params = {}
         update_params[:dm_model] = params["dm_model"] if params["dm_model"].present?
         update_params[:dm_description] = params["dm_description"] if params.key?("dm_description")
-        
+
         if params["dm_properties"].present?
           # Merge new properties with existing ones
           update_params[:dm_properties] = game.dm_properties.merge(params["dm_properties"])

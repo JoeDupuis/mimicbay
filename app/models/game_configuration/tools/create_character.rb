@@ -47,7 +47,7 @@ module GameConfiguration
           properties: params["properties"] || {},
           is_player: params["is_player"] || false
         }
-        
+
         character_params[:llm_model] = params["llm_model"] if params["llm_model"].present?
 
         if params["area_id"]

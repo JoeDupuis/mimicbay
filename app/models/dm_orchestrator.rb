@@ -190,7 +190,7 @@ class DmOrchestrator
       - private_message: Send a private message to any character
       - move_character: Move a character to a different area or remove from all areas
       - update_character_properties: Update character properties (e.g., dead: true, status effects)
-      
+
       WORLD BUILDING TOOLS:
       - create_character: Create new NPCs dynamically during play (can specify llm_model)
       - create_area: Create new locations as the story unfolds
@@ -201,7 +201,7 @@ class DmOrchestrator
       - list_characters: Get current list of all characters
       - list_areas: Get current list of all areas
       - update_game: Update game settings including your own model (dm_model)
-      
+
       AVAILABLE MODELS: gpt-4.1, gpt-4.1-mini, gpt-4o, gpt-4o-mini, gpt-4-turbo, gpt-4, gpt-3.5-turbo, o3, o4-mini
 
       CONVERSATION CONTEXT:
@@ -235,7 +235,7 @@ class DmOrchestrator
         * Use create_message for public messages
         * Use private_message for whispers/private communication
         * Even for OOC responses, use private_message to the player
-      
+
       FEEDBACK REQUIREMENTS:
       - ALWAYS provide feedback to players after operations
       - After move_character: Create a message describing the movement
