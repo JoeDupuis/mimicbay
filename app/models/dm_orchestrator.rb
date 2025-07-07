@@ -7,46 +7,24 @@ class DmOrchestrator
   end
 
   def process_message(message)
-    Rails.logger.info "="*80
-    Rails.logger.info "DM Orchestrator processing message #{message.id}"
-    Rails.logger.info "Message from: #{message.character&.name || 'DM'}"
-    Rails.logger.info "Message content: #{message.content}"
-    Rails.logger.info "Message type: #{message.message_type}"
-    Rails.logger.info "Is DM whisper: #{message.is_dm_whisper}"
-    Rails.logger.info "="*80
-
     messages = build_context(message)
-    Rails.logger.info "Built context with #{messages.length} messages"
-
-    Rails.logger.info "Calling LLM with tools"
     response = llm.chat(messages, tools: tools_list)
-    Rails.logger.info "LLM response: #{response.inspect}"
 
     if response[:tool_calls].present?
-      Rails.logger.info "Handling #{response[:tool_calls].length} tool calls"
-      response[:tool_calls].each_with_index do |tc, i|
-        Rails.logger.info "  Tool #{i+1}: #{tc['name']} with args: #{tc['arguments'].inspect}"
-      end
       handle_tool_calls(response[:tool_calls], messages)
     elsif response[:content].present? && response[:content].strip != ""
       # DM responded with plain text instead of using tools - convert to private message
-      Rails.logger.warn "DM responded with plain text instead of tools: #{response[:content]}"
-
-      # Find the player who triggered this
       player_character = message.character if message.character&.is_player?
 
       if player_character
-        # Send as private message to the player
         send_private_message({
           "character_id" => player_character.id,
           "content" => "[OOC] #{response[:content]}"
         })
-        Rails.logger.info "Converted plain text response to private message"
       end
 
       { action: "wait" }
     else
-      Rails.logger.info "No tool calls or content, defaulting to wait"
       { action: "wait" }
     end
   rescue => e
@@ -58,12 +36,8 @@ class DmOrchestrator
   private
 
   def build_default_llm
-    Rails.logger.info "Building default LLM for DM"
     model = game.dm_model || "gpt-4.1-mini"
-    Rails.logger.info "Using DM model: #{model}"
-    llm = LLM::DungeonMaster.new(model: model)
-    Rails.logger.info "LLM API key present: #{llm.api_key.present?}"
-    llm
+    LLM::DungeonMaster.new(model: model)
   end
 
   def build_context(current_message)
@@ -136,7 +110,6 @@ class DmOrchestrator
       end
     end
 
-    Rails.logger.info "Game state summary:\n#{summary}"
     summary
   end
 
@@ -436,93 +409,72 @@ class DmOrchestrator
     needs_continuation = false
     has_wait = false
 
-    tool_calls.each_with_index do |tool_call, index|
-      Rails.logger.info "Processing tool call #{index + 1}/#{tool_calls.length}: #{tool_call['name']}"
-      Rails.logger.info "  Arguments: #{tool_call['arguments'].inspect}"
-
+    tool_calls.each do |tool_call|
       case tool_call["name"]
       when "prompt_character"
         result = prompt_character(tool_call["arguments"])
         results << result
-        needs_continuation = true # DM needs to decide what to do with the response
-        Rails.logger.info "  Result: #{result.inspect}"
+        needs_continuation = true
       when "create_message"
         result = create_message(tool_call["arguments"])
         results << result
-        Rails.logger.info "  Created message: #{result.inspect}"
       when "wait"
         has_wait = true
         results << { action: "wait" }
-        Rails.logger.info "  Action: wait"
       when "get_character_intent"
         result = get_character_intent(tool_call["arguments"])
         results << result
         needs_continuation = true
-        Rails.logger.info "  Intent result: #{result.inspect}"
       when "private_message"
         result = send_private_message(tool_call["arguments"])
         results << result
-        Rails.logger.info "  Private message result: #{result.inspect}"
       when "move_character"
         result = move_character(tool_call["arguments"])
         results << result
-        needs_continuation = true # DM should provide feedback about the move
-        Rails.logger.info "  Move result: #{result.inspect}"
+        needs_continuation = true
       when "update_character_properties"
         result = update_character_properties(tool_call["arguments"])
         results << result
-        needs_continuation = true # DM should provide feedback about the update
-        Rails.logger.info "  Properties update result: #{result.inspect}"
+        needs_continuation = true
       when "create_character"
         result = execute_game_config_tool(GameConfiguration::Tools::CreateCharacter, tool_call["arguments"])
         results << result
-        needs_continuation = true # DM should provide feedback
-        Rails.logger.info "  Create character result: #{result.inspect}"
+        needs_continuation = true
       when "create_area"
         result = execute_game_config_tool(GameConfiguration::Tools::CreateArea, tool_call["arguments"])
         results << result
-        needs_continuation = true # DM should provide feedback
-        Rails.logger.info "  Create area result: #{result.inspect}"
+        needs_continuation = true
       when "update_character"
         result = execute_game_config_tool(GameConfiguration::Tools::UpdateCharacter, tool_call["arguments"])
         results << result
-        needs_continuation = true # DM should provide feedback
-        Rails.logger.info "  Update character result: #{result.inspect}"
+        needs_continuation = true
       when "update_area"
         result = execute_game_config_tool(GameConfiguration::Tools::UpdateArea, tool_call["arguments"])
         results << result
-        needs_continuation = true # DM should provide feedback
-        Rails.logger.info "  Update area result: #{result.inspect}"
+        needs_continuation = true
       when "delete_character"
         result = execute_game_config_tool(GameConfiguration::Tools::DeleteCharacter, tool_call["arguments"])
         results << result
-        needs_continuation = true # DM should provide feedback
-        Rails.logger.info "  Delete character result: #{result.inspect}"
+        needs_continuation = true
       when "delete_area"
         result = execute_game_config_tool(GameConfiguration::Tools::DeleteArea, tool_call["arguments"])
         results << result
-        needs_continuation = true # DM should provide feedback
-        Rails.logger.info "  Delete area result: #{result.inspect}"
+        needs_continuation = true
       when "list_characters"
         result = execute_game_config_tool(GameConfiguration::Tools::ListCharacters, tool_call["arguments"])
         results << result
-        Rails.logger.info "  List characters result: #{result.inspect}"
       when "list_areas"
         result = execute_game_config_tool(GameConfiguration::Tools::ListAreas, tool_call["arguments"])
         results << result
-        Rails.logger.info "  List areas result: #{result.inspect}"
       when "update_game"
         result = execute_game_config_tool(GameConfiguration::Tools::UpdateGame, tool_call["arguments"])
         results << result
-        needs_continuation = true # DM should provide feedback
-        Rails.logger.info "  Update game result: #{result.inspect}"
+        needs_continuation = true
       else
-        Rails.logger.warn "  Unknown tool call: #{tool_call['name']}"
+        Rails.logger.warn "Unknown tool call: #{tool_call['name']}"
         results << { error: "Unknown tool: #{tool_call['name']}" }
       end
     end
-
-    Rails.logger.info "Tool processing complete. Results count: #{results.length}, needs_continuation: #{needs_continuation}, has_wait: #{has_wait}"
 
     # If only wait was called, return wait immediately
     if has_wait && results.length == 1
@@ -548,23 +500,17 @@ class DmOrchestrator
         }
       end
 
-      Rails.logger.info "DM needs to continue after tool results: #{results.inspect}"
       response = llm.chat(continuation_messages, tools: tools_list)
 
       if response[:tool_calls].present?
-        Rails.logger.info "DM making follow-up tool calls: #{response[:tool_calls].inspect}"
         return handle_tool_calls(response[:tool_calls], continuation_messages)
-      else
-        Rails.logger.info "DM finished without additional tool calls"
       end
     end
 
     # Determine final action based on what was done
     if has_wait
-      Rails.logger.info "Returning wait action after processing other tools"
       { action: "wait", results: results }
     else
-      Rails.logger.info "Returning continue with #{results.length} results"
       { action: "continue", results: results }
     end
   end
@@ -581,12 +527,9 @@ class DmOrchestrator
   end
 
   def create_message(args)
-    Rails.logger.info "Creating message with args: #{args.inspect}"
-
     # Handle character_id: 0 which the LLM sometimes mistakenly uses
     character_id = args["character_id"]
     if character_id == 0
-      Rails.logger.warn "DM tried to use character_id: 0, treating as null (DM narrator)"
       character_id = nil
     end
 
@@ -617,12 +560,6 @@ class DmOrchestrator
     )
 
     if message.save
-      Rails.logger.info "DM successfully created message #{message.id}"
-      Rails.logger.info "  Character: #{character&.name || 'DM'}"
-      Rails.logger.info "  Type: #{message.message_type}"
-      Rails.logger.info "  Area: #{args['area_id']}"
-      Rails.logger.info "  Target: #{args['target_character_id']}"
-      Rails.logger.info "  Content: #{message.content.truncate(100)}"
       { success: true, message_id: message.id }
     else
       Rails.logger.error "Failed to create message: #{message.errors.full_messages.join(', ')}"
@@ -670,7 +607,6 @@ class DmOrchestrator
     end
 
     if character.update(area: new_area)
-      Rails.logger.info "DM moved #{character.name} from #{old_area&.name || 'nowhere'} to #{new_area&.name || 'nowhere'}"
       {
         success: true,
         character_id: character.id,
@@ -689,7 +625,6 @@ class DmOrchestrator
     new_properties = character.properties.merge(args["properties"])
 
     if character.update(properties: new_properties)
-      Rails.logger.info "DM updated #{character.name} properties: #{args['properties'].inspect}"
       {
         success: true,
         character_id: character.id,
