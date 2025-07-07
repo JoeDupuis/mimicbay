@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2025_07_05_215015) do
+ActiveRecord::Schema[8.1].define(version: 2025_07_05_215242) do
   create_table "areas", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.text "description"
@@ -27,6 +27,7 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_05_215015) do
     t.text "description"
     t.integer "game_id", null: false
     t.boolean "is_player", default: false, null: false
+    t.string "llm_model", default: "gpt-4.1-mini"
     t.string "name"
     t.json "properties"
     t.datetime "updated_at", null: false
@@ -56,6 +57,9 @@ ActiveRecord::Schema[8.1].define(version: 2025_07_05_215015) do
 
   create_table "games", force: :cascade do |t|
     t.datetime "created_at", null: false
+    t.text "dm_description"
+    t.string "dm_model", default: "gpt-4.1-mini"
+    t.json "dm_properties"
     t.string "name"
     t.integer "state", default: 0, null: false
     t.datetime "updated_at", null: false

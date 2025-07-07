@@ -13,6 +13,7 @@ class Message < ApplicationRecord
 
   after_create :create_witnesses
   after_create_commit :broadcast_to_dm_channel
+  after_create_commit :trigger_llm_processing
 
   private
 
@@ -51,5 +52,14 @@ class Message < ApplicationRecord
       partial: "games/messages/message",
       locals: { message: self, player_character: nil, is_dm_view: true }
     )
+  end
+
+  def trigger_llm_processing
+    return unless game.playing?
+
+    # Only trigger for player messages and DM whispers
+    return unless is_dm_whisper || (character && character.is_player?)
+
+    ProcessGameMessageJob.perform_later(id)
   end
 end

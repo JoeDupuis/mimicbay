@@ -72,4 +72,6 @@ if Rails.env.development?
     char.description = "An advanced AI companion"
     char.properties = { "type": "AI", "version": "7.3.2", "capabilities": [ "hacking", "analysis", "translation" ] }
   end
+
+  game1.update! state: :playing
 end

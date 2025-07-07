@@ -29,6 +29,11 @@
       <%= form.label :is_player, "Player Character" %>
     </div>
 
+    <div class="field">
+      <%= form.label :llm_model, "AI Model" %>
+      <%= form.select :llm_model, options_for_select(LLM::MODELS.map { |m| [m[:name], m[:id]] }, @character.llm_model || 'gpt-4.1-mini'), {}, class: "form-select" %>
+    </div>
+
     <div class="actions">
       <%= form.submit "Create Character", class: "btn btn-primary" %>
       <%= link_to "Cancel", game_characters_path(@game), class: "btn btn-secondary" %>

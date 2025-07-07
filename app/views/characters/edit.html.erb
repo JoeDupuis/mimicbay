@@ -29,6 +29,11 @@
       <%= form.label :is_player, "Player Character" %>
     </div>
 
+    <div class="field">
+      <%= form.label :llm_model, "AI Model" %>
+      <%= form.select :llm_model, options_for_select(LLM::MODELS.map { |m| [m[:name], m[:id]] }, @character.llm_model), {}, class: "form-select" %>
+    </div>
+
     <div class="actions">
       <%= form.submit "Update Character", class: "btn btn-primary" %>
       <%= link_to "Cancel", game_character_path(@game, @character), class: "btn btn-secondary" %>
