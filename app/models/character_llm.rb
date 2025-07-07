@@ -7,18 +7,8 @@ class CharacterLLM
   end
 
   def generate_response(additional_context = nil)
-    Rails.logger.info "CharacterLLM generating response for #{character.name} (ID: #{character.id})"
-    Rails.logger.info "Additional context: #{additional_context}" if additional_context
-
     messages = build_conversation_context(additional_context)
-    Rails.logger.info "Built conversation with #{messages.length} messages"
-    Rails.logger.info "Last 3 messages for #{character.name} (chronological order):"
-    messages.last(3).each_with_index do |msg, i|
-      Rails.logger.info "  Message #{messages.length - 3 + i}: Role=#{msg[:role]}, Content=#{msg[:content].truncate(100)}"
-    end
-
     response = llm.chat(messages)
-    Rails.logger.info "#{character.name} response: #{response[:content]}"
     response[:content]
   end
 
@@ -38,7 +28,6 @@ class CharacterLLM
 
   def build_default_llm
     model = character.llm_model || "gpt-4.1-mini"
-    Rails.logger.info "Using Character LLM model for #{character.name}: #{model}"
     LLM::Character.new(model: model)
   end
 
