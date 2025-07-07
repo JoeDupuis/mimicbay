@@ -28,7 +28,7 @@ class CharacterLLM
 
   def build_default_llm
     model = character.llm_model || "gpt-4.1-mini"
-    LLM::Character.new(model: model)
+    LLM::OpenAi.new(model: model)
   end
 
   def build_conversation_context(additional_context = nil)

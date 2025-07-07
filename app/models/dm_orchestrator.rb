@@ -37,7 +37,7 @@ class DmOrchestrator
 
   def build_default_llm
     model = game.dm_model || "gpt-4.1-mini"
-    LLM::DungeonMaster.new(model: model)
+    LLM::OpenAi.new(model: model)
   end
 
   def build_context(current_message)
